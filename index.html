@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selina Martin — Singer · Songwriter · Guitarist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── Variables ── */
+:root {
+  --bg:         #f5f1eb;
+  --text:       #1a1510;
+  --text-sec:   #6a5a4a;
+  --text-muted: #9a8a7a;
+  --accent:     #8a6040;
+  --dark:       #0e0a08;
+  --nav-h:      64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; overscroll-behavior: none; }
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── Cursor ── */
+#cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #f5f1eb;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: difference;
+}
+#cursor.large { width: 34px; height: 34px; }
+
+
+/* ════════════════
+   NAV
+════════════════ */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px;
+  z-index: 500;
+  pointer-events: none;
+  transition: background .35s, border-color .35s;
+}
+nav.light-bg {
+  background: rgba(245,241,235,0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(26,21,16,0.06);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #f5f1eb;
+  text-decoration: none;
+  pointer-events: all;
+  transition: color .3s;
+  cursor: none;
+}
+nav.light-bg .nav-logo { color: var(--text); }
+
+.nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  pointer-events: all;
+}
+.nav-pill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+  background: #f5f1eb;
+  border-radius: 40px;
+  transition: left .32s cubic-bezier(.4,0,.2,1), width .32s cubic-bezier(.4,0,.2,1), background .3s;
+  pointer-events: none;
+}
+nav.light-bg .nav-pill { background: var(--text); }
+.nav-links a {
+  position: relative; z-index: 1;
+  display: block;
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(245,241,235,.7);
+  text-decoration: none;
+  padding: 7px 13px;
+  border-radius: 40px;
+  transition: color .2s;
+  white-space: nowrap;
+  cursor: none;
+}
+nav.light-bg .nav-links a { color: var(--text-sec); }
+.nav-links li.active a { color: #0e0a08; }
+nav.light-bg .nav-links li.active a { color: #f5f1eb; }
+
+
+/* ════════════════
+   TRACK LAYOUT
+════════════════ */
+.pin-container { width: 100%; height: 100vh; overflow: hidden; }
+.h-track { display: flex; height: 100vh; will-change: transform; }
+.panel { height: 100vh; flex-shrink: 0; position: relative; overflow: hidden; }
+
+/* Panel widths — these drive scroll distance */
+#home    { width: 100vw; }
+#music   { width: 178vw; }
+#about   { width: 360vw; }
+#live    { width: 258vw; }
+#press   { width: 500vw; }
+#contact { width: 88vw;  }
+
+/* Hard cuts between sections — no blend gradients */
+.panel::before { display: none; }
+#press::after  { display: none; }
+
+
+/* ════════════════
+   HOME
+════════════════ */
+#home { background: var(--dark); }
+
+/* Full-portrait photo — shows whole image, dark bars on sides */
+.home-photo-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark);
+  transform-origin: center center;
+}
+.home-photo-inner {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  display: block;
+  transform-origin: center center;
+  user-select: none;
+  pointer-events: none;
+}
+/* Sizing frame — shrinks to the image's actual rendered width so the
+   floating video card can be anchored to its true right/bottom edge
+   even though the image itself is centered with letterbox bars. */
+.home-photo-frame {
+  position: relative;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+/* Video accent card — pulled from the Live section, perched over the
+   hero photo's bottom-right corner so its near edge overlaps the image
+   and casts a shadow onto it. */
+.home-video-card {
+  position: absolute;
+  right: -172px;
+  bottom: 11%;
+  width: 324px;
+  height: 42vh;
+  min-height: 285px;
+  z-index: 3;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(245,241,235,0.18);
+  box-shadow:
+    -30px 26px 60px rgba(0,0,0,.55),
+    -6px 6px 20px rgba(0,0,0,.4);
+  cursor: none;
+  transition:
+    transform .5s cubic-bezier(.25,.46,.45,.94),
+    box-shadow .5s cubic-bezier(.25,.46,.45,.94);
+}
+.home-video-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    -36px 32px 72px rgba(0,0,0,.6),
+    -8px 8px 24px rgba(0,0,0,.45);
+}
+/* Cards are click-to-open thumbnails now — real playback happens in the
+   video modal (body-level, outside the transformed scroll track), since a
+   transformed ancestor silently breaks the native Fullscreen API. */
+.video-card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-play-btn {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.22);
+  border: none;
+  padding: 0;
+  cursor: none;
+  transition: background .3s ease;
+}
+.video-play-btn:hover { background: rgba(0,0,0,.38); }
+.video-play-btn .play-circle {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(6px) saturate(140%);
+  -webkit-backdrop-filter: blur(6px) saturate(140%);
+  border: 1.5px solid rgba(245,241,235,.5);
+  display: flex; align-items: center; justify-content: center;
+  color: #f5f1eb;
+  transition: transform .3s ease, border-color .3s ease;
+}
+.home-video-card:hover .play-circle,
+.live-video:hover .play-circle { transform: scale(1.08); border-color: var(--accent); }
+/* Dark gradient so left-side text is always readable */
+.home-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    rgba(12,8,6,0.92) 0%,
+    rgba(12,8,6,0.72) 32%,
+    rgba(12,8,6,0.22) 60%,
+    transparent 100%
+  );
+}
+.home-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 64px;
+  padding-top: var(--nav-h);
+  max-width: 520px;
+}
+.home-kicker {
+  font-size: 0.784rem; font-weight: 400;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.home-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 0.9;
+  color: #f5f1eb;
+  margin-bottom: 28px;
+}
+.home-name em { display: block; font-style: italic; }
+.home-sub {
+  font-size: 0.762rem; font-weight: 400;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(245,241,235,.45);
+  margin-bottom: 28px;
+  margin-top: -18px;
+}
+.home-tagline {
+  font-size: 0.96rem; font-weight: 300;
+  color: rgba(245,241,235,.58);
+  line-height: 1.75;
+  max-width: 340px;
+  margin-bottom: 44px;
+}
+.home-cta { display: flex; gap: 18px; align-items: center; }
+
+.socials-cluster {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+.home-socials {
+  /* Override nav{} cascade */
+  position: static;
+  inset: auto;
+  z-index: auto;
+  /* Layout */
+  width: 54px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 20px 0;
+  /* Glassmorphism pill */
+  background: rgba(14,10,8,0.30);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(245,241,235,0.14);
+  border-radius: 32px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: opacity .4s ease;
+  pointer-events: all;
+}
+.home-socials.hidden { opacity: 0; pointer-events: none; }
+.home-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(245,241,235,.88);
+  filter: drop-shadow(0 0 4px rgba(245,241,235,.15));
+  transition: color .22s, transform .22s, filter .22s;
+  cursor: none;
+  line-height: 0;
+}
+.home-social-link svg { width: 34px; height: 34px; }
+.home-socials-rule { display: none; }
+.home-nav-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(14,10,8,.30);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(245,241,235,.14);
+  box-shadow: 0 4px 28px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
+  color: rgba(245,241,235,.88);
+  text-decoration: none;
+  transition: background .25s, color .25s, transform .25s;
+  pointer-events: all;
+}
+.home-nav-btn svg { width: 18px; height: 18px; }
+.home-nav-btn:hover {
+  background: rgba(245,241,235,.15);
+  color: #f5f1eb;
+  transform: scale(1.12);
+}
+.home-social-link:hover {
+  color: #f5f1eb;
+  filter: drop-shadow(0 0 6px rgba(245,241,235,.4));
+  transform: scale(1.2);
+}
+.home-socials-rule {
+  width: 1px; height: 32px;
+  background: rgba(245,241,235,.18);
+  flex-shrink: 0;
+}
+
+.btn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none;
+  transition: all .2s;
+  cursor: none;
+}
+.btn-solid {
+  color: var(--dark);
+  background: #f5f1eb;
+  padding: 13px 26px;
+  border-radius: 40px;
+}
+.btn-solid:hover { background: var(--accent); color: #f5f1eb; }
+.btn-ghost-light { color: rgba(245,241,235,.5); }
+.btn-ghost-light:hover { color: #f5f1eb; }
+.btn-dark { color: var(--text-sec); }
+.btn-dark:hover { color: var(--accent); }
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute;
+  bottom: 36px; right: 52px; z-index: 3;
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(245,241,235,.3);
+  font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase;
+  pointer-events: none;
+}
+.scroll-hint svg { animation: nudge 2s ease-in-out infinite; }
+@keyframes nudge {
+  0%,100% { transform: translateX(0); }
+  50%      { transform: translateX(8px); }
+}
+
+
+/* ════════════════
+   MUSIC
+════════════════ */
+#music { background: var(--bg); }
+.music-photo-bg {
+  position: absolute; inset: -5%;
+  background: url('IMG_1377.jpeg') center 30% / cover no-repeat;
+  filter: blur(8px);
+  opacity: 0.24;
+  animation: kb 22s ease-in-out infinite alternate;
+}
+@keyframes kb {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1.15); }
+}
+.music-tint {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(232,216,176,.5) 0%, rgba(240,234,216,.35) 100%);
+}
+.music-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 64px 0 80px;
+  padding-top: var(--nav-h);
+}
+.music-intro {
+  flex: 0 0 300px;
+  margin-right: 48px;
+}
+.music-intro .section-body { margin-bottom: 14px; }
+.music-meta {
+  font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;
+  margin-top: 12px;
+}
+.discog-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid rgba(138,96,64,.35);
+  padding-bottom: 2px;
+  transition: opacity .2s;
+  cursor: none;
+}
+.discog-link:hover { opacity: .65; }
+
+/* Horizontal album strip */
+.album-strip {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+  padding: 48px 0;
+  flex-shrink: 0;
+}
+.album-embed {
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 56px rgba(26,21,16,.12);
+  background: var(--bg);
+  transition: transform .38s cubic-bezier(.25,.46,.45,.94),
+              box-shadow .38s cubic-bezier(.25,.46,.45,.94);
+  position: relative;
+  z-index: 1;
+}
+.album-embed:hover {
+  transform: translateY(-10px) scale(1.018);
+  box-shadow: 0 40px 80px rgba(26,21,16,.22);
+  z-index: 2;
+}
+.album-embed iframe { display: block; border: 0; }
+.album-embed.featured { box-shadow: 0 32px 72px rgba(26,21,16,.16); }
+.album-embed.featured:hover { box-shadow: 0 52px 96px rgba(26,21,16,.28); }
+
+
+/* ════════════════
+   ABOUT
+════════════════ */
+#about { background: var(--bg); }
+.about-photo-bg {
+  position: absolute; inset: -5%;
+  background: url('IMG_1375.jpeg') 65% center / cover no-repeat;
+  filter: blur(8px);
+  opacity: 0.26;
+  animation: kb 24s ease-in-out infinite alternate-reverse;
+}
+.about-tint {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(223,216,204,.55) 0%, rgba(240,236,228,.4) 100%);
+}
+.about-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 64px;
+  padding-top: var(--nav-h);
+  gap: 60px;
+}
+.about-photo-wrap {
+  flex: 0 0 320px;
+  height: 470px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(26,21,16,.15);
+}
+.about-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
+.about-stations { flex: 0 0 auto; width: 520px; }
+.about-station { margin-bottom: 38px; }
+.about-station:last-child { margin-bottom: 0; }
+.about-station h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 400;
+  margin-bottom: 10px; color: var(--text);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.about-station p { font-size: 1.056rem; line-height: 1.82; color: var(--text-sec); max-width: 520px; }
+.bio-pullquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 300; font-style: italic;
+  color: var(--accent);
+  max-width: 420px; line-height: 1.4;
+  margin-top: 20px;
+}
+
+.about-photos-extra {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-self: center;
+}
+.about-photo-sm {
+  width: 320px;
+  height: 470px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(26,21,16,.15);
+}
+.about-photo-sm img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+
+
+/* ════════════════
+   LIVE
+════════════════ */
+#live { background: var(--dark); }
+.live-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 64px;
+  padding-top: calc(var(--nav-h) + 28px);
+}
+.live-header { margin-bottom: 28px; flex-shrink: 0; }
+.live-header .section-label { color: var(--accent); }
+.live-header .section-title { color: var(--bg); }
+.live-subline {
+  font-size: .75rem; color: rgba(245,241,235,.32); letter-spacing: .06em; margin-top: 4px;
+}
+
+/* Flowing gallery — staggered vertical positions, top-aligned base so margin-top offsets work */
+.live-gallery {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 42px;
+  padding-bottom: 32px;
+  min-height: 0;
+  overflow: visible;
+}
+.live-photo {
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,.45);
+  position: relative;
+  /* 3D depth on hover */
+  transition:
+    transform .5s cubic-bezier(.25,.46,.45,.94),
+    box-shadow .5s cubic-bezier(.25,.46,.45,.94);
+  cursor: none;
+}
+.live-photo:hover {
+  transform: perspective(800px) translateY(-12px) rotateY(-3deg) scale(1.03);
+  box-shadow: 18px 28px 56px rgba(0,0,0,.65);
+  z-index: 2;
+}
+.live-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard */
+.live-photo:nth-child(2) { width: 360px; height: 66vh; margin-top: 7vh;  }
+.live-photo:nth-child(3) { width: 560px; height: 54vh; margin-top: 0;    }
+.live-photo:nth-child(4) { width: 300px; height: 70vh; margin-top: 14vh; }
+.live-photo:nth-child(5) { width: 490px; height: 52vh; margin-top: 4vh;  }
+.live-photo:nth-child(6) { width: 340px; height: 63vh; margin-top: 19vh; }
+.live-photo:nth-child(7) { width: 520px; height: 57vh; margin-top: 9vh;  }
+
+/* Live video players — click-to-open thumbnails; real playback in the video modal */
+.live-video {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 8px 28px rgba(0,0,0,.45);
+  cursor: none;
+  transition:
+    transform .5s cubic-bezier(.25,.46,.45,.94),
+    box-shadow .5s cubic-bezier(.25,.46,.45,.94);
+}
+.live-video:hover {
+  transform: perspective(800px) translateY(-12px) rotateY(-3deg) scale(1.03);
+  box-shadow: 18px 28px 56px rgba(0,0,0,.65);
+  z-index: 2;
+}
+.live-video:nth-child(1) { width: 430px; height: 55vh; margin-top: 14vh; }
+.live-video:nth-child(8) { width: 480px; height: 62vh; margin-top: 3vh;  }
+
+.live-credit {
+  flex-shrink: 0;
+  padding: 10px 0 20px;
+  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(245,241,235,.18); text-align: right;
+}
+
+
+/* ════════════════
+   PRESS
+════════════════ */
+#press { background: var(--bg); }
+.press-photo-bg {
+  position: absolute; inset: -5%;
+  background: url('_A7R3700.jpg') center 25% / cover no-repeat;
+  filter: blur(7px);
+  opacity: 0.36;
+  animation: kb 26s ease-in-out infinite alternate;
+}
+.press-tint {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(200,208,216,.48) 0%, rgba(228,232,236,.38) 100%);
+}
+/* Big "PRESS" title — visible when the section first enters, fades as quotes bloom */
+.press-section-title {
+  position: absolute;
+  top: 50%; left: 10.5%; /* centers in first ~100vw of the 500vw panel */
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(7rem, 16vw, 14rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Small section label (corner) */
+.press-header {
+  position: absolute;
+  top: 44px; left: 64px; z-index: 4;
+}
+
+/*
+  Quotes wrapped in #press-quotes so :nth-child counts correctly from 1.
+  top = % of 100vh  |  left = % of the 500vw panel.
+*/
+#press-quotes {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.press-quote {
+  position: absolute;
+  pointer-events: all;
+  max-width: 480px;
+  max-height: 78vh;
+  overflow: hidden;
+  opacity: 0;  /* GSAP lifecycle controls this */
+}
+.press-quote blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.44;
+  margin-bottom: 14px;
+}
+.press-quote cite {
+  font-family: 'Outfit', sans-serif;
+  font-size: .67rem; font-weight: 400;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent); font-style: normal;
+}
+/* Whole-quote link — wraps blockquote + cite together */
+.press-quote a.quote-link {
+  display: block; text-decoration: none; color: inherit; cursor: none;
+  transition: opacity .18s;
+}
+.press-quote a.quote-link:hover { opacity: .72; }
+.press-quote a.quote-link cite {
+  color: var(--accent);
+  border-bottom: 1px solid rgba(138,96,64,.28);
+  padding-bottom: 1px;
+}
+
+/* NACC achievement — styled distinct from regular quotes */
+.press-nacc { text-align: center; }
+.press-nacc blockquote {
+  font-size: clamp(3.2rem,7vw,6rem) !important;
+  font-style: normal !important;
+  color: var(--accent) !important;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+.press-nacc .nacc-sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: .63rem; font-weight: 400;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text-muted); font-style: normal;
+  line-height: 1.7; margin-bottom: 10px;
+}
+
+/* 18 items scattered across the 500vw canvas — staggered top/bottom, varied sizes */
+#press-quotes .press-quote:nth-child(1)  { top: 19%; left: 18%; max-width: 560px; }
+#press-quotes .press-quote:nth-child(1)  blockquote { font-size: clamp(1.5rem,2.2vw,2.1rem); }
+
+#press-quotes .press-quote:nth-child(2)  { top: 57%; left: 24%; max-width: 460px; }
+#press-quotes .press-quote:nth-child(2)  blockquote { font-size: clamp(1.45rem,2.1vw,1.8rem); }
+
+/* moved right to clear press-img-1; font reduced — long text at 3.6rem covered Q4 */
+#press-quotes .press-quote:nth-child(3)  { top: 12%; left: 34%; max-width: 420px; }
+#press-quotes .press-quote:nth-child(3)  blockquote { font-size: clamp(1.6rem,2.4vw,2.1rem); font-style: normal; }
+
+#press-quotes .press-quote:nth-child(4)  { top: 61%; left: 38%; max-width: 500px; }
+#press-quotes .press-quote:nth-child(4)  blockquote { font-size: clamp(1.55rem,2.3vw,1.9rem); }
+
+#press-quotes .press-quote:nth-child(5)  { top: 20%; left: 40%; max-width: 440px; }
+#press-quotes .press-quote:nth-child(5)  blockquote { font-size: clamp(1.6rem,2.4vw,1.95rem); }
+
+#press-quotes .press-quote:nth-child(6)  { top: 59%; left: 45%; max-width: 520px; }
+#press-quotes .press-quote:nth-child(6)  blockquote { font-size: clamp(1.7rem,2.5vw,2.1rem); }
+
+#press-quotes .press-quote:nth-child(7)  { top: 17%; left: 50%; max-width: 260px; }
+#press-quotes .press-quote:nth-child(7)  blockquote { font-size: clamp(2.6rem,4vw,3.8rem); font-style: normal; letter-spacing: .04em; }
+
+#press-quotes .press-quote:nth-child(8)  { top: 61%; left: 55%; max-width: 480px; }
+#press-quotes .press-quote:nth-child(8)  blockquote { font-size: clamp(1.5rem,2.2vw,1.85rem); }
+
+#press-quotes .press-quote:nth-child(9)  { top: 22%; left: 60%; max-width: 340px; }
+#press-quotes .press-quote:nth-child(9)  blockquote { font-size: clamp(1.8rem,2.8vw,2.5rem); font-style: normal; }
+
+#press-quotes .press-quote:nth-child(10) { top: 54%; left: 64%; max-width: 320px; }
+
+#press-quotes .press-quote:nth-child(11) { top: 19%; left: 69%; max-width: 480px; }
+#press-quotes .press-quote:nth-child(11) blockquote { font-size: clamp(1.6rem,2.4vw,1.95rem); }
+
+#press-quotes .press-quote:nth-child(12) { top: 62%; left: 73%; max-width: 500px; }
+#press-quotes .press-quote:nth-child(12) blockquote { font-size: clamp(1.45rem,2.1vw,1.8rem); }
+
+#press-quotes .press-quote:nth-child(13) { top: 17%; left: 78%; max-width: 280px; }
+#press-quotes .press-quote:nth-child(13) blockquote { font-size: clamp(2rem,3.2vw,3rem); font-style: normal; }
+
+#press-quotes .press-quote:nth-child(14) { top: 60%; left: 82%; max-width: 460px; }
+#press-quotes .press-quote:nth-child(14) blockquote { font-size: clamp(1.5rem,2.2vw,1.85rem); }
+
+#press-quotes .press-quote:nth-child(15) { top: 21%; left: 86%; max-width: 440px; }
+#press-quotes .press-quote:nth-child(15) blockquote { font-size: clamp(1.55rem,2.3vw,1.9rem); }
+
+#press-quotes .press-quote:nth-child(16) { top: 58%; left: 90%; max-width: 380px; }
+#press-quotes .press-quote:nth-child(16) blockquote { font-size: clamp(1.5rem,2.2vw,2.0rem); }
+
+#press-quotes .press-quote:nth-child(17) { top: 18%; left: 94%; max-width: 420px; }
+#press-quotes .press-quote:nth-child(17) blockquote { font-size: clamp(1.45rem,2.1vw,1.8rem); }
+
+#press-quotes .press-quote:nth-child(18) { top: 58%; left: 97%; max-width: 300px; }
+#press-quotes .press-quote:nth-child(18) blockquote { font-size: clamp(1.35rem,2.0vw,1.65rem); }
+
+#press-quotes .press-quote:nth-child(19) { top: 70%; left: 21%; max-width: 500px; }
+#press-quotes .press-quote:nth-child(19) blockquote { font-size: clamp(1.5rem,2.2vw,1.85rem); }
+
+#press-quotes .press-quote:nth-child(20) { top: 70%; left: 47%; max-width: 460px; }
+#press-quotes .press-quote:nth-child(20) blockquote { font-size: clamp(1.55rem,2.3vw,1.9rem); }
+
+/* Press section floating article images */
+.press-img {
+  position: absolute;
+  opacity: 0;
+  pointer-events: all;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 16px 56px rgba(26,21,16,.22);
+  cursor: none;
+  transition: transform .35s cubic-bezier(.25,.46,.45,.94),
+              box-shadow .35s cubic-bezier(.25,.46,.45,.94);
+}
+.press-img:hover {
+  transform: scale(1.04) translateY(-6px);
+  box-shadow: 0 28px 72px rgba(26,21,16,.34);
+}
+.press-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+#press-img-1 { top: 26%; left: 28%; width: 260px; height: 360px; }
+#press-img-2 { top: 32%; left: 52%; width: 230px; height: 310px; }
+#press-img-3 { top: 28%; left: 76%; width: 250px; height: 340px; }
+
+/* TSS Reviews button on the featured album */
+.tss-reviews-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(138,96,64,.18);
+  font-family: 'Outfit', sans-serif;
+  font-size: .65rem; font-weight: 400;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); text-align: center;
+  cursor: none; transition: background .2s, color .2s;
+}
+.tss-reviews-btn:hover { background: rgba(138,96,64,.07); }
+
+/* TSS press modal */
+#tss-modal {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+#tss-modal.open { opacity: 1; pointer-events: all; }
+.tss-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.88);
+  cursor: none;
+}
+.tss-inner {
+  position: relative; z-index: 1;
+  width: min(680px, 92vw);
+  max-height: 82vh;
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 0 40px 100px rgba(0,0,0,.5);
+  transform: scale(.96);
+  transition: transform .3s ease;
+}
+#tss-modal.open .tss-inner { transform: scale(1); }
+.tss-header {
+  padding: 28px 32px 18px;
+  border-bottom: 1px solid rgba(26,21,16,.08);
+  flex-shrink: 0;
+}
+.tss-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 300; color: var(--text);
+  margin-bottom: 3px;
+}
+.tss-header p {
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent);
+}
+.tss-close {
+  position: absolute; top: 18px; right: 22px;
+  background: none; border: none;
+  color: var(--text-muted); font-size: 1.4rem;
+  padding: 4px 8px; line-height: 1;
+  cursor: none; transition: color .2s;
+}
+.tss-close:hover { color: var(--text); }
+.tss-body { overflow-y: auto; padding: 8px 32px 32px; }
+.tss-body::-webkit-scrollbar { width: 4px; }
+.tss-body::-webkit-scrollbar-track { background: transparent; }
+.tss-body::-webkit-scrollbar-thumb { background: rgba(138,96,64,.3); border-radius: 2px; }
+.tss-review {
+  display: block; text-decoration: none; color: inherit;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(26,21,16,.06);
+  transition: opacity .18s;
+  cursor: default;
+}
+a.tss-review { cursor: none; }
+a.tss-review:hover { opacity: .72; }
+.tss-review:last-child { border-bottom: none; }
+.tss-review blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 1.15rem; line-height: 1.6;
+  color: var(--text); margin-bottom: 10px;
+}
+.tss-review.nacc-entry blockquote {
+  font-size: 2.2rem; font-style: normal;
+  color: var(--accent); letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+.tss-review cite {
+  font-family: 'Outfit', sans-serif;
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent); font-style: normal;
+}
+
+
+/* ════════════════
+   CONTACT
+════════════════ */
+#contact { background: var(--bg); }
+.contact-photo-bg {
+  position: absolute; inset: -5%;
+  background: url('_A749454-Bearbeitet.jpg') center top / cover no-repeat;
+  opacity: .38;
+  animation: kb 19s ease-in-out infinite alternate-reverse;
+}
+.contact-tint {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(232,224,214,.88) 0%, rgba(242,238,232,.78) 60%, rgba(245,241,235,.92) 100%);
+}
+.contact-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 64px;
+  padding-top: var(--nav-h);
+}
+.contact-email {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem,2.5vw,2.2rem);
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 10px;
+  transition: opacity .2s;
+  cursor: none;
+}
+.contact-email:hover { opacity: .6; }
+.contact-sub {
+  margin-top: 32px;
+  font-size: .8rem; color: var(--text-muted); line-height: 1.7;
+}
+
+
+/* ════════════════
+   SHOWS MODAL
+════════════════ */
+.shows-trigger-btn {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 11px 22px;
+  background: none; border: 1px solid rgba(138,96,64,.5);
+  border-radius: 3px;
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent);
+  cursor: none; transition: opacity .2s, background .2s;
+}
+.shows-trigger-btn:hover { opacity: 1; background: rgba(138,96,64,.1); }
+
+#shows-modal {
+  position: fixed; inset: 0; z-index: 910;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+#shows-modal.open { opacity: 1; pointer-events: all; }
+.shows-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: none;
+}
+.shows-inner {
+  position: relative; z-index: 1;
+  width: min(960px, 94vw);
+  max-height: 90vh;
+  background: #0e0a08;
+  border: 1px solid rgba(245,241,235,.07);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transform: scale(.96);
+  transition: transform .3s ease;
+  box-shadow: 0 40px 100px rgba(0,0,0,.5);
+}
+#shows-modal.open .shows-inner { transform: scale(1); }
+.shows-header {
+  padding: 38px 52px 26px;
+  border-bottom: 1px solid rgba(245,241,235,.06);
+  flex-shrink: 0;
+}
+.shows-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem; font-weight: 300;
+  color: var(--bg); letter-spacing: .02em;
+  margin-bottom: 4px;
+}
+.shows-header p {
+  font-size: .9rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.shows-close {
+  position: absolute; top: 24px; right: 32px;
+  background: none; border: none;
+  font-size: 2.2rem; line-height: 1;
+  color: rgba(245,241,235,.35);
+  cursor: none; transition: color .2s;
+}
+.shows-close:hover { color: var(--bg); }
+.shows-body {
+  overflow-y: auto;
+  padding: 12px 52px 54px;
+  scrollbar-width: thin; scrollbar-color: rgba(138,96,64,.35) transparent;
+}
+.shows-body::-webkit-scrollbar { width: 3px; }
+.shows-body::-webkit-scrollbar-track { background: transparent; }
+.shows-body::-webkit-scrollbar-thumb { background: rgba(138,96,64,.35); border-radius: 2px; }
+
+.shows-upcoming-label, .shows-past-label {
+  font-size: .88rem; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--accent);
+  margin: 38px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(138,96,64,.18);
+}
+.shows-empty {
+  padding: 14px 0 8px;
+  font-size: 1.3rem; color: rgba(245,241,235,.38); line-height: 1.9;
+}
+.shows-empty a {
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid rgba(138,96,64,.28);
+  cursor: none; transition: opacity .2s;
+}
+.shows-empty a:hover { opacity: .65; }
+
+.shows-tour-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: .88rem; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(245,241,235,.28);
+  margin: 36px 0 8px;
+}
+.shows-tour-name:first-of-type { margin-top: 10px; }
+.show-row {
+  display: flex; align-items: baseline; gap: 22px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(245,241,235,.04);
+}
+.show-row:last-child { border-bottom: none; }
+.show-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-style: italic; font-weight: 300;
+  color: var(--accent);
+  flex: 0 0 96px;
+}
+.show-venue {
+  flex: 1;
+  font-size: 1.25rem; color: rgba(245,241,235,.82);
+}
+.show-city {
+  font-size: 1.05rem; color: rgba(245,241,235,.32);
+  letter-spacing: .06em;
+  flex-shrink: 0;
+}
+.show-note {
+  display: block;
+  font-size: .95rem; color: rgba(245,241,235,.28);
+  letter-spacing: .04em;
+  margin-top: 3px;
+}
+
+/* ════════════════
+   PHOTO MODAL
+════════════════ */
+.photo-modal {
+  position: fixed; inset: 0; z-index: 800;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.photo-modal.open { opacity: 1; pointer-events: all; }
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.94);
+  cursor: none;
+}
+.modal-inner {
+  position: relative; z-index: 1;
+  max-width: 80vw; max-height: 88vh;
+  display: flex; align-items: center; justify-content: center;
+  transform: scale(.96);
+  transition: transform .3s ease;
+}
+.photo-modal.open .modal-inner { transform: scale(1); }
+.modal-inner img {
+  display: block; max-width: 80vw; max-height: 88vh;
+  width: auto; height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7);
+}
+.modal-close {
+  position: absolute; top: -40px; right: 0;
+  background: none; border: none;
+  color: rgba(245,241,235,.5); font-size: 1.5rem;
+  padding: 6px 10px; line-height: 1;
+  cursor: none; transition: color .2s;
+}
+.modal-close:hover { color: #f5f1eb; }
+
+/* Gallery prev/next */
+.modal-prev, .modal-next {
+  position: fixed;
+  top: 50%; transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(14,10,8,.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245,241,235,.15);
+  border-radius: 50%;
+  width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(245,241,235,.75);
+  font-size: 1.8rem; line-height: 1;
+  cursor: none;
+  transition: background .2s, color .2s, opacity .2s;
+}
+.modal-prev { left: 24px; }
+.modal-next { right: 24px; }
+.modal-prev:hover, .modal-next:hover {
+  background: rgba(14,10,8,.75);
+  color: #f5f1eb;
+}
+.modal-prev.nav-hidden, .modal-next.nav-hidden {
+  opacity: 0; pointer-events: none;
+}
+.modal-counter {
+  position: fixed;
+  bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 2;
+  font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(245,241,235,.4);
+}
+
+/* ════════════════
+   VIDEO MODAL
+════════════════ */
+.video-modal {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.video-modal.open { opacity: 1; pointer-events: all; }
+.video-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.94);
+  cursor: none;
+}
+.video-modal-inner {
+  /* No transform here (not even a transitioned identity scale) — any
+     transform on an ancestor of the <video>, including scale(1), silently
+     breaks the native Fullscreen API. The opacity fade on .video-modal
+     (a non-ancestor-transform property) provides the entrance motion instead. */
+  position: relative; z-index: 1;
+  width: 90vw;
+  max-width: 1400px;
+  max-height: 88vh;
+  aspect-ratio: 16 / 9;
+}
+.video-modal-inner video {
+  display: block;
+  width: 100%; height: 100%;
+  background: #000;
+  border-radius: 4px;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7);
+}
+.video-modal-close {
+  position: absolute; top: -40px; right: 0;
+  background: none; border: none;
+  color: rgba(245,241,235,.5); font-size: 1.5rem;
+  padding: 6px 10px; line-height: 1;
+  cursor: none; transition: color .2s;
+}
+.video-modal-close:hover { color: #f5f1eb; }
+
+/* ── Shared type ── */
+.section-label {
+  font-size: .7rem; font-weight: 400;
+  letter-spacing: .32em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem,4vw,3.5rem);
+  font-weight: 300; line-height: 1.05;
+  margin-bottom: 18px;
+}
+.section-body {
+  font-size: .9rem; line-height: 1.82; color: var(--text-sec); max-width: 380px;
+}
+
+
+/* ════════════════
+   MOBILE FALLBACK
+════════════════ */
+@media (max-width: 860px) {
+  body { cursor: auto; }
+  #cursor { display: none; }
+  nav { padding: 0 24px; background: rgba(245,241,235,.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(26,21,16,.06); }
+  .nav-logo { color: var(--text) !important; }
+  .nav-links { display: none; }
+
+  .pin-container { height: auto; overflow: visible; }
+  .h-track { flex-direction: column; width: 100%; height: auto; }
+  .panel { width: 100% !important; height: auto; min-height: 100svh; overflow: hidden; }
+  .panel::after { display: none; }
+
+  .home-content { padding: 80px 28px 60px; max-width: 100%; }
+  .home-video-card { display: none; }
+  .scroll-hint { display: none; }
+  .socials-cluster { display: none; }
+
+  .music-content { flex-direction: column; padding: 80px 28px; gap: 36px; height: auto; min-height: 100svh; }
+  .music-intro { flex: unset; margin-right: 0; }
+  .album-strip { flex-direction: column; align-items: flex-start; padding: 0; height: auto; gap: 24px; width: 100%; }
+  .album-embed iframe { width: 100% !important; }
+  .album-embed { width: 100% !important; }
+
+  .about-content { flex-direction: column; padding: 80px 28px; gap: 32px; height: auto; min-height: 100svh; }
+  .about-stations { width: 100%; }
+  .about-content > .about-photo-sm { width: 100%; height: 280px; flex-shrink: 0; }
+
+  .live-content { padding: 80px 28px 40px; height: auto; min-height: 100svh; }
+  .live-gallery { flex-wrap: wrap; align-items: stretch; gap: 10px; }
+  .live-photo { width: calc(50% - 5px) !important; height: 220px !important; }
+  .live-photo:nth-child(2) { width: 100% !important; height: 280px !important; }
+  .live-video { width: calc(50% - 5px) !important; height: 160px !important; }
+
+  #press { height: auto; min-height: 100svh; }
+  #press-quotes { display: none; }
+  .press-section-title { display: none; }
+  .press-quote { position: static; opacity: 1 !important; transform: none !important; margin-bottom: 40px; max-width: 100% !important; max-height: none !important; overflow: visible !important; }
+  .press-quote blockquote { font-size: 1.2rem !important; }
+  .press-mobile { position: relative; z-index: 2; padding: 80px 28px; }
+  .press-header { position: static; margin-bottom: 32px; }
+
+  .contact-content { padding: 80px 28px; height: auto; min-height: 60svh; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- ════════════════
+     NAV
+════════════════ -->
+<nav id="nav">
+  <a href="#home" class="nav-logo" data-scroll="home">Selina Martin</a>
+  <ul class="nav-links" id="nav-links">
+    <div class="nav-pill" id="nav-pill"></div>
+    <li data-section="home"><a href="#home" data-scroll="home">Home</a></li>
+    <li data-section="about"><a href="#about" data-scroll="about">About</a></li>
+    <li data-section="music"><a href="#music" data-scroll="music">Music</a></li>
+    <li data-section="live"><a href="#live" data-scroll="live">Live</a></li>
+    <li data-section="press"><a href="#press" data-scroll="press">Press</a></li>
+    <li data-section="contact"><a href="#contact" data-scroll="contact">Contact</a></li>
+  </ul>
+</nav>
+
+
+<!-- ════════════════
+     HORIZONTAL TRACK
+════════════════ -->
+<div class="pin-container" id="pin-container">
+<div class="h-track" id="h-track">
+
+
+<!-- ══ HOME ══ -->
+<section class="panel" id="home">
+  <!-- Full-portrait photo (shows entire image, dark bars at sides) -->
+  <div class="home-photo-wrap" id="home-photo-wrap">
+    <div class="home-photo-frame">
+      <img src="IMG_1374.jpeg" class="home-photo-inner" id="home-photo-inner" alt="Selina Martin">
+      <div class="home-video-card" data-video-src="fabrica-live-web.mp4" data-video-poster="IMG_1374.jpeg">
+        <img class="video-card-poster" src="IMG_1374.jpeg" alt="Selina Martin live video">
+        <button class="video-play-btn" aria-label="Play video" tabindex="-1">
+          <span class="play-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="home-overlay"></div>
+
+  <div class="home-content">
+    <p class="home-kicker">Singer · Songwriter</p>
+    <h1 class="home-name">Selina<em>Martin</em></h1>
+    <p class="home-sub">Guitarist · Performer</p>
+    <p class="home-tagline">
+      Where sound becomes space. Luminous, restless, unexpected and unsettling. Liminal.
+    </p>
+    <div class="home-cta">
+      <a href="#music" class="btn btn-solid" data-scroll="music">Listen</a>
+      <a href="#contact" class="btn btn-ghost-light" data-scroll="contact">Get in touch →</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint" id="scroll-hint">
+    <span>Explore</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══ ABOUT ══ -->
+<section class="panel" id="about">
+  <div class="about-photo-bg"></div>
+  <div class="about-tint"></div>
+  <div class="about-content">
+
+    <!-- Beat 1 · Origins -->
+    <div class="about-stations">
+      <p class="section-label">Biography</p>
+      <div class="about-station" id="bio1">
+        <h3>The Ottawa Valley</h3>
+        <p>Selina Martin has spent nearly three decades refusing to be one kind of artist, and it's precisely that refusal that defines her craft. Born in 1967 and raised in Pakenham, Ontario, she grew up far from any music-industry centre, in a childhood soundtracked by campfires and, memorably, roller discos. She's told the story of a preteen epiphany hearing Rush's "The Spirit of Radio" at a roller rink in Kanata, lights flashing, and music so loud. It's a moment she would return to decades later when she recorded her own spare, subversive cover of that song.</p>
+      </div>
+    </div>
+
+    <div class="about-photo-sm"><img src="IMG_1375.jpeg" alt="Selina Martin" style="object-position:center 15%;"></div>
+
+    <!-- Beat 2 · Theatre -->
+    <div class="about-stations">
+      <div class="about-station" id="bio2">
+        <h3>Stagecraft first</h3>
+        <p>Her path into music ran through the theatre. Martin moved to Toronto in the 1990s to study drama at the University of Toronto, and after graduating co-founded Bald Ego Theatre with playwright Adam Nashman, poet Stan Rogal and actor Lisa Ryder. That theatrical grounding has remained a core feature of her work. Critics consistently point to the vividness of her storytelling and the sheer command of her stage presence as inseparable from her songwriting. Exclaim! has noted that Selina's writing and performative character draw directly on her skills as a stage actor and storyteller. Even her day jobs have been theatrical: she has worked with the University of Toronto's Standardized Patient Program, performing one-person "medical plays" — scripted patient roles used to help health professionals practise and refine their skills.</p>
+      </div>
+    </div>
+
+    <div class="about-photo-sm"><img src="IMG_1377.jpeg" alt="Selina Martin" style="object-position:center 20%;"></div>
+
+    <!-- Beat 3 · Toronto Scene -->
+    <div class="about-stations">
+      <div class="about-station" id="bio3">
+        <h3>Wine glasses and theremins</h3>
+        <p>Martin's apprenticeship in music came inside Toronto's gloriously eccentric indie scene. From 1995 to 1999 she played in Bob Wiseman's band, handling guitar, bass, accordion, theremin, wine glasses and found objects. This multi-instrumental resourcefulness became a signature of her performance. She released her debut, <em>Space Woman</em>, in 1998 and began touring Canada and Europe. Over the following years Selina became a fixture of a wonderfully left-of-centre musical community that included the Rheostatics, Martin Tielli, Dave Bidini's Bidiniband, NQ Arbuckle, Veda Hille, Justin Rutledge and Amelia Curran. With Bidini and Tielli she wrote and recorded the music for the animated short <em>Five Hole: Tales of Hockey Erotica</em>, and she co-wrote the score for the documentary <em>Act of God</em> with Bidini, Tielli and Fred Frith. She also remains an occasional member of the experimental electronic collective The Faceless Forces of Bigness.</p>
+      </div>
+    </div>
+
+    <div class="about-photo-sm"><img src="_A749387.jpg" alt="Selina Martin live" style="object-position:center 20%;"></div>
+
+    <!-- Beat 4 · The Albums -->
+    <div class="about-stations">
+      <div class="about-station" id="bio4">
+        <h3>Five albums, five reinventions</h3>
+        <p>Each of her five albums marks a deliberate reinvention. <em>Life Drawing Without Instruction</em> (2005) showcased her range, from supple, lilting songs to swaggering anthems. <em>Disaster Fantasies</em> (2010) was her rock statement: the Ottawa Citizen named it one of the ten best albums of the year, and it landed on the Globe and Mail's Polaris Prize picks, with critic Michael Barclay calling it the most underrated Canadian album of its year. Then came the pivot: <em>i've been picking caruso's brain; i think i have the information we need to make a new world</em> (2015) moved her into sharp experimental Euro-pop territory, first finding its audience overseas and drawing comparisons to Björk. Martin coined her own term for it: "post-pop," which she described as simple pop songs made to sound broken, mixing written material with improvisation from players like cellist Peggy Lee and saxophonist Brodie West.</p>
+      </div>
+    </div>
+
+    <div class="about-photo-sm"><img src="_A749466.jpg" alt="Selina Martin live" style="object-position:center center;"></div>
+
+    <!-- Beat 5 · Europe / Time Spent Swimming -->
+    <div class="about-stations">
+      <div class="about-station" id="bio5">
+        <h3>Loneliness as raw material</h3>
+        <p>The boldest chapter began when she left Toronto for the south of France. The move was itself a kind of artistic experiment: '...to explore loneliness as one of the cornerstones of the human condition'. Then the pandemic delivered more solitude than anyone bargained for. The result was <em>Time Spent Swimming</em> (2022), an album whose title she has explained as being about being between states or places — floating, limbo, waiting — but also about the meditative reprieve of floating in the sea. Sonically it's her most expansive work, fusing organic instrumentation, samples, field recordings, physical synths, plug-ins and vocal improvisation into something she resists naming and critics can't quite pin down. Words like electro-post-rock, art-pop, experimental pop float around. The reception was emphatic: the album debuted at #1 on the NACC college radio charts in the US, Spill Magazine called it fascinating and hard to categorize, and European press placed her in the lineage of Laurie Anderson, Kate Bush, PJ Harvey and Talking Heads. She now lives and works in Spain.</p>
+      </div>
+    </div>
+
+    <!-- Beat 6 · Philosophy (no photo after per notes) -->
+    <div class="about-stations">
+      <div class="about-station" id="bio6">
+        <h3>Songs are sometimes psychic</h3>
+        <p>What holds this restless catalogue together is a coherent philosophy. Martin talks about songwriting almost mystically: songs, she says, will often tell her what's going on rather than the other way around; they're sometimes psychic. But that intuition is paired with rigour and patience: her song "Rape During Wartime," which examines sexual violence in armed conflict through the danceable frame of a two-chord Talking Heads homage, took over eight years from title to completion. She's equally unguarded about the economics of the life she's chosen, describing the struggle to maintain artistic integrity while making the work financially viable without resorting to writing commercial pop.</p>
+        <blockquote class="bio-pullquote">"I have absolutely no intention of repeating myself."</blockquote>
+      </div>
+    </div>
+
+    <div class="about-photo-sm"><img src="_A7R3696.jpg" alt="Selina Martin live" style="object-position:center 25%;"></div>
+
+    <!-- Beat 7 + Beat 8 · Touring / Essence -->
+    <div class="about-stations">
+      <div class="about-station" id="bio7">
+        <h3>Small towns, big rooms</h3>
+        <p>There's also a generosity in how she works. She favours small towns on her tours, finding audiences there more enthusiastic than in concert-saturated cities. A Canadian tour in 2023 wound through modest BC venues alongside the usual big city stops. She was invited by Tom Holliston of legendary Canadian art-punks NoMeansNo to tour the EU in 2018, leading to eight subsequent tours together across Europe and Canada, and she has continued to collaborate widely, including with John Wright's post-NoMeansNo project Dead Bob.</p>
+      </div>
+      <div class="about-station" id="bio8">
+        <h3>Sound is potential</h3>
+        <p>The essence of Selina Martin might be this: she is a songwriter first — melodic, literate, emotionally direct — who treats every other convention as negotiable. Traditional forms of music, she has argued, no longer convey what it feels like to live in the world, so she keeps building new ones. "Sound is potential," she writes; "I believe you have to take risks in order to make art." Nearly thirty years in, she remains what the best critics have always called her: not comparable, but singular.</p>
+      </div>
+    </div>
+
+    <div class="about-photo-sm" style="width:380px; height:520px;"><img src="_A749454-Bearbeitet.jpg" alt="Selina Martin" style="object-position:center top;"></div>
+
+  </div>
+</section>
+
+
+<!-- ══ MUSIC ══
+     Albums: Time Spent Swimming (2022) · Disaster Fantasies (2010) ·
+             Five Hole (2009) · Life Drawing Without Instruction (2005) ·
+             Space Woman (1998)
+-->
+<section class="panel" id="music">
+  <div class="music-photo-bg"></div>
+  <div class="music-tint"></div>
+  <div class="music-content">
+
+    <div class="music-intro">
+      <p class="section-label">Music</p>
+      <h2 class="section-title">Discography</h2>
+      <p class="section-body">
+        Twenty-five years of genre-defying records — from "catchy weirdo rock-pop" to art-pop masterwork. All streaming now on Bandcamp.
+      </p>
+      <p class="music-meta">
+        Also on Spotify · Apple Music · all platforms
+      </p>
+      <a href="https://selinamartin.bandcamp.com/music" target="_blank" rel="noopener" class="discog-link">
+        Full discography + Les Eggs EP →
+      </a>
+    </div>
+
+    <!-- Scrollable album strip — flows to the right as the panel is explored -->
+    <div class="album-strip">
+
+      <!-- Featured: Time Spent Swimming (2022) -->
+      <div class="album-embed featured" style="width:360px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=2261355084/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=true/artwork=big/transparent=true/"
+          width="360" height="452" title="Time Spent Swimming — Selina Martin"></iframe>
+        <button class="tss-reviews-btn" id="tss-reviews-btn">★ &nbsp;Press Reviews</button>
+      </div>
+
+      <!-- Caruso's Brain -->
+      <div class="album-embed" style="width:280px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=259326760/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+          width="280" height="310" title="Caruso's Brain — Selina Martin"></iframe>
+        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Caruso's Brain · 2015</div>
+      </div>
+
+      <!-- Disaster Fantasies (2010) -->
+      <div class="album-embed" style="width:280px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=3859752383/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+          width="280" height="310" title="Disaster Fantasies — Selina Martin"></iframe>
+        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Disaster Fantasies · 2010</div>
+      </div>
+
+      <!-- Five Hole: Tales of Hockey Erotica (collab) -->
+      <div class="album-embed" style="width:280px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=1940492957/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+          width="280" height="310" title="Five Hole: Tales of Hockey Erotica"></iframe>
+        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Five Hole: Tales of Hockey Erotica</div>
+      </div>
+
+      <!-- Life Drawing Without Instruction (2005) -->
+      <div class="album-embed" style="width:280px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=3226206178/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+          width="280" height="310" title="Life Drawing Without Instruction — Selina Martin"></iframe>
+        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Life Drawing Without Instruction · 2005</div>
+      </div>
+
+      <!-- Space Woman -->
+      <div class="album-embed" style="width:280px;">
+        <iframe
+          src="https://bandcamp.com/EmbeddedPlayer/album=945609777/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+          width="280" height="310" title="Space Woman — Selina Martin"></iframe>
+        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Space Woman</div>
+      </div>
+
+    </div><!-- /album-strip -->
+  </div>
+</section>
+
+
+<!-- ══ LIVE ══ -->
+<section class="panel" id="live">
+  <div class="live-content">
+    <div class="live-header">
+      <p class="section-label">Live</p>
+      <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
+      <p class="live-subline">Karman Festival · Augsburg, DE · May 2026 · Photo: @fotolocationally</p>
+      <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
+    </div>
+    <div class="live-gallery" id="live-gallery">
+      <div class="live-video" data-video-src="como-live-web.mp4" data-video-poster="_A7R3696.jpg">
+        <img class="video-card-poster" src="_A7R3696.jpg" alt="Selina Martin live video">
+        <button class="video-play-btn" aria-label="Play video" tabindex="-1">
+          <span class="play-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+        </button>
+      </div>
+      <div class="live-photo"><img src="_A7R3696.jpg"            alt="Selina Martin live"></div>
+      <div class="live-photo"><img src="_A749387.jpg"            alt="Selina Martin live"></div>
+      <div class="live-photo"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live"></div>
+      <div class="live-photo"><img src="_A7R3557.jpg"            alt="Selina Martin live"></div>
+      <div class="live-photo"><img src="_A749466.jpg"            alt="Selina Martin live"></div>
+      <div class="live-photo"><img src="_A7R3711.jpg"            alt="Selina Martin live"></div>
+      <div class="live-video" data-video-src="fabrica-live-web.mp4" data-video-poster="IMG_1374.jpeg">
+        <img class="video-card-poster" src="IMG_1374.jpeg" alt="Selina Martin live video">
+        <button class="video-play-btn" aria-label="Play video" tabindex="-1">
+          <span class="play-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+    <p class="live-credit">@fotolocationally · Karman Festival · Augsburg DE · May 2026</p>
+  </div>
+</section>
+
+
+<!-- ══ PRESS ══ -->
+<section class="panel" id="press">
+  <div class="press-photo-bg"></div>
+  <div class="press-tint"></div>
+
+  <!-- Corner label -->
+  <div class="press-header">
+    <p class="section-label">Press</p>
+  </div>
+
+  <!-- Big title — fades out as quotes bloom in -->
+  <div class="press-section-title" id="press-title">Press</div>
+
+  <!-- 18 quotes + NACC achievement, wrapped so :nth-child counts from 1 -->
+  <div id="press-quotes">
+
+    <!-- 1 -->
+    <div class="press-quote">
+      <blockquote>"the voice of a thrift-shop angel and the eye of an eagle circling over its prey"</blockquote>
+      <cite>The Globe &amp; Mail, CAN</cite>
+    </div>
+
+    <!-- 2 -->
+    <div class="press-quote">
+      <a href="https://zeromagazine.nu/2016/01/08/selina-martin-ive-been-picking-carusos-brain-i-think-i-have-the-information-we-need-to-make-a-new-world/" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"new, exciting, provocative, uninhibited, sometimes ferocious, sometimes tranquil, never boring"</blockquote>
+        <cite>Zero Magazine, SWE</cite>
+      </a>
+    </div>
+
+    <!-- 3 -->
+    <div class="press-quote">
+      <a href="https://www.keysandchords.com/album-review-blog/selina-martin-ive-been-picking-carusos-brain-i-think-i-have-the-information-we-need-to-make-a-new-world" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"genius — reference artists could be Talking Heads and PJ Harvey, but probably this lady is better called 'unique'"</blockquote>
+        <cite>Rootstime, BE</cite>
+      </a>
+    </div>
+
+    <!-- 4 -->
+    <div class="press-quote">
+      <blockquote>"sounds like a never-released collaboration between Peter Gabriel and Björk"</blockquote>
+      <cite>Fidelity, DE</cite>
+    </div>
+
+    <!-- 5 -->
+    <div class="press-quote">
+      <blockquote>"Martin pulls off something Kate Bushingly theatrical and epic"</blockquote>
+      <cite>NOW Magazine, Toronto CAN</cite>
+    </div>
+
+    <!-- 6 -->
+    <div class="press-quote">
+      <a href="https://exclaim.ca/music/article/selina_martin_time_spent_swimming_album_review" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"Time Spent Swimming shoots into the stratosphere"</blockquote>
+        <cite>Exclaim!, CAN</cite>
+      </a>
+    </div>
+
+    <!-- 7 -->
+    <div class="press-quote">
+      <blockquote>★★★★★</blockquote>
+      <cite>The Music Express, CAN</cite>
+    </div>
+
+    <!-- 8 -->
+    <div class="press-quote">
+      <blockquote>"walks between Laurie Anderson, Brian Eno — flirts with Kate Bush and Amanda Palmer"</blockquote>
+      <cite>Musikreviews, DE</cite>
+    </div>
+
+    <!-- 9 -->
+    <div class="press-quote">
+      <blockquote>"Aural Visionary"</blockquote>
+      <cite>100.3 SoundFM, CAN</cite>
+    </div>
+
+    <!-- 10 · NACC Achievement -->
+    <div class="press-quote press-nacc">
+      <blockquote>#1</blockquote>
+      <p class="nacc-sub">NACC 200 Chart · Top Debut<br>January 2023 · <em>Time Spent Swimming</em></p>
+      <cite>North American College &amp; Community Radio</cite>
+    </div>
+
+    <!-- 11 -->
+    <div class="press-quote">
+      <blockquote>"in the same league as Björk and PJ Harvey"</blockquote>
+      <cite>Münstersche Zeitung, DE</cite>
+    </div>
+
+    <!-- 12 -->
+    <div class="press-quote">
+      <blockquote>"This is a recording that not only bears repeated listens; it rewards each hearing with new revelations of an astonishing depth"</blockquote>
+      <cite>Roots Music Canada</cite>
+    </div>
+
+    <!-- 13 -->
+    <div class="press-quote">
+      <blockquote>"Thrilling"</blockquote>
+      <cite>Actua News, FR</cite>
+    </div>
+
+    <!-- 14 -->
+    <div class="press-quote">
+      <a href="https://vinyl-keks.eu/selina-martin-time-spent-swimming/" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"it's not only a strong album, it's one of the strongest albums of 2022"</blockquote>
+        <cite>Vinyl-keks, DE</cite>
+      </a>
+    </div>
+
+    <!-- 15 -->
+    <div class="press-quote">
+      <blockquote>"five-stars — I found time between gigs to write this review because the record is so good"</blockquote>
+      <cite>West End Phoenix, CAN</cite>
+    </div>
+
+    <!-- 16 -->
+    <div class="press-quote">
+      <a href="https://www.rootsmusic.ca/2023/03/01/why-dave-mceathron-says-you-should-listen-to-the-new-selina-martin-album-right-now/" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"this is a master work by an artist at the peak of her potential"</blockquote>
+        <cite>Roots Music Canada</cite>
+      </a>
+    </div>
+
+    <!-- 17 -->
+    <div class="press-quote">
+      <a href="https://exclaim.ca/music/article/selina_martin-_carusos_brain" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"a masterful work that showcases Martin's magical talent for writing simultaneously from the heart, brain, and gut"</blockquote>
+        <cite>Exclaim!, CAN</cite>
+      </a>
+    </div>
+
+    <!-- 18 -->
+    <div class="press-quote">
+      <a href="https://spillmagazine.com/spill-album-review-selina-martin-time-spent-swimming/" class="quote-link" target="_blank" rel="noopener">
+        <blockquote>"musically and lyrically the album is as full of atmosphere, emotion and power as anything in Selina Martin's catalogue"</blockquote>
+        <cite>Spill Magazine, CAN</cite>
+      </a>
+    </div>
+
+    <!-- 19 — lower zone, appears alongside Q1/Q2 cluster at different height -->
+    <div class="press-quote">
+      <blockquote>"One of the most intriguing songwriters in Toronto"</blockquote>
+      <cite>Vish Khanna · CBC Radio 3</cite>
+    </div>
+
+    <!-- 20 — lower zone, appears alongside Q5/Q6 cluster at different height -->
+    <div class="press-quote">
+      <blockquote>"Top Albums of 2022"</blockquote>
+      <cite>The Globe &amp; Mail, CAN</cite>
+    </div>
+
+  </div><!-- /#press-quotes -->
+
+  <!-- Floating press article images — animated with same lifecycle as quotes -->
+  <div class="press-img" id="press-img-1">
+    <img src="Untitled.png" alt="Press clipping">
+  </div>
+  <div class="press-img" id="press-img-2">
+    <img src="selina article 2.png" alt="Press clipping">
+  </div>
+  <div class="press-img" id="press-img-3">
+    <img src="selina article 3.png" alt="Press clipping">
+  </div>
+
+  <!-- Mobile wrapper -->
+  <div class="press-mobile" id="press-mobile" style="display:none;"></div>
+</section>
+
+
+<!-- ══ CONTACT ══ -->
+<section class="panel" id="contact">
+  <div class="contact-photo-bg"></div>
+  <div class="contact-tint"></div>
+  <div class="contact-content">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="section-body">For bookings, press, licensing, or just to say hello —</p>
+    <a href="mailto:info@selinamartin.com" class="contact-email">info@selinamartin.com</a>
+    <p class="contact-sub">
+      <span style="font-size:.7rem; color:var(--text-muted);">© 2026 Selina Martin</span>
+    </p>
+  </div>
+</section>
+
+</div><!-- /h-track -->
+</div><!-- /pin-container -->
+
+<!-- Social icons + home bubble — outside scroll track so position:fixed works correctly -->
+<div class="socials-cluster">
+<nav class="home-socials" aria-label="Social links">
+  <a href="https://www.patreon.com/selinamartin" class="home-social-link" target="_blank" rel="noopener" aria-label="Patreon">
+    <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="3" height="18"/></svg>
+  </a>
+  <span class="home-socials-rule" aria-hidden="true"></span>
+  <a href="https://www.instagram.com/selina.martin.1/" class="home-social-link" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5"/></svg>
+  </a>
+  <a href="https://www.facebook.com/selinamartinmusic" class="home-social-link" target="_blank" rel="noopener" aria-label="Facebook">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+  </a>
+  <a href="https://www.youtube.com/@SelinaMartinMusic" class="home-social-link" target="_blank" rel="noopener" aria-label="YouTube">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="currentColor" stroke="none" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+  </a>
+  <span class="home-socials-rule" aria-hidden="true"></span>
+  <a href="https://selinamartin.bandcamp.com" class="home-social-link" target="_blank" rel="noopener" aria-label="Bandcamp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+  </a>
+  <a href="https://bfan.link/time-spent-swimming" class="home-social-link" target="_blank" rel="noopener" aria-label="Time Spent Swimming">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+  </a>
+</nav>
+<a href="#home" class="home-nav-btn" data-scroll="home" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+</a>
+</div><!-- /socials-cluster -->
+
+<!-- Photo modal -->
+<div class="photo-modal" id="photo-modal" aria-modal="true" role="dialog">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <button class="modal-prev nav-hidden" id="modal-prev" aria-label="Previous photo">&#8249;</button>
+  <button class="modal-next nav-hidden" id="modal-next" aria-label="Next photo">&#8250;</button>
+  <div class="modal-counter" id="modal-counter"></div>
+  <div class="modal-inner">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <img id="modal-img" src="" alt="">
+  </div>
+</div>
+
+<!-- Video Modal — playback happens here, not inline, so native fullscreen works
+     (a transformed ancestor breaks Fullscreen API, and the horizontal-scroll
+     track is transformed) -->
+<div class="video-modal" id="video-modal" aria-modal="true" role="dialog">
+  <div class="video-modal-backdrop" id="video-modal-backdrop"></div>
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="video-modal-close" aria-label="Close">×</button>
+    <video id="video-modal-player" controls playsinline></video>
+  </div>
+</div>
+
+<!-- Shows / Tour Dates Modal -->
+<div id="shows-modal" aria-modal="true" role="dialog">
+  <div class="shows-backdrop" id="shows-backdrop"></div>
+  <div class="shows-inner">
+    <div class="shows-header">
+      <h2>Tour Dates</h2>
+      <p>Selina Martin Live</p>
+      <button class="shows-close" id="shows-close" aria-label="Close">×</button>
+    </div>
+    <div class="shows-body">
+
+      <p class="shows-upcoming-label">Upcoming</p>
+      <div class="shows-empty">
+        No upcoming dates confirmed yet —
+        <a href="mailto:info@selinamartin.com">get in touch for bookings</a>
+        or <a href="#contact" data-scroll="contact" id="shows-ml-link">drop a note to get on the list</a>.
+      </div>
+
+      <p class="shows-past-label">Past Shows</p>
+
+      <p class="shows-tour-name">OutsiderInside Tour · EU 2026</p>
+      <div class="show-row"><span class="show-date">29 Apr</span><span class="show-venue">La Trésorerie</span><span class="show-city">Nice, FR</span></div>
+      <div class="show-row"><span class="show-date">1 May</span><span class="show-venue">Joshua Blues Club</span><span class="show-city">Como, IT</span></div>
+      <div class="show-row"><span class="show-date">2 May</span><span class="show-venue">OFFICINEMUSICALI</span><span class="show-city">Morbegno, IT</span></div>
+      <div class="show-row"><span class="show-date">3 May</span><span class="show-venue">ZaWonderbar Records</span><span class="show-city">Imperia, IT</span></div>
+      <div class="show-row"><span class="show-date">4 May</span><span class="show-venue">Magenta31</span><span class="show-city">Brescia, IT</span></div>
+      <div class="show-row"><span class="show-date">5 May</span><span class="show-venue">Circolo Pěcar</span><span class="show-city">Trieste, IT</span></div>
+      <div class="show-row"><span class="show-date">7 May</span><span class="show-venue">Apotheka</span><span class="show-city">Ljubljana, SI</span></div>
+      <div class="show-row"><span class="show-date">8 May</span><span class="show-venue">Galerija SDK</span><span class="show-city">Tolmin, SI</span></div>
+      <div class="show-row"><span class="show-date">9 May</span><span class="show-venue">Gramsci</span><span class="show-city">Dachau, DE</span></div>
+      <div class="show-row"><span class="show-date">10 May</span><span class="show-venue">Eastwood Dive Bar</span><span class="show-city">Linz, AT</span></div>
+      <div class="show-row"><span class="show-date">12 May</span><span class="show-venue">Salon Maudit</span><span class="show-city">Munich, DE</span></div>
+      <div class="show-row"><span class="show-date">13 May</span><span class="show-venue">Karman Festival</span><span class="show-city">Augsburg, DE</span></div>
+      <div class="show-row"><span class="show-date">14 May</span><span class="show-venue">Otto Cannoli</span><span class="show-city">Köln, DE</span></div>
+      <div class="show-row"><span class="show-date">15 May</span><span class="show-venue">Rum Bumpers <span class="show-note">w/ Mikey Hanson</span></span><span class="show-city">Bremen, DE</span></div>
+      <div class="show-row"><span class="show-date">16 May</span><span class="show-venue">Klaus St Pauli <span class="show-note">w/ Mikey Hanson</span></span><span class="show-city">Hamburg, DE</span></div>
+      <div class="show-row"><span class="show-date">17 May</span><span class="show-venue">Hafen 2 <span class="show-note">supporting Penny Arcade</span></span><span class="show-city">Offenbach, DE</span></div>
+      <div class="show-row"><span class="show-date">18 May</span><span class="show-venue">Cafe Rabe</span><span class="show-city">Frankfurt, DE</span></div>
+      <div class="show-row"><span class="show-date">19 May</span><span class="show-venue">Mutter</span><span class="show-city">Kassel, DE</span></div>
+      <div class="show-row"><span class="show-date">20 May</span><span class="show-venue">D'Rentmeester</span><span class="show-city">Valthermond, NL</span></div>
+      <div class="show-row"><span class="show-date">21 May</span><span class="show-venue">Dobbelmannklooster <span class="show-note">w/ Yotam Ben Horin</span></span><span class="show-city">Nijmegen, NL</span></div>
+      <div class="show-row"><span class="show-date">22 May</span><span class="show-venue">House of Yvo</span><span class="show-city">Dordrecht, NL</span></div>
+      <div class="show-row"><span class="show-date">23 May</span><span class="show-venue">FarmFabriek</span><span class="show-city">Deinze, BE</span></div>
+      <div class="show-row"><span class="show-date">24 May</span><span class="show-venue">chez Fred <span class="show-note">w/ Docteur Z</span></span><span class="show-city">Paris, FR</span></div>
+
+      <p class="shows-tour-name">Spring EU 2025</p>
+      <div class="show-row"><span class="show-date">16 May</span><span class="show-venue">CEX Centro Excursionista</span><span class="show-city">Valencia, ES</span></div>
+      <div class="show-row"><span class="show-date">18 May</span><span class="show-venue">The BCN Studio</span><span class="show-city">Barcelona, ES</span></div>
+      <div class="show-row"><span class="show-date">24 May</span><span class="show-venue">Festival LoTech-Zero Dechet</span><span class="show-city">Toulon, FR</span></div>
+      <div class="show-row"><span class="show-date">25 May</span><span class="show-venue">Za Records</span><span class="show-city">Imperia, IT</span></div>
+      <div class="show-row"><span class="show-date">28 May</span><span class="show-venue">La Trésorerie <span class="show-note">w/ DULLBOY</span></span><span class="show-city">Nice, FR</span></div>
+      <div class="show-row"><span class="show-date">30 May</span><span class="show-venue">Théâtre de l'esplanade</span><span class="show-city">Draguignan, FR</span></div>
+      <div class="show-row"><span class="show-date">31 May</span><span class="show-venue">Le Nautilus <span class="show-note">w/ Xavier Mateú</span></span><span class="show-city">Perpignan, FR</span></div>
+
+      <p class="shows-tour-name">Winter / Spring 2024 · BC Canada</p>
+      <div class="show-row"><span class="show-date">8 Mar</span><span class="show-venue">C'Picaud</span><span class="show-city">Cannes, FR</span></div>
+      <div class="show-row"><span class="show-date">21 Mar</span><span class="show-venue">The Little Legion</span><span class="show-city">Roberts Creek, BC</span></div>
+      <div class="show-row"><span class="show-date">24 Mar</span><span class="show-venue">Green Auto</span><span class="show-city">Vancouver, BC</span></div>
+      <div class="show-row"><span class="show-date">29–31 Mar</span><span class="show-venue">Ignite the Arts Festival</span><span class="show-city">Penticton, BC</span></div>
+      <div class="show-row"><span class="show-date">5 Apr</span><span class="show-venue">Cranberry Hall</span><span class="show-city">Powell River, BC</span></div>
+      <div class="show-row"><span class="show-date">7 Apr</span><span class="show-venue">Wheelies</span><span class="show-city">Victoria, BC</span></div>
+
+      <p class="shows-tour-name">May Mini Album Launch Tour · EU 2023</p>
+      <div class="show-row"><span class="show-date">17 May</span><span class="show-venue">Karman Festival</span><span class="show-city">Augsburg, DE</span></div>
+      <div class="show-row"><span class="show-date">19 May</span><span class="show-venue">Joshua Blues Club</span><span class="show-city">Como, IT</span></div>
+      <div class="show-row"><span class="show-date">21 May</span><span class="show-venue">Za Records</span><span class="show-city">Imperia, IT</span></div>
+
+      <p class="shows-tour-name">Winter / Spring Album Launch Tour · Canada 2023</p>
+      <div class="show-row"><span class="show-date">30 Mar</span><span class="show-venue">The Lido <span class="show-note">w/ Ford Pier</span></span><span class="show-city">Vancouver, BC</span></div>
+      <div class="show-row"><span class="show-date">31 Mar</span><span class="show-venue">Midway Hall</span><span class="show-city">Osoyoos, BC</span></div>
+      <div class="show-row"><span class="show-date">1–2 Apr</span><span class="show-venue">Ignite the Arts Festival</span><span class="show-city">Penticton, BC</span></div>
+      <div class="show-row"><span class="show-date">7 Apr</span><span class="show-venue">Time &amp; Space Continuum</span><span class="show-city">Duncan, BC</span></div>
+      <div class="show-row"><span class="show-date">14 Apr</span><span class="show-venue">Dakota Tavern</span><span class="show-city">Toronto, ON</span></div>
+      <div class="show-row"><span class="show-date">15 Apr</span><span class="show-venue">Conspiracy Theory Brewing Co.</span><span class="show-city">Ottawa, ON</span></div>
+
+      <p class="shows-tour-name">Fall Trio Tour · France 2022</p>
+      <div class="show-row"><span class="show-date">20 Oct</span><span class="show-venue">Kraspek Myzik</span><span class="show-city">Lyon, FR</span></div>
+      <div class="show-row"><span class="show-date">21 Oct</span><span class="show-venue">chez France et Vincent</span><span class="show-city">Paris, FR</span></div>
+      <div class="show-row"><span class="show-date">22 Oct</span><span class="show-venue">3 Francs 6 Sous</span><span class="show-city">Le Pellerin, FR</span></div>
+      <div class="show-row"><span class="show-date">23 Oct</span><span class="show-venue">La Motte Aux Cochons</span><span class="show-city">Saint-Hilaire-de-Chaléons, FR</span></div>
+      <div class="show-row"><span class="show-date">28 Oct</span><span class="show-venue">Le Sillon LauZé</span><span class="show-city">Marvejols, FR</span></div>
+      <div class="show-row"><span class="show-date">29 Oct</span><span class="show-venue">Café Villageois</span><span class="show-city">Lauris, FR</span></div>
+      <div class="show-row"><span class="show-date">19 Nov</span><span class="show-venue">La Zonmé</span><span class="show-city">Nice, FR</span></div>
+
+      <p class="shows-tour-name">Summer Trio Tour · EU 2022</p>
+      <div class="show-row"><span class="show-date">6 Jul</span><span class="show-venue">Kulturhaus Kresslesmühle</span><span class="show-city">Augsburg, DE</span></div>
+      <div class="show-row"><span class="show-date">7 Jul</span><span class="show-venue">Světadíl</span><span class="show-city">České Budějovice, CZ</span></div>
+      <div class="show-row"><span class="show-date">8 Jul</span><span class="show-venue">Boskovice Festival</span><span class="show-city">Boskovice, CZ</span></div>
+      <div class="show-row"><span class="show-date">9 Jul</span><span class="show-venue">A38 <span class="show-note">w/ Claudia Buzzetti</span></span><span class="show-city">Budapest, HU</span></div>
+      <div class="show-row"><span class="show-date">10 Jul</span><span class="show-venue">Kilele Music Cafe <span class="show-note">w/ Claudia Buzzetti</span></span><span class="show-city">Kecskemét, HU</span></div>
+      <div class="show-row"><span class="show-date">12 Jul</span><span class="show-venue">Jazz Kocsma</span><span class="show-city">Szeged, HU</span></div>
+      <div class="show-row"><span class="show-date">13 Jul</span><span class="show-venue">Kulturni Centar Mesnička</span><span class="show-city">Zagreb, HR</span></div>
+      <div class="show-row"><span class="show-date">15 Jul</span><span class="show-venue">Joshua Blues Club <span class="show-note">w/ Claudia Buzzetti</span></span><span class="show-city">Como, IT</span></div>
+      <div class="show-row"><span class="show-date">16 Jul</span><span class="show-venue">House concert</span><span class="show-city">Albino, IT</span></div>
+      <div class="show-row"><span class="show-date">17 Jul</span><span class="show-venue">Za Records</span><span class="show-city">Imperia, IT</span></div>
+
+      <p class="shows-tour-name">Music for Democracy · International Live Stream</p>
+      <div class="show-row"><span class="show-date">28 Sep</span><span class="show-venue">YouTube — 6pm CEST</span><span class="show-city">Online</span></div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TSS Press Reviews Modal -->
+<div id="tss-modal" aria-modal="true" role="dialog">
+  <div class="tss-backdrop" id="tss-backdrop"></div>
+  <div class="tss-inner">
+    <div class="tss-header">
+      <h2>Time Spent Swimming</h2>
+      <p>2022 · Press Reviews</p>
+      <button class="tss-close" id="tss-close" aria-label="Close">×</button>
+    </div>
+    <div class="tss-body">
+      <div class="tss-review nacc-entry">
+        <blockquote>#1</blockquote>
+        <p style="font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px;">NACC 200 Chart · Top Debut · January 2023</p>
+        <cite>North American College &amp; Community Radio</cite>
+      </div>
+      <a href="https://exclaim.ca/music/article/selina_martin_time_spent_swimming_album_review" class="tss-review" target="_blank" rel="noopener">
+        <blockquote>"Time Spent Swimming shoots into the stratosphere"</blockquote>
+        <cite>Exclaim!, CAN ↗</cite>
+      </a>
+      <div class="tss-review">
+        <blockquote>"five-stars — I found time between gigs to write this review because the record is so good"</blockquote>
+        <cite>West End Phoenix, CAN</cite>
+      </div>
+      <a href="https://www.rootsmusic.ca/2023/03/01/why-dave-mceathron-says-you-should-listen-to-the-new-selina-martin-album-right-now/" class="tss-review" target="_blank" rel="noopener">
+        <blockquote>"this is a master work by an artist at the peak of her potential"</blockquote>
+        <cite>Roots Music Canada ↗</cite>
+      </a>
+      <a href="https://www.rootsmusic.ca/2023/03/01/why-dave-mceathron-says-you-should-listen-to-the-new-selina-martin-album-right-now/" class="tss-review" target="_blank" rel="noopener">
+        <blockquote>"This is a recording that not only bears repeated listens; it rewards each hearing with new revelations of an astonishing depth"</blockquote>
+        <cite>Roots Music Canada ↗</cite>
+      </a>
+      <a href="https://spillmagazine.com/spill-album-review-selina-martin-time-spent-swimming/" class="tss-review" target="_blank" rel="noopener">
+        <blockquote>"musically and lyrically the album is as full of atmosphere, emotion and power as anything in Selina Martin's catalogue"</blockquote>
+        <cite>Spill Magazine, CAN ↗</cite>
+      </a>
+      <a href="https://vinyl-keks.eu/selina-martin-time-spent-swimming/" class="tss-review" target="_blank" rel="noopener">
+        <blockquote>"it's not only a strong album, it's one of the strongest albums of 2022"</blockquote>
+        <cite>Vinyl-keks, DE ↗</cite>
+      </a>
+      <div class="tss-review">
+        <blockquote>"in the same league as Björk and PJ Harvey"</blockquote>
+        <cite>Münstersche Zeitung, DE</cite>
+      </div>
+      <div class="tss-review">
+        <blockquote>"Top Albums of 2022"</blockquote>
+        <cite>The Globe &amp; Mail, CAN</cite>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const IS_MOBILE = window.innerWidth <= 860;
+
+/* ─── Cursor ─── */
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: 'power2.out' });
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('large'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('large'));
+});
+
+/* ─── Nav ─── */
+const nav       = document.getElementById('nav');
+const navLis    = document.querySelectorAll('#nav-links li');
+const pill      = document.getElementById('nav-pill');
+const navUl     = document.getElementById('nav-links');
+
+function positionPill(li) {
+  if (!li || !navUl) return;
+  const lr = li.getBoundingClientRect();
+  const ur = navUl.getBoundingClientRect();
+  pill.style.left  = (lr.left - ur.left) + 'px';
+  pill.style.top   = ((lr.top - ur.top) + lr.height/2) + 'px';
+  pill.style.width = lr.width + 'px';
+}
+function setActive(id) {
+  navLis.forEach(li => {
+    const on = li.dataset.section === id;
+    li.classList.toggle('active', on);
+    if (on) positionPill(li);
+  });
+  nav.classList.toggle('light-bg', id !== 'home');
+}
+
+/* ─── Nav link clicks ─── */
+document.querySelectorAll('[data-scroll]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id    = a.dataset.scroll;
+    const panel = document.getElementById(id);
+    if (!panel) return;
+    if (IS_MOBILE) {
+      panel.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      /* In the GSAP pin setup, 1px of vertical scroll = 1px of horizontal track travel.
+         So scrolling to panel.offsetLeft brings that section into view. */
+      window.scrollTo({ top: panel.offsetLeft, behavior: 'smooth' });
+    }
+  });
+});
+
+/* ─── Photo modal with gallery navigation ─── */
+const photoModal   = document.getElementById('photo-modal');
+const modalImg     = document.getElementById('modal-img');
+const modalPrev    = document.getElementById('modal-prev');
+const modalNext    = document.getElementById('modal-next');
+const modalCounter = document.getElementById('modal-counter');
+
+let gallery    = [];
+let galleryIdx = -1;
+
+function showModalAt(idx) {
+  const item = gallery[idx];
+  if (!item) return;
+  galleryIdx = idx;
+  modalImg.src = item.src;
+  modalImg.alt = item.alt;
+  const multi = gallery.length > 1;
+  modalPrev.classList.toggle('nav-hidden', !multi || idx === 0);
+  modalNext.classList.toggle('nav-hidden', !multi || idx === gallery.length - 1);
+  modalCounter.textContent = multi ? (idx + 1) + ' / ' + gallery.length : '';
+}
+
+function openModal(src, alt, items) {
+  gallery    = items || [{ src, alt }];
+  galleryIdx = items ? Math.max(0, items.findIndex(i => i.src === src)) : 0;
+  photoModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  showModalAt(galleryIdx);
+}
+
+function closeModal() {
+  photoModal.classList.remove('open');
+  document.body.style.overflow = '';
+  gallery = []; galleryIdx = -1;
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+modalPrev.addEventListener('click', () => { if (galleryIdx > 0) showModalAt(galleryIdx - 1); });
+modalNext.addEventListener('click', () => { if (galleryIdx < gallery.length - 1) showModalAt(galleryIdx + 1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeTssModal(); closeShowsModal(); closeVideoModal(); }
+  if (e.key === 'ArrowLeft'  && gallery.length > 1) showModalAt(Math.max(0, galleryIdx - 1));
+  if (e.key === 'ArrowRight' && gallery.length > 1) showModalAt(Math.min(gallery.length - 1, galleryIdx + 1));
+});
+
+/* ─── Video Modal ─── */
+const videoModal       = document.getElementById('video-modal');
+const videoModalPlayer = document.getElementById('video-modal-player');
+
+function openVideoModal(src, poster) {
+  videoModalPlayer.src = src;
+  videoModalPlayer.poster = poster || '';
+  videoModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  videoModalPlayer.play().catch(() => {});
+}
+function closeVideoModal() {
+  videoModal.classList.remove('open');
+  document.body.style.overflow = '';
+  videoModalPlayer.pause();
+  videoModalPlayer.removeAttribute('src');
+  videoModalPlayer.load();
+}
+document.getElementById('video-modal-close').addEventListener('click', closeVideoModal);
+document.getElementById('video-modal-backdrop').addEventListener('click', closeVideoModal);
+
+document.querySelectorAll('.home-video-card, .live-video').forEach(card => {
+  card.addEventListener('mouseenter', () => cursor && cursor.classList.add('large'));
+  card.addEventListener('mouseleave', () => cursor && cursor.classList.remove('large'));
+  card.addEventListener('click', () => openVideoModal(card.dataset.videoSrc, card.dataset.videoPoster));
+});
+
+/* ─── TSS Reviews Modal ─── */
+const tssModal  = document.getElementById('tss-modal');
+function openTssModal()  { tssModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeTssModal() { tssModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+const tssBtn = document.getElementById('tss-reviews-btn');
+if (tssBtn) tssBtn.addEventListener('click', openTssModal);
+document.getElementById('tss-close').addEventListener('click', closeTssModal);
+document.getElementById('tss-backdrop').addEventListener('click', closeTssModal);
+
+/* ─── Shows Modal ─── */
+const showsModal = document.getElementById('shows-modal');
+function openShowsModal()  { showsModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeShowsModal() { showsModal.classList.remove('open'); document.body.style.overflow = ''; }
+const showsBtn = document.getElementById('shows-btn');
+if (showsBtn) showsBtn.addEventListener('click', openShowsModal);
+document.getElementById('shows-close').addEventListener('click', closeShowsModal);
+document.getElementById('shows-backdrop').addEventListener('click', closeShowsModal);
+const showsMlLink = document.getElementById('shows-ml-link');
+if (showsMlLink) showsMlLink.addEventListener('click', closeShowsModal);
+
+/* Live photos: click → gallery modal, hover → cursor enlarge */
+const livePhotoGallery = [...document.querySelectorAll('.live-photo img')]
+  .map(img => ({ src: img.src, alt: img.alt }));
+
+document.querySelectorAll('.live-photo').forEach((ph, i) => {
+  ph.addEventListener('mouseenter', () => cursor && cursor.classList.add('large'));
+  ph.addEventListener('mouseleave', () => cursor && cursor.classList.remove('large'));
+  ph.addEventListener('click', () => {
+    const img = ph.querySelector('img');
+    if (img) openModal(img.src, img.alt, livePhotoGallery);
+  });
+});
+
+/* Press article images: click → modal */
+document.querySelectorAll('.press-img').forEach(pi => {
+  pi.addEventListener('mouseenter', () => cursor && cursor.classList.add('large'));
+  pi.addEventListener('mouseleave', () => cursor && cursor.classList.remove('large'));
+  pi.addEventListener('click', () => {
+    const img = pi.querySelector('img');
+    if (img) openModal(img.src, img.alt);
+  });
+});
+
+/* ════════════════════════════════════
+   DESKTOP: GSAP horizontal scroll
+════════════════════════════════════ */
+if (!IS_MOBILE) {
+  const track = document.getElementById('h-track');
+  const vw    = () => window.innerWidth;
+
+  /* Trackpad horizontal → vertical remap */
+  window.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 3) {
+      e.preventDefault();
+      window.scrollBy(0, e.deltaX);
+    }
+  }, { passive: false });
+
+  /* (modal wired globally above) */
+
+  /* ── Elements to animate ── */
+  const homePhotoWrap  = document.getElementById('home-photo-wrap');
+  const homePhotoInner = document.getElementById('home-photo-inner');
+  const scrollHint     = document.getElementById('scroll-hint');
+  const pressSection   = document.getElementById('press');
+  const pressTitleEl   = document.getElementById('press-title');
+  const pressQuotes    = [...pressSection.querySelectorAll('.press-quote')];
+  const pressImgs      = [...pressSection.querySelectorAll('.press-img')];
+  const livePhotos     = [...document.querySelectorAll('.live-photo')];
+  const aboutStations  = [...document.querySelectorAll('.about-station')];
+
+  /* Press images drift directions */
+  const imgDrifts = [
+    [ 50, -30, -20,  15],
+    [-50,  30,  20, -15],
+    [ 30,  50, -15, -20],
+  ];
+  pressImgs.forEach(img => gsap.set(img, { opacity: 0 }));
+
+  /* Subtle per-quote rotations — set once, preserved through lifecycle updates */
+  const quoteRots = [0, 0.5, -0.8, 0, 0.6, -0.5, 0, 0.9, -0.4, 0, 0.7, -0.6, 0, 0.5, -0.3, 0, 0.6, -0.8, 0.4, -0.5];
+
+  /* Per-quote drift: [xIn, yIn, xOut, yOut]
+     Generous amounts so the motion is clearly visible from different directions. */
+  const quoteDrifts = [
+    [ 90,   0, -28,   0],  //  1 from right
+    [  0,  80,   0, -28],  //  2 from below
+    [-90,   0,  28,   0],  //  3 from left
+    [ 65,  65, -24, -24],  //  4 diagonal lower-right
+    [  0, -80,   0,  28],  //  5 from above
+    [ 90,   0, -28,   0],  //  6 from right
+    [-65,  65,  24, -24],  //  7 diagonal lower-left
+    [ 65, -65, -24,  24],  //  8 diagonal upper-right
+    [  0,  80,   0, -28],  //  9 from below
+    [-90,   0,  28,   0],  // 10 from left
+    [  0, -80,   0,  28],  // 11 from above
+    [ 90,   0, -28,   0],  // 12 from right
+    [-65, -65,  24,  24],  // 13 diagonal upper-left
+    [  0,  80,   0, -28],  // 14 from below
+    [-90,   0,  28,   0],  // 15 from left
+    [ 65,  65, -24, -24],  // 16 diagonal lower-right
+    [  0, -80,   0,  28],  // 17 from above
+    [-65,  65,  24, -24],  // 18 diagonal lower-left
+    [ 90,   0, -28,   0],  // 19 from right
+    [  0,  80,   0, -28],  // 20 from below
+  ];
+
+  pressQuotes.forEach((q, i) => gsap.set(q, { opacity: 0, rotation: quoteRots[i] || 0 }));
+
+  gsap.set(livePhotos,    { opacity: 0, y: 14 });
+  gsap.set(aboutStations, { opacity: 0, y: 24 });
+
+  /* Track one-time reveals (about, live) */
+  const revealed = {
+    live:  new Array(livePhotos.length).fill(false),
+    about: new Array(aboutStations.length).fill(false),
+  };
+
+  /* (live photo clicks wired globally above) */
+
+  /* ── Ken Burns on home photo (inner element) ── */
+  gsap.fromTo(homePhotoInner,
+    { scale: 1.0 },
+    { scale: 1.07, duration: 20, ease: 'sine.inOut', yoyo: true, repeat: -1 }
+  );
+
+  /* ── Main horizontal scroll tween ── */
+  const hTween = gsap.to(track, {
+    x: () => -(track.scrollWidth - vw()),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#pin-container',
+      pin: true,
+      scrub: 1,
+      start: 'top top',
+      end: () => '+=' + (track.scrollWidth - vw()),
+      invalidateOnRefresh: true,
+
+      onUpdate(self) {
+        const totalTravel = track.scrollWidth - vw();
+        const currentX    = self.progress * totalTravel;
+
+        /* ── Active section (nav) ── */
+        const panels = track.querySelectorAll('.panel');
+        let active = 'home';
+        panels.forEach(p => {
+          if (p.offsetLeft <= currentX + vw() * 0.5) active = p.id;
+        });
+        setActive(active);
+
+        /* ── Home: scroll hint fades, photo recedes ── */
+        if (self.progress > 0.004) {
+          gsap.to(scrollHint, { opacity: 0, duration: 0.4, overwrite: true });
+        }
+        const homeP = Math.min(currentX / vw(), 1);
+        /* Social rail stays visible across all sections (glass pill handles contrast) */
+        /* Brief scale-up (bulge) as scroll begins, then recession */
+        const homeScale = homeP < 0.12
+          ? 1 + homeP * 0.25               // 0 → 1.03
+          : 1.03 - (homeP - 0.12) * 0.245; // 1.03 → ~0.82
+        gsap.set(homePhotoWrap, {
+          scale:   homeScale,
+          opacity: 1 - homeP * 0.82,
+        });
+
+        /* ── PRESS title: fades out as you scroll into the section,
+              overlapping with the first quotes blooming in ── */
+        const pressOffset = currentX - pressSection.offsetLeft;
+        if (pressOffset >= 0 && pressTitleEl) {
+          const t = Math.max(0, Math.min(1, pressOffset / (vw() * 0.52)));
+          gsap.set(pressTitleEl, { opacity: 1 - t, y: t * -38 });
+        } else if (pressTitleEl) {
+          gsap.set(pressTitleEl, { opacity: 1, y: 0 });
+        }
+
+        /* ── Reveal: use getBoundingClientRect since track is translated ── */
+        const W = vw();
+
+        /* About stations */
+        aboutStations.forEach((el, i) => {
+          if (!revealed.about[i] && el.getBoundingClientRect().left < W * 0.85) {
+            revealed.about[i] = true;
+            gsap.to(el, { opacity: 1, y: 0, duration: 0.75, delay: i * 0.12, ease: 'power3.out' });
+          }
+        });
+
+        /* Live photos */
+        livePhotos.forEach((el, i) => {
+          if (!revealed.live[i] && el.getBoundingClientRect().left < W * 0.88) {
+            revealed.live[i] = true;
+            gsap.to(el, { opacity: 1, y: 0, duration: 1.4, delay: i * 0.07, ease: 'power1.out' });
+          }
+        });
+
+        /* Press quotes — continuous scroll-linked lifecycle.
+           Each quote slides in from the right, peaks at its natural position,
+           then fades out as it exits left. All driven by getBoundingClientRect
+           which reflects the live translated position of the track. */
+        pressQuotes.forEach((q, i) => {
+          const rect    = q.getBoundingClientRect();
+          const centerX = rect.left + rect.width * 0.5;
+          const traveled = W - centerX;
+          const total    = W + rect.width;
+          const p        = Math.min(1.1, traveled / total);
+
+          const drift = quoteDrifts[i] || [36, 0, -18, 0];
+          const [xIn, yIn, xOut, yOut] = drift;
+
+          let opacity, scale, xOff, yOff;
+          if (p < -0.14) {
+            opacity = 0; scale = 0.93; xOff = xIn; yOff = yIn;
+          } else if (p < 0.28) {
+            const t = (p + 0.14) / 0.42;
+            opacity = t * 0.97;
+            scale   = 0.92 + 0.08 * t;
+            xOff    = xIn * (1 - t);
+            yOff    = yIn * (1 - t);
+          } else if (p < 0.64) {
+            opacity = 1; scale = 1; xOff = 0; yOff = 0;
+          } else if (p < 0.92) {
+            const t = (p - 0.64) / 0.28;
+            opacity = 1 - t;
+            scale   = 1 - 0.04 * t;
+            xOff    = xOut * t;
+            yOff    = yOut * t;
+          } else {
+            opacity = 0; scale = 0.96; xOff = xOut; yOff = yOut;
+          }
+
+          gsap.set(q, { opacity, scale, x: xOff, y: yOff, rotation: quoteRots[i] || 0 });
+        });
+
+        /* Press images — same lifecycle as quotes, no rotation */
+        pressImgs.forEach((img, i) => {
+          const rect    = img.getBoundingClientRect();
+          const centerX = rect.left + rect.width * 0.5;
+          const p       = Math.min(1.1, (W - centerX) / (W + rect.width));
+          const drift   = imgDrifts[i] || [50, 0, -20, 0];
+          const [xIn, yIn, xOut, yOut] = drift;
+
+          let opacity, scale, xOff, yOff;
+          if (p < -0.14) {
+            opacity = 0; scale = 0.94; xOff = xIn; yOff = yIn;
+          } else if (p < 0.28) {
+            const t = (p + 0.14) / 0.42;
+            opacity = t * 0.88; scale = 0.93 + 0.07 * t;
+            xOff = xIn * (1 - t); yOff = yIn * (1 - t);
+          } else if (p < 0.64) {
+            opacity = 0.88; scale = 1; xOff = 0; yOff = 0;
+          } else if (p < 0.92) {
+            const t = (p - 0.64) / 0.28;
+            opacity = 0.88 * (1 - t); scale = 1 - 0.04 * t;
+            xOff = xOut * t; yOff = yOut * t;
+          } else {
+            opacity = 0; scale = 0.96; xOff = xOut; yOff = yOut;
+          }
+          gsap.set(img, { opacity, scale, x: xOff, y: yOff });
+        });
+      }
+    }
+  });
+
+  window.addEventListener('load', () => {
+    setActive('home');
+    ScrollTrigger.refresh();
+  });
+  window.addEventListener('resize', () => {
+    ScrollTrigger.refresh();
+    const act = document.querySelector('#nav-links li.active');
+    if (act) positionPill(act);
+  });
+
+} else {
+  /* ════════════════
+     MOBILE: vertical
+  ════════════════ */
+  nav.classList.add('light-bg');
+
+  /* Move press quotes into mobile wrapper */
+  const mobileWrap = document.getElementById('press-mobile');
+  mobileWrap.style.display = 'block';
+  document.querySelectorAll('#press .press-quote').forEach(q => mobileWrap.appendChild(q));
+
+  /* Remove press-header from absolute positioning */
+  const ph = document.querySelector('.press-header');
+  if (ph) { ph.style.position = 'static'; ph.style.padding = '80px 28px 0'; }
+
+  /* Fade-in on scroll */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        gsap.to(e.target, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.about-station,.live-photo').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 20 });
+    io.observe(el);
+  });
+
+  /* Press quotes need reveal on mobile too (CSS sets opacity: 0) */
+  document.querySelectorAll('.press-quote').forEach(q => {
+    gsap.set(q, { opacity: 0, y: 14, x: 0, scale: 1, rotation: 0 });
+    io.observe(q);
+  });
+
+  /* Simple scroll active tracking */
+  const allSections = document.querySelectorAll('section[id]');
+  const sectionIO = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.4) setActive(e.target.id); });
+  }, { threshold: 0.4 });
+  allSections.forEach(s => sectionIO.observe(s));
+  window.addEventListener('load', () => setActive('home'));
+}
+</script>
+</body>
+</html>
