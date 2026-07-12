@@ -129,7 +129,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 #home    { width: 100vw; }
 #music   { width: 178vw; }
 #about   { width: 360vw; }
-#live    { width: 258vw; }
+#live    { width: 440vw; }
 #press   { width: 500vw; }
 #contact { width: 88vw;  }
 
@@ -483,6 +483,48 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 .album-embed.featured { box-shadow: 0 32px 72px rgba(26,21,16,.16); }
 .album-embed.featured:hover { box-shadow: 0 52px 96px rgba(26,21,16,.28); }
 
+/* Hover-reveal pull-quote card, floating above each album */
+.album-item { position: relative; flex-shrink: 0; }
+.album-quote {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  width: 240px; max-width: 70vw;
+  padding: 16px 18px;
+  background: rgba(18,14,11,.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 20px 48px rgba(26,21,16,.3);
+  opacity: 0; pointer-events: none;
+  transition: opacity .28s ease, transform .28s ease;
+  z-index: 5;
+}
+.album-quote::after {
+  content: '';
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: rgba(18,14,11,.94);
+}
+.album-item:hover .album-quote {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.album-quote blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 1.02rem; line-height: 1.42;
+  color: #f5f1eb;
+  margin-bottom: 8px;
+}
+.album-quote cite {
+  font-family: 'Outfit', sans-serif;
+  font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent); font-style: normal;
+}
+
 
 /* ════════════════
    ABOUT
@@ -568,7 +610,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 .live-header .section-label { color: var(--accent); }
 .live-header .section-title { color: var(--bg); }
 .live-subline {
-  font-size: .75rem; color: rgba(245,241,235,.32); letter-spacing: .06em; margin-top: 4px;
+  font-size: .78rem; color: rgba(245,241,235,.62); letter-spacing: .06em; margin-top: 4px;
 }
 
 /* Flowing gallery — staggered vertical positions, top-aligned base so margin-top offsets work */
@@ -604,13 +646,24 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   height: 100%;
   object-fit: cover;
 }
-/* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard */
-.live-photo:nth-child(2) { width: 360px; height: 66vh; margin-top: 7vh;  }
-.live-photo:nth-child(3) { width: 560px; height: 54vh; margin-top: 0;    }
-.live-photo:nth-child(4) { width: 300px; height: 70vh; margin-top: 14vh; }
-.live-photo:nth-child(5) { width: 490px; height: 52vh; margin-top: 4vh;  }
-.live-photo:nth-child(6) { width: 340px; height: 63vh; margin-top: 19vh; }
-.live-photo:nth-child(7) { width: 520px; height: 57vh; margin-top: 9vh;  }
+/* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard.
+   Sized via explicit classes (not nth-child) so photos can be reordered/added freely. */
+.lp-1  { width: 360px; height: 66vh; margin-top: 7vh;  }
+.lp-2  { width: 560px; height: 54vh; margin-top: 0;    }
+.lp-3  { width: 280px; height: 60vh; margin-top: 10vh; }
+.lp-4  { width: 300px; height: 70vh; margin-top: 14vh; }
+.lp-5  { width: 480px; height: 42vh; margin-top: 2vh;  }
+.lp-6  { width: 490px; height: 52vh; margin-top: 4vh;  }
+.lp-7  { width: 260px; height: 66vh; margin-top: 17vh; }
+.lp-8  { width: 300px; height: 62vh; margin-top: 6vh;  }
+.lp-9  { width: 340px; height: 63vh; margin-top: 19vh; }
+.lp-10 { width: 440px; height: 46vh; margin-top: 1vh;  }
+.lp-11 { width: 280px; height: 68vh; margin-top: 12vh; }
+.lp-12 { width: 520px; height: 57vh; margin-top: 9vh;  }
+.lp-13 { width: 460px; height: 44vh; margin-top: 15vh; }
+.lp-14 { width: 420px; height: 48vh; margin-top: 3vh;  }
+.lp-15 { width: 260px; height: 58vh; margin-top: 13vh; }
+.lp-16 { width: 300px; height: 64vh; margin-top: 5vh;  }
 
 /* Live video players — click-to-open thumbnails; real playback in the video modal */
 .live-video {
@@ -630,14 +683,14 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 18px 28px 56px rgba(0,0,0,.65);
   z-index: 2;
 }
-.live-video:nth-child(1) { width: 430px; height: 55vh; margin-top: 14vh; }
-.live-video:nth-child(8) { width: 480px; height: 62vh; margin-top: 3vh;  }
+.lp-video-first { width: 430px; height: 55vh; margin-top: 14vh; }
+.lp-video-last  { width: 480px; height: 62vh; margin-top: 3vh;  }
 
 .live-credit {
   flex-shrink: 0;
   padding: 10px 0 20px;
-  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
-  color: rgba(245,241,235,.18); text-align: right;
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(245,241,235,.6); text-align: right;
 }
 
 
@@ -794,11 +847,11 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 #press-quotes .press-quote:nth-child(18) { top: 58%; left: 97%; max-width: 300px; }
 #press-quotes .press-quote:nth-child(18) blockquote { font-size: clamp(1.35rem,2.0vw,1.65rem); }
 
-#press-quotes .press-quote:nth-child(19) { top: 70%; left: 21%; max-width: 500px; }
-#press-quotes .press-quote:nth-child(19) blockquote { font-size: clamp(1.5rem,2.2vw,1.85rem); }
+#press-quotes .press-quote:nth-child(19) { top: 41%; left: 32%; max-width: 380px; }
+#press-quotes .press-quote:nth-child(19) blockquote { font-size: clamp(1.4rem,2.0vw,1.7rem); }
 
-#press-quotes .press-quote:nth-child(20) { top: 70%; left: 47%; max-width: 460px; }
-#press-quotes .press-quote:nth-child(20) blockquote { font-size: clamp(1.55rem,2.3vw,1.9rem); }
+#press-quotes .press-quote:nth-child(20) { top: 41%; left: 58%; max-width: 360px; }
+#press-quotes .press-quote:nth-child(20) blockquote { font-size: clamp(1.4rem,2.0vw,1.7rem); }
 
 /* Press section floating article images */
 .press-img {
@@ -817,9 +870,9 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 0 28px 72px rgba(26,21,16,.34);
 }
 .press-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
-#press-img-1 { top: 26%; left: 28%; width: 260px; height: 360px; }
-#press-img-2 { top: 32%; left: 52%; width: 230px; height: 310px; }
-#press-img-3 { top: 28%; left: 76%; width: 250px; height: 340px; }
+#press-img-1 { top: 40%; left: 28%; width: 240px; height: 130px; }
+#press-img-2 { top: 37%; left: 52%; width: 230px; height: 130px; }
+#press-img-3 { top: 30%; left: 76%; width: 200px; height: 255px; }
 
 /* TSS Reviews button on the featured album */
 .tss-reviews-btn {
@@ -878,13 +931,17 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   color: var(--accent);
 }
 .tss-close {
-  position: absolute; top: 18px; right: 22px;
-  background: none; border: none;
-  color: var(--text-muted); font-size: 1.4rem;
-  padding: 4px 8px; line-height: 1;
-  cursor: none; transition: color .2s;
+  position: absolute; top: 14px; right: 16px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(26,21,16,.08);
+  border: 1px solid rgba(26,21,16,.14);
+  border-radius: 50%;
+  color: var(--text); font-size: 1.3rem;
+  padding: 0; line-height: 1;
+  cursor: none; transition: color .2s, background .2s;
 }
-.tss-close:hover { color: var(--text); }
+.tss-close:hover { color: var(--text); background: rgba(26,21,16,.16); }
 .tss-body { overflow-y: auto; padding: 8px 32px 32px; }
 .tss-body::-webkit-scrollbar { width: 4px; }
 .tss-body::-webkit-scrollbar-track { background: transparent; }
@@ -915,6 +972,143 @@ a.tss-review:hover { opacity: .72; }
   font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
   color: var(--accent); font-style: normal;
 }
+
+
+/* ════════════════
+   MUSIC RESUME / CV MODAL
+════════════════ */
+.resume-modal {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.resume-modal.open { opacity: 1; pointer-events: all; }
+.resume-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.88);
+  cursor: none;
+}
+.resume-inner {
+  position: relative; z-index: 1;
+  width: min(860px, 94vw);
+  height: min(880px, 88vh);
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 0 40px 100px rgba(0,0,0,.5);
+  transform: scale(.96);
+  transition: transform .3s ease;
+}
+.resume-modal.open .resume-inner { transform: scale(1); }
+.resume-header {
+  padding: 22px 60px 18px 28px;
+  border-bottom: 1px solid rgba(26,21,16,.08);
+  flex-shrink: 0;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 20px;
+}
+.resume-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 300; color: var(--text);
+  margin-bottom: 3px;
+}
+.resume-header p {
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent);
+}
+.resume-download {
+  flex-shrink: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid rgba(138,96,64,.35);
+  padding-bottom: 2px; white-space: nowrap;
+  cursor: none; transition: opacity .2s;
+}
+.resume-download:hover { opacity: .65; }
+.resume-body { flex: 1; min-height: 0; background: #fff; }
+.resume-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ════════════════
+   LINER NOTES / LYRICS MODAL
+════════════════ */
+.liner-modal {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.liner-modal.open { opacity: 1; pointer-events: all; }
+.liner-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(8,5,4,.88);
+  cursor: none;
+}
+.liner-inner {
+  position: relative; z-index: 1;
+  width: min(720px, 94vw);
+  max-height: 86vh;
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 0 40px 100px rgba(0,0,0,.5);
+  transform: scale(.96);
+  transition: transform .3s ease;
+}
+.liner-modal.open .liner-inner { transform: scale(1); }
+.liner-header {
+  padding: 28px 60px 18px 32px;
+  border-bottom: 1px solid rgba(26,21,16,.08);
+  flex-shrink: 0;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 20px;
+}
+.liner-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 300; color: var(--text);
+  margin-bottom: 3px;
+}
+.liner-header p {
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent);
+}
+.liner-body {
+  overflow-y: auto;
+  padding: 8px 32px 40px;
+  scrollbar-width: thin; scrollbar-color: rgba(138,96,64,.35) transparent;
+}
+.liner-body::-webkit-scrollbar { width: 4px; }
+.liner-body::-webkit-scrollbar-track { background: transparent; }
+.liner-body::-webkit-scrollbar-thumb { background: rgba(138,96,64,.3); border-radius: 2px; }
+.liner-credits {
+  font-size: .82rem; line-height: 1.8; color: var(--text-sec);
+  padding: 22px 0 8px;
+  border-bottom: 1px solid rgba(26,21,16,.08);
+  margin-bottom: 8px;
+}
+.liner-track {
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(26,21,16,.06);
+}
+.liner-track:last-child { border-bottom: none; }
+.liner-track h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 400; font-style: italic;
+  color: var(--text); margin-bottom: 6px;
+}
+.liner-musicians {
+  font-size: .72rem; letter-spacing: .02em; line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+.liner-track p:not(.liner-musicians) {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-style: italic; line-height: 1.6;
+  color: var(--text-sec);
+  margin-bottom: 14px;
+}
+.liner-track p:last-child { margin-bottom: 0; }
 
 
 /* ════════════════
@@ -1018,13 +1212,17 @@ a.tss-review:hover { opacity: .72; }
   color: var(--text-muted);
 }
 .shows-close {
-  position: absolute; top: 24px; right: 32px;
-  background: none; border: none;
-  font-size: 2.2rem; line-height: 1;
-  color: rgba(245,241,235,.35);
-  cursor: none; transition: color .2s;
+  position: absolute; top: 20px; right: 24px;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(245,241,235,.1);
+  border: 1px solid rgba(245,241,235,.18);
+  border-radius: 50%;
+  font-size: 1.7rem; line-height: 1;
+  color: rgba(245,241,235,.8);
+  cursor: none; transition: color .2s, background .2s;
 }
-.shows-close:hover { color: var(--bg); }
+.shows-close:hover { color: var(--bg); background: rgba(245,241,235,.92); }
 .shows-body {
   overflow-y: auto;
   padding: 12px 52px 54px;
@@ -1056,34 +1254,36 @@ a.tss-review:hover { opacity: .72; }
   font-family: 'Outfit', sans-serif;
   font-size: .88rem; font-weight: 500;
   letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(245,241,235,.28);
+  color: rgba(245,241,235,.5);
   margin: 36px 0 8px;
 }
 .shows-tour-name:first-of-type { margin-top: 10px; }
 .show-row {
   display: flex; align-items: baseline; gap: 22px;
   padding: 14px 0;
-  border-bottom: 1px solid rgba(245,241,235,.04);
+  border-bottom: 1px solid rgba(245,241,235,.06);
 }
 .show-row:last-child { border-bottom: none; }
 .show-date {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.4rem; font-style: italic; font-weight: 300;
-  color: var(--accent);
+  color: #d4a878;
   flex: 0 0 96px;
 }
 .show-venue {
   flex: 1;
-  font-size: 1.25rem; color: rgba(245,241,235,.82);
+  font-size: .92rem; color: rgba(245,241,235,.48);
 }
 .show-city {
-  font-size: 1.05rem; color: rgba(245,241,235,.32);
-  letter-spacing: .06em;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem; font-weight: 500;
+  color: #f5f1eb;
+  letter-spacing: .02em;
   flex-shrink: 0;
 }
 .show-note {
   display: block;
-  font-size: .95rem; color: rgba(245,241,235,.28);
+  font-size: .85rem; color: rgba(245,241,235,.42);
   letter-spacing: .04em;
   margin-top: 3px;
 }
@@ -1119,13 +1319,19 @@ a.tss-review:hover { opacity: .72; }
   box-shadow: 0 40px 100px rgba(0,0,0,.7);
 }
 .modal-close {
-  position: absolute; top: -40px; right: 0;
-  background: none; border: none;
-  color: rgba(245,241,235,.5); font-size: 1.5rem;
-  padding: 6px 10px; line-height: 1;
-  cursor: none; transition: color .2s;
+  position: absolute; top: -52px; right: 0;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(14,10,8,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245,241,235,.2);
+  border-radius: 50%;
+  color: rgba(245,241,235,.9); font-size: 1.35rem;
+  padding: 0; line-height: 1;
+  cursor: none; transition: color .2s, background .2s;
 }
-.modal-close:hover { color: #f5f1eb; }
+.modal-close:hover { color: #f5f1eb; background: rgba(14,10,8,.85); }
 
 /* Gallery prev/next */
 .modal-prev, .modal-next {
@@ -1195,13 +1401,19 @@ a.tss-review:hover { opacity: .72; }
   box-shadow: 0 40px 100px rgba(0,0,0,.7);
 }
 .video-modal-close {
-  position: absolute; top: -40px; right: 0;
-  background: none; border: none;
-  color: rgba(245,241,235,.5); font-size: 1.5rem;
-  padding: 6px 10px; line-height: 1;
-  cursor: none; transition: color .2s;
+  position: absolute; top: -52px; right: 0;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(14,10,8,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245,241,235,.2);
+  border-radius: 50%;
+  color: rgba(245,241,235,.9); font-size: 1.35rem;
+  padding: 0; line-height: 1;
+  cursor: none; transition: color .2s, background .2s;
 }
-.video-modal-close:hover { color: #f5f1eb; }
+.video-modal-close:hover { color: #f5f1eb; background: rgba(14,10,8,.85); }
 
 /* ── Shared type ── */
 .section-label {
@@ -1238,13 +1450,21 @@ a.tss-review:hover { opacity: .72; }
   .home-content { padding: 80px 28px 60px; max-width: 100%; }
   .home-video-card { display: none; }
   .scroll-hint { display: none; }
-  .socials-cluster { display: none; }
+  .socials-cluster {
+    top: auto; bottom: 14px; right: auto; left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+  }
+  .home-socials { flex-direction: row; width: auto; padding: 10px 18px; gap: 16px; }
+  .home-social-link svg { width: 22px; height: 22px; }
+  .home-nav-btn { display: none; }
 
   .music-content { flex-direction: column; padding: 80px 28px; gap: 36px; height: auto; min-height: 100svh; }
   .music-intro { flex: unset; margin-right: 0; }
   .album-strip { flex-direction: column; align-items: flex-start; padding: 0; height: auto; gap: 24px; width: 100%; }
   .album-embed iframe { width: 100% !important; }
   .album-embed { width: 100% !important; }
+  .album-quote { display: none; }
 
   .about-content { flex-direction: column; padding: 80px 28px; gap: 32px; height: auto; min-height: 100svh; }
   .about-stations { width: 100%; }
@@ -1345,6 +1565,7 @@ a.tss-review:hover { opacity: .72; }
     <!-- Beat 1 · Origins -->
     <div class="about-stations">
       <p class="section-label">Biography</p>
+      <button class="discog-link" id="resume-btn" style="margin-top:-8px; margin-bottom:22px; background:none; border:none; font-family:'Outfit',sans-serif; padding:0;">Music Resume / CV →</button>
       <div class="about-station" id="bio1">
         <h3>The Ottawa Valley</h3>
         <p>Selina Martin has spent nearly three decades refusing to be one kind of artist, and it's precisely that refusal that defines her craft. Born in 1967 and raised in Pakenham, Ontario, she grew up in a childhood soundtracked by campfires and memorably, roller discos. She's told the story of a preteen epiphany hearing Rush's "The Spirit of Radio" at a roller rink in Kanata, lights flashing, and music so loud. It's a moment she would return to decades later when she recorded her own sparse, subversive cover of that song.</p>
@@ -1367,7 +1588,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="about-stations">
       <div class="about-station" id="bio3">
         <h3>Wine glasses and theremins</h3>
-        <p>Martin's apprenticeship in music came inside Toronto's nineties' eccentric indie scene. From 1995 to 1999 she played in Bob Wiseman's band, handling guitar, bass, accordion, theremin, wine glasses and found objects. This multi-instrumental resourcefulness became a signature of her performance. She released her debut, <em>Space Woman</em>, in 1998 and began touring Canada and Europe. Over the following years Selina became a fixture of a musical community that included the Rheostatics, Martin Tielli, Dave Bidini's Bidiniband, NQ Arbuckle, Veda Hille, Justin Rutledge and Amelia Curran. With Bidini and Tielli she wrote and recorded the music for the animated short <em>Five Hole: Tales of Hockey Erotica</em>, and she co-wrote the score for the documentary <em>Act of God</em> with Bidini, Tielli and Fred Frith. She also remains an occasional member of the experimental electronic collective The Faceless Forces of Bigness.</p>
+        <p>Martin's apprenticeship in music came inside Toronto's nineties' eccentric indie scene. From 1995 to 1999 she played in Bob Wiseman's band, handling guitar, bass, accordion, theremin, wine glasses and found objects. This multi-instrumental resourcefulness became a signature of her performance. She released her debut, <em>Space Woman</em>, in 1998 and began touring Canada and Europe. Over the following years Selina became a fixture of a musical community that included the Rheostatics, Martin Tielli, Dave Bidini's Bidiniband, NQ Arbuckle, Veda Hille, Justin Rutledge and Amelia Curran. With Bidini, Tielli and Vancouver's Ford Pier, she wrote and recorded the music for the theatrical production <em>Five Hole: Tales of Hockey Erotica</em>, which also became an album and an animated short, and she co-wrote the score for the documentary <em>Act of God</em> with Bidini, Tielli and Fred Frith. She also remains an occasional member of the experimental electronic collective The Faceless Forces of Bigness.</p>
       </div>
     </div>
 
@@ -1437,10 +1658,10 @@ a.tss-review:hover { opacity: .72; }
         Twenty-five years of genre-defying records — from "catchy weirdo rock-pop" to art-pop masterwork. All streaming now on Bandcamp.
       </p>
       <p class="music-meta">
-        Also on Spotify · Apple Music · all platforms
+        Also on Apple Music · Tidal · all platforms
       </p>
       <a href="https://selinamartin.bandcamp.com/music" target="_blank" rel="noopener" class="discog-link">
-        Full discography + Les Eggs EP →
+        Full discography →
       </a>
     </div>
 
@@ -1448,27 +1669,46 @@ a.tss-review:hover { opacity: .72; }
     <div class="album-strip">
 
       <!-- Featured: Time Spent Swimming (2022) -->
-      <div class="album-embed featured" style="width:360px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=2261355084/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=true/artwork=big/transparent=true/"
-          width="360" height="452" title="Time Spent Swimming — Selina Martin"></iframe>
-        <button class="tss-reviews-btn" id="tss-reviews-btn">★ &nbsp;Press Reviews</button>
+      <div class="album-item">
+        <div class="album-embed featured" style="width:360px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=2261355084/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=true/artwork=big/transparent=true/"
+            width="360" height="452" title="Time Spent Swimming — Selina Martin"></iframe>
+          <button class="tss-reviews-btn" id="tss-reviews-btn">★ &nbsp;Press Reviews</button>
+          <button class="tss-reviews-btn" id="liner-btn" style="border-top: 1px solid rgba(138,96,64,.12);">✎ &nbsp;Lyrics / Liner Notes</button>
+        </div>
+        <div class="album-quote">
+          <blockquote>"Time Spent Swimming shoots into the stratosphere"</blockquote>
+          <cite>Exclaim!, CAN</cite>
+        </div>
       </div>
 
       <!-- Caruso's Brain -->
-      <div class="album-embed" style="width:280px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=259326760/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
-          width="280" height="310" title="Caruso's Brain — Selina Martin"></iframe>
-        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Caruso's Brain · 2015</div>
+      <div class="album-item">
+        <div class="album-embed" style="width:280px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=259326760/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+            width="280" height="310" title="Caruso's Brain — Selina Martin"></iframe>
+          <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Caruso's Brain · 2015</div>
+        </div>
+        <div class="album-quote">
+          <blockquote>"Album of the Year! '...caruso's brain..' tops the list of NBT radio's best albums of 2015."</blockquote>
+          <cite>Köln, DE</cite>
+        </div>
       </div>
 
       <!-- Disaster Fantasies (2010) -->
-      <div class="album-embed" style="width:280px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=3859752383/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
-          width="280" height="310" title="Disaster Fantasies — Selina Martin"></iframe>
-        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Disaster Fantasies · 2010</div>
+      <div class="album-item">
+        <div class="album-embed" style="width:280px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=3859752383/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+            width="280" height="310" title="Disaster Fantasies — Selina Martin"></iframe>
+          <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Disaster Fantasies · 2010</div>
+        </div>
+        <div class="album-quote">
+          <blockquote>"If Feist totally rocked out, it might sound like Disaster Fantasies. One of the 10 best albums of the year"</blockquote>
+          <cite>Ottawa Citizen</cite>
+        </div>
       </div>
 
       <!-- Five Hole: Tales of Hockey Erotica (collab) -->
@@ -1480,19 +1720,31 @@ a.tss-review:hover { opacity: .72; }
       </div>
 
       <!-- Life Drawing Without Instruction (2005) -->
-      <div class="album-embed" style="width:280px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=3226206178/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
-          width="280" height="310" title="Life Drawing Without Instruction — Selina Martin"></iframe>
-        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Life Drawing Without Instruction · 2005</div>
+      <div class="album-item">
+        <div class="album-embed" style="width:280px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=3226206178/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+            width="280" height="310" title="Life Drawing Without Instruction — Selina Martin"></iframe>
+          <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Life Drawing Without Instruction · 2005</div>
+        </div>
+        <div class="album-quote">
+          <blockquote>"Selina Martin has the voice of a thrift-shop angel and the eye of an eagle circling over its prey"</blockquote>
+          <cite>★★★★ The Globe &amp; Mail</cite>
+        </div>
       </div>
 
       <!-- Space Woman -->
-      <div class="album-embed" style="width:280px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=945609777/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
-          width="280" height="310" title="Space Woman — Selina Martin"></iframe>
-        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Space Woman</div>
+      <div class="album-item">
+        <div class="album-embed" style="width:280px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=945609777/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+            width="280" height="310" title="Space Woman — Selina Martin"></iframe>
+          <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Space Woman</div>
+        </div>
+        <div class="album-quote">
+          <blockquote>"I could not stop thinking that Jane Siberry had wed Elvis Costello and Tom Waits performed the service"</blockquote>
+          <cite>the Humm</cite>
+        </div>
       </div>
 
     </div><!-- /album-strip -->
@@ -1510,22 +1762,32 @@ a.tss-review:hover { opacity: .72; }
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
     </div>
     <div class="live-gallery" id="live-gallery">
-      <div class="live-video" data-video-src="como-live-web.mp4" data-video-poster="_A7R3696.jpg">
-        <img class="video-card-poster" src="_A7R3696.jpg" alt="Selina Martin live video">
+      <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
+        <img class="video-card-poster" src="como-live-poster.jpg" alt="Selina Martin live video">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
           <span class="play-circle">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
         </button>
       </div>
-      <div class="live-photo"><img src="_A7R3696.jpg"            alt="Selina Martin live"></div>
-      <div class="live-photo"><img src="_A749387.jpg"            alt="Selina Martin live"></div>
-      <div class="live-photo"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live"></div>
-      <div class="live-photo"><img src="_A7R3557.jpg"            alt="Selina Martin live"></div>
-      <div class="live-photo"><img src="_A749466.jpg"            alt="Selina Martin live"></div>
-      <div class="live-photo"><img src="_A7R3711.jpg"            alt="Selina Martin live"></div>
-      <div class="live-video" data-video-src="fabrica-live-web.mp4" data-video-poster="IMG_1374.jpeg">
-        <img class="video-card-poster" src="IMG_1374.jpeg" alt="Selina Martin live video">
+      <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-3"><img src="dordrecht-2026-2.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Romeomayor"></div>
+      <div class="live-photo lp-4"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-5"><img src="valthermond-1.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
+      <div class="live-photo lp-6"><img src="_A7R3557.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-7"><img src="dordrecht-2026-4.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"></div>
+      <div class="live-photo lp-8"><img src="valthermond-2.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
+      <div class="live-photo lp-9"><img src="_A749466.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-10"><img src="szeged-hu.jpg"          alt="Selina Martin live · Szeged HU, photo by Norbert Höffler"></div>
+      <div class="live-photo lp-11"><img src="valthermond-3.jpg"      alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
+      <div class="live-photo lp-12"><img src="_A7R3711.jpg"           alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
+      <div class="live-photo lp-13"><img src="dordrecht-2026-5.jpg"   alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"></div>
+      <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"></div>
+      <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"></div>
+      <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"></div>
+      <div class="live-video lp-video-last" data-video-src="almonte-live-web.mp4" data-video-poster="almonte-live-poster.jpg">
+        <img class="video-card-poster" src="almonte-live-poster.jpg" alt="Selina Martin live video · Almonte SWA">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
           <span class="play-circle">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -1934,6 +2196,160 @@ a.tss-review:hover { opacity: .72; }
   </div>
 </div>
 
+<!-- ══ MUSIC RESUME / CV MODAL ══ -->
+<div class="resume-modal" id="resume-modal" aria-modal="true" role="dialog">
+  <div class="resume-backdrop" id="resume-backdrop"></div>
+  <div class="resume-inner">
+    <div class="resume-header">
+      <div>
+        <h2>Music Resume / CV</h2>
+        <p>Selina Martin</p>
+      </div>
+      <a href="selina-martin-music-resume.pdf" download class="resume-download">Download PDF ↓</a>
+      <button class="tss-close" id="resume-close" aria-label="Close">×</button>
+    </div>
+    <div class="resume-body">
+      <iframe src="selina-martin-music-resume.pdf" title="Selina Martin — Music Resume / CV"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LINER NOTES / LYRICS MODAL ══ -->
+<div class="liner-modal" id="liner-modal" aria-modal="true" role="dialog">
+  <div class="liner-backdrop" id="liner-backdrop"></div>
+  <div class="liner-inner">
+    <div class="liner-header">
+      <div>
+        <h2>Time Spent Swimming</h2>
+        <p>Lyrics &amp; Liner Notes</p>
+      </div>
+      <button class="tss-close" id="liner-close" aria-label="Close">×</button>
+    </div>
+    <div class="liner-body">
+      <p class="liner-credits">Produced by Selina Martin, assisted by Alex Gamble<br>Mixed by Alex Gamble, assisted by Selina Martin<br>Mastered by Justin Gray<br>All songs by Selina Martin</p>
+
+      <div class="liner-track">
+        <h3>Tangier</h3>
+        <p class="liner-musicians">Doug Friesen (electric bass, double bass, noise improv), Chendy León (percussion), Meredith Bates (violin, noise improv), Alex Gamble (sample randomizer), Selina Martin (guitar, voice, programmed drums, samples)</p>
+        <p>Got a hole in my heart. And I can't fill it up. Big as that long breakwater; wide as the Straight of Gibraltar.<br>Gibraltar. Gib-ib-braltar.<br>I'm not done getting lost. I'm a wayward astronaut; A map-less pioneer, riding a wind that brought me here.<br>Here to Tangier.</p>
+        <p>All day long a rooster crows. The collared dove sings along. And I'll sit by, sit by your side a mile above, above the tide.<br>And I'll sit by, sit by your side. We'll watch the boats go by.</p>
+        <p>You're made of sand and wind. I cannot touch your skin. The way a lover oughta. The way I really wanna.<br>I wanna. I wa-wanna.<br>I'll tell you all my thoughts while you peel the apricots. And when you're standing near …ooooh.<br>I like being here. Here in Tangier.</p>
+        <p>I got a hole in my heart because I must depart with the wind across the water in a boat without a rudder.<br>A rudder. A ru-rudder.<br>Let me disappear. I could do it here. In Tangier.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Two Storeys / The Ground</h3>
+        <p class="liner-musicians">Doug Friesen (bass), Chendy León (percussion), Alex Gamble (MIDI bass), Selina Martin (guitar, voice, programmed drums, samples)</p>
+        <p>Got the ground under my feet. Got the sky over my head. Got a floor under my feet. Got a roof over my head.<br>Got a ceiling under the floor. Got a ceiling under the roof. Got a room under the ceiling. Got a room under the ceiling.<br>Got a floor under the room. Got a floor under the room. Got the ground under my feet. Got the ground under my feet.</p>
+        <p>You come into the room and you lean in close to me and the moon is big and low, hanging just above the trees.<br>I can see it out the window. I can see us in the window. I can feel it in the room. You say you can feel it too.<br>And it's bigger than the moon, like the gravity of stars.<br>But I don't know what you want. And you're fucking with my heart.</p>
+        <p>In the room under the ceiling, on the floor beneath the floor, you were there but now you're leaving. I swear I heard the door.<br>And I fall into the carpet, and I sink through wooden boards. And it's dark here without moonlight, in the space between the storeys.<br>And you speed along the highway, but you never drive that far.<br>Cuz you don't know what you want, and you're fucking with my heart.</p>
+        <p>Got the ground under my feet. Got the sky over my head. Got a floor under my feet. Got a roof over my head.<br>Got a ceiling under the floor. Got a ceiling under the roof. Got a room under the ceiling. Got a room under the ceiling.<br>Got a floor under the room. Got a floor under the room. Got the ground under my feet. Got the ground under my feet.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>If You Were a River</h3>
+        <p class="liner-musicians">Doug Friesen (bass), Chendy León (percussion), Selina Martin (guitar, voice, synth, samples, vibraphone, musical saw)</p>
+        <p>If you were a river and I were the wind, if you were a river would you ever bend?<br>Would you ever bend.</p>
+        <p>Lighter than a feather, invisible as air. Everything around you is how you know I'm there.<br>Is how you know I'm there.</p>
+        <p>Will you let me bring you things like I did before?<br>I could loosen ripened figs and drop them at your door, or...</p>
+        <p>Carve me out a corner. Make a little bed. Carve me out a corner. Let me rest my head.<br>Let me rest my head.</p>
+        <p>And then I could store my things in those meanders where your secrets hide.<br>I'll rummage through from time to time looking for what is not mine,<br>some stuff that I can use for future alibis.</p>
+        <p>Put your arms around me. I'm tired of moving around. Put your arms around me and try to hold me down.<br>Try to hold me down.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Something Wide Awake</h3>
+        <p class="liner-musicians">Doug Friesen (synth), Barry Mirochnick (drums), Alex Gamble (reverb tail), Selina Martin (guitar, voice, synth, vibraphone, programmed drums, samples, musical saw)</p>
+        <p>Hey, there's something in the wind. Oooh there's something in the wind.<br>Cold light streams in, and angles your chin. Did the seasons change again?<br>I know things you don't know.</p>
+        <p>There's something that I feel. There's something that I feel.<br>And though I can't tell if it's fate or self-will, I imagine it's real.<br>I know things you don't know.</p>
+        <p>Hey, there's something on my mind. Yeah, I got something on my mind.<br>Beside the feeling of holding your hand, I've been treating you unkind.<br>I know things you don't know. I know things you don't know.<br>I know …</p>
+        <p>I'm wide awake, you're sleeping late on a soft bed that's someone else's.<br>I lie awake waiting for the rain. Tell me how long till it comes down again.</p>
+        <p>Now there's a slow ache cuz I'm not sleeping. And all the same mistakes, well they're like a big lake.<br>But time spent swimming, it aligns with nothing. I just dive right in it.<br>Let go of things you don't know.</p>
+        <p>I'm wide awake, you're sleeping late on a soft bed that's someone else's.<br>I lie awake waiting for the rain. Tell me how long till it comes down.<br>Tell me how long till it comes down. Tell me how long till it comes down.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Quarantine</h3>
+        <p class="liner-musicians">Doug Friesen (bass, synth), Chendy León (percussion, hand claps), Michael Phillip Wojewoda (boom-whacker), Sarah McElcheran (trumpet), Alex Gamble (sample randomizer), Selina Martin (guitar, voice, programmed drums, samples)</p>
+        <p>Tell me are you feeling slow? Spending too much time alone?<br>Winter turns to springtime. Summertime turns to fall.<br>Everything's changed. Nothings changed at all.</p>
+        <p>Te-te-te tell me are you feeling guilty? Ba-baby are you feeling wrong?<br>Is your head a wasteland? Is every little thing your fault?<br>You think you're missing out but there's nothing going on.<br>Quarantine</p>
+        <p>Wish you were here. Wish I was there. I wish you were here or I wish I was there.<br>Wish you were here. Wish I was there. Wish you were here. Wish I was ..</p>
+        <p>Across an ocean floor I see your open door.<br>The world is very small. You're so near and too far.</p>
+        <p>You are just a quarter note and I'm a tiny grain of sand,<br>rolling on the breezes, resting in an open hand.<br>Time is what we are, cuz time is all we have.<br>Quarantine. Quarantine. Quarantine.</p>
+        <p>Wish you were here. Wish I was there. Wish you were here. Wish I was there.<br>Wish you were here. Wish I was.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>So Lo</h3>
+        <p class="liner-musicians">Frogs (voice), Birds (voice), Selina (voice)</p>
+        <p>I feel so low, so low. I feel so low, so low. I feel so low, so low I'm gone, I'm gone, I'm...<br>Trouble hit me hard. Trouble hit me hard. Trouble hit me hard, so hard I'm gone, I'm... I'm gone, I'm... (gone I'm).<br>They say I done you wrong. They say I done you wrong. They say I done you wrong I'm gone, I'm gone, I'm...</p>
+        <p>Ba doo doo ba doo doo doo boo doo doo doo. Ba doo doo ba booba doo doo doo doo.<br>Ba boo doo ba booba da doo doo ooo. Ba ba doo ba booba da doo ah oooh.</p>
+        <p>It was early in the morning, (so lo) I didn't see it coming. (so lo)<br>That downtown train (so lo) took my baby away.</p>
+        <p>I feel so low, so low. (so lo) I feel so low, so low. (so lo) I feel so low, so low I'm gone, I'm gone, I'm...</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Since You're Gone</h3>
+        <p class="liner-musicians">Doug Friesen (double bass, electric bass), Evan Cartwright (drums), Julia Hambleton (bass clarinet), Alex Gamble (reverb tail), Tom Meienburg (basket), Selina Martin (guitar, voice, samples, vibraphone)</p>
+        <p>I have waited for you in this home that's my heart. There are flowers in the rooms all the days we're apart.</p>
+        <p>"I'm away now", you said, as you walked out the door. "Be good to those you love. They keep hold of who you are."</p>
+        <p>Did the water welcome you? Was it colder on your skin? Were they sweeter, the bird songs? ... things you'll never hear again.</p>
+        <p>Since you're gone I need to reach you, like the sea needs the sky.<br>As the water rose to greet you, were you sad for the sadness to come?<br>... that's come since you're gone.</p>
+        <p>Still I wait here for you, while the birds sing their songs. I put flowers in the rooms in case you come back home.<br>Ooooooooo.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Leopard-Skin Vespa</h3>
+        <p class="liner-musicians">Doug Friesesn (bass), Evan Cartwright (drums, coconut), Alex Gamble (drum machine), Selina Martin (guitar, voice, organ, programmed drums, samples)</p>
+        <p>I got golden shoes and real crushed diamonds on my eyes. My lips are rouge and I hold my head up high.<br>And the streets of my home are dipped in wine and cologne. And it's a lot of work, my insatiable thirst.<br>And I'm just like you; a designer dog in a designer purse.</p>
+        <p>But you look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.<br>You look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.</p>
+        <p>The sky is blue from morning till the day is done. By the afternoon I'm still resistant to the sun.<br>Now I've perfected my stride to an emotionless glide. And I got a lot of stuff, but it's never enough.<br>And I'm just like you; my skin is tanned and my body's buff.</p>
+        <p>But you look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.<br>You look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.</p>
+        <p>Nothing exists unless I see it. That looks like a shell, not a peanut. And I got to be closest to the sun, here in my cult of one.</p>
+        <p>I got golden shoes and real crushed diamonds on my eyes. I look at you and see straight through to my horizon.<br>And the streets of my home are dipped in wine and cologne. And it's a lot of work, my insatiable thirst.<br>And I'm just like you; designer dog in a designer purse.</p>
+        <p>But you look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.<br>You look so cool on your leopard-skin vespa. You look so cool on your leopard-skin vespa.<br>… so cool on your leopard-skin vespa!</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Eurydice</h3>
+        <p class="liner-musicians">Doug Friesen (bass), Chendy León (percussion), Maya Postepski (drums), Selina Martin (guitar, voice, synths, samples)</p>
+        <p>Why do you think it's true? I'm still holding on to you. Holding on to you.<br>Time has opened up a door. I'm just wondering where you are.<br>Fate has blotted out the sun to make me pay for what I've done.<br>But I don't know what I've done.<br>Every second is an hour. I'm just wondering where you are. Wondering where you are.</p>
+        <p>Qu'est-ce que tu as mis dans mon corps? Slow-acting poison that crumples me to the floor.<br>Tu as quelque chose à dire à mon cœur? Shoulda gave a warning it would go to far.</p>
+        <p>And all the joy I never spoke came out my chest to coat the world, I laid it all over for everyone to soft the road you walked upon.</p>
+        <p>Time is fucking with my head while I'm lying here in bed. Just lying here in bed.<br>I don't know why it's true; I need to be with you.<br>But there's nothing I can do.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Hun-oo</h3>
+        <p class="liner-musicians">Selina Martin (voice)</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Smile</h3>
+        <p class="liner-musicians">Doug Friesen (double bass), Evan Cartwright (drums), Annelise Noronha (accordion), Julia Hambleton (bass clarinet), Selina Martin (guitar, voice, e-marimba)</p>
+        <p>Smile and the world smiles with you. Cry and you cry alone.<br>If you're wise you will hide the tears in your eyes, and you won't be on your own.</p>
+        <p>If Happiness, like a butterfly, flutters by your door, never catch him to bring inside.<br>For he won't survive. Believe me, I tried.</p>
+        <p>Just be glad and new dreams will find you. Be sad and be left alone.<br>Keep your friends by your side. Don't show them you're crying.<br>Disguise it till time lets you know that a free butterfly needs a clear blue sky.<br>And smile as you watch him go.</p>
+      </div>
+
+      <div class="liner-track">
+        <h3>Your Face Goes Long</h3>
+        <p class="liner-musicians">Doug Friesen (bass), Evan Cartwright (drums), Selina Martin (guitar, voice, synth, programmed drums, samples)</p>
+        <p>You say you love me but you never give me your heart. You leave me wandering, wondering when we're apart.<br>And now the way I feel is tipped over. Like a Ferris wheel I keep spinning 'round.</p>
+        <p>Exchanges are made every time that you look in my eyes. I take your attention then you get to play with my pride.<br>You got secret rules in your forehead, and they're in the air, but I'm, but I'm on the ground.</p>
+        <p>Your face goes long when I call you home, but you're always gone and it swings me down.</p>
+        <p>Doo doo doo doo doo doo doo da. Bada dooda dada doo da. Doo doo doo doo doo doo doo da. Bada dooda dada doo da</p>
+        <p>Viens avec moi je peux te montrer mes besoins. N'aies pas peur ils ne sont pas plus gros que les tiens.<br>Mettre un petit trou dans mon océan. Ce n'est presque rien, mais ce sera profond.</p>
+        <p>Je suis ici, tu es là. Je suis ici, tu es là. Je suis ici, tu es là-ah. Oh la la.<br>Your face goes long when I call you home, but you're always gone and it swings me down.</p>
+        <p>There was a man, was a man in the sea yesterday. Still as a stone looking back in some uncertain way.<br>Is he part of you, like the ocean? Is he made of will? Am I made of sound?</p>
+        <p>You say you know me but you don't remember my name. Call me her, call me Stacey, I'll still feel the same.<br>Because you make me feel like the only place to get a meal in this shitty town.</p>
+        <p>Your face goes long when I call you home, but you're always gone and it swings me down.<br>Your face goes long when I call you home, but you're always gone and it swings me down.</p>
+        <p>Un deux trois quatre<br>Doo doo doo doo doo doo doo da. Bada dooda dada doo da<br>Doo doo doo doo doo doo doo da. Bada dooda dada doo da</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -2032,7 +2448,7 @@ document.getElementById('modal-backdrop').addEventListener('click', closeModal);
 modalPrev.addEventListener('click', () => { if (galleryIdx > 0) showModalAt(galleryIdx - 1); });
 modalNext.addEventListener('click', () => { if (galleryIdx < gallery.length - 1) showModalAt(galleryIdx + 1); });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeTssModal(); closeShowsModal(); closeVideoModal(); }
+  if (e.key === 'Escape') { closeModal(); closeTssModal(); closeShowsModal(); closeVideoModal(); closeResumeModal(); closeLinerModal(); }
   if (e.key === 'ArrowLeft'  && gallery.length > 1) showModalAt(Math.max(0, galleryIdx - 1));
   if (e.key === 'ArrowRight' && gallery.length > 1) showModalAt(Math.min(gallery.length - 1, galleryIdx + 1));
 });
@@ -2073,6 +2489,26 @@ const tssBtn = document.getElementById('tss-reviews-btn');
 if (tssBtn) tssBtn.addEventListener('click', openTssModal);
 document.getElementById('tss-close').addEventListener('click', closeTssModal);
 document.getElementById('tss-backdrop').addEventListener('click', closeTssModal);
+
+/* ─── Music Resume / CV Modal ─── */
+const resumeModal = document.getElementById('resume-modal');
+function openResumeModal()  { resumeModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeResumeModal() { resumeModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+const resumeBtn = document.getElementById('resume-btn');
+if (resumeBtn) resumeBtn.addEventListener('click', openResumeModal);
+document.getElementById('resume-close').addEventListener('click', closeResumeModal);
+document.getElementById('resume-backdrop').addEventListener('click', closeResumeModal);
+
+/* ─── Liner Notes / Lyrics Modal ─── */
+const linerModal = document.getElementById('liner-modal');
+function openLinerModal()  { linerModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeLinerModal() { linerModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+const linerBtn = document.getElementById('liner-btn');
+if (linerBtn) linerBtn.addEventListener('click', openLinerModal);
+document.getElementById('liner-close').addEventListener('click', closeLinerModal);
+document.getElementById('liner-backdrop').addEventListener('click', closeLinerModal);
 
 /* ─── Shows Modal ─── */
 const showsModal = document.getElementById('shows-modal');
