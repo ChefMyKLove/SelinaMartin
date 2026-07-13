@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selina — Hero Font Mockups (Lowercase)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Lexend:wght@300;400;500;600&family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;700&family=Unbounded:wght@300;400;600;800&family=Sora:wght@300;400;500;600&family=Montserrat:wght@300;400;500;700;800&family=Poppins:wght@300;400;500;600&family=Jost:wght@300;400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/cocogoose">
+<style>
+  :root {
+    --bg: #f5f1eb;
+    --dark: #0e0a08;
+    --accent: #8a6040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #2a2622;
+    font-family: 'Outfit', sans-serif;
+    padding: 28px;
+  }
+  .board-title {
+    color: #f5f1eb;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: .85;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    background: var(--dark);
+  }
+  .hero {
+    position: relative;
+    height: 440px;
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute; inset: 0;
+    background: url('IMG_1374.jpeg') center 20% / cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      rgba(12,8,6,0.94) 0%,
+      rgba(12,8,6,0.78) 34%,
+      rgba(12,8,6,0.28) 62%,
+      transparent 100%
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 44px;
+    max-width: 420px;
+  }
+  .kicker {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem; font-weight: 400;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .sub {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.66rem; font-weight: 400;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: rgba(245,241,235,.45);
+    margin-top: -8px;
+    margin-bottom: 20px;
+  }
+  .tagline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem; font-weight: 300;
+    color: rgba(245,241,235,.55);
+    line-height: 1.7;
+    max-width: 300px;
+  }
+  .label {
+    background: #1a1510;
+    color: #f5f1eb;
+    padding: 14px 20px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .label .name-tag {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .label .why {
+    font-size: 0.72rem;
+    color: rgba(245,241,235,.55);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* Shared lowercase rule for all name treatments */
+  .hero-content h1 { text-transform: lowercase; }
+
+  /* ── A: Manrope ── */
+  .name-a { font-family: 'Manrope', sans-serif; font-weight: 300; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; }
+  .name-a em { display: block; font-style: normal; font-weight: 800; }
+
+  /* ── B: Bricolage Grotesque ── */
+  .name-b { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .name-b em { display: block; font-style: italic; font-weight: 400; opacity: .8; }
+
+  /* ── C: Lexend (dyslexia-friendly) ── */
+  .name-c { font-family: 'Lexend', sans-serif; font-weight: 400; font-size: 3.6rem; line-height: 1.05; letter-spacing: 0.01em; color: #f5f1eb; margin-bottom: 24px; word-spacing: 0.05em; }
+  .name-c em { display: block; font-style: normal; font-weight: 300; color: rgba(245,241,235,.7); }
+
+  /* ── D: "Selina Sans" invented wordmark, lowercase ── */
+  .name-d { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.9rem; line-height: 0.92; color: #f5f1eb; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .name-d .sel { font-weight: 800; }
+  .name-d .ina { font-weight: 400; }
+  .name-d .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 0 2px 6px 2px; vertical-align: middle; }
+  .name-d em { display: block; font-style: normal; font-weight: 600; font-size: 0.42em; letter-spacing: 0.32em; color: var(--accent); margin-top: 10px; }
+
+  /* ── E: Space Grotesk ── */
+  .name-e { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .name-e em { display: block; font-style: normal; font-weight: 700; }
+
+  /* ── F: Unbounded ── */
+  .name-f { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 3.3rem; line-height: 1.05; color: #f5f1eb; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .name-f em { display: block; font-style: normal; font-weight: 300; font-size: 0.85em; color: rgba(245,241,235,.7); }
+
+  /* ── G: Sora ── */
+  .name-g { font-family: 'Sora', sans-serif; font-weight: 300; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; }
+  .name-g em { display: block; font-style: normal; font-weight: 600; }
+
+  /* ── H: "Selina Glow" invented wordmark, take 2 (already lowercase) ── */
+  .name-h {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 300;
+    font-size: 3.6rem;
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    background: linear-gradient(100deg, #f5f1eb 0%, #d9b98a 55%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .name-h-rule { width: 46px; height: 2px; background: var(--accent); margin: 14px 0 14px; }
+  .name-h em { display: block; font-style: normal; font-weight: 500; font-size: 0.34em; letter-spacing: 0.4em; color: rgba(245,241,235,.55); }
+
+  /* ── I: Montserrat ── */
+  .name-i { font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; }
+  .name-i em { display: block; font-style: normal; font-weight: 800; }
+
+  /* ── J: Cocogoose — third-party paid font (Zetafonts, ~$35+/weight) ── */
+  .name-j { font-family: 'Cocogoose', 'Baloo 2', sans-serif; font-weight: 700; font-size: 3.4rem; line-height: 1.05; color: #f5f1eb; margin-bottom: 24px; letter-spacing: 0.01em; }
+  .name-j em { display: block; font-style: normal; font-weight: 400; opacity: .75; }
+
+  /* ── K: Helvetica Neue — free, ships as a system font on macOS/iOS ── */
+  .name-k { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 300; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; }
+  .name-k em { display: block; font-style: normal; font-weight: 700; }
+
+  /* ── L: Avenir Next — free, ships as a system font on macOS/iOS ── */
+  .name-l { font-family: 'Poppins', 'Avenir Next', sans-serif; font-weight: 300; font-size: 4rem; line-height: 0.95; color: #f5f1eb; margin-bottom: 24px; }
+  .name-l em { display: block; font-style: normal; font-weight: 600; }
+
+  /* ── O: Century Gothic — free, ships with Windows/MS Office ── */
+  .name-o { font-family: 'Century Gothic', 'Jost', sans-serif; font-weight: 400; font-size: 3.8rem; line-height: 1; color: #f5f1eb; margin-bottom: 24px; letter-spacing: 0.01em; }
+  .name-o em { display: block; font-style: normal; font-weight: 500; }
+
+  /* ── M: Montserrat, uniform — both words identical weight/style ── */
+  .name-m { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 3.6rem; line-height: 1.05; color: #f5f1eb; margin-bottom: 24px; }
+
+  /* ── N: Avenir Next / Poppins, uniform — both words identical weight/style ── */
+  .name-n { font-family: 'Poppins', 'Avenir Next', sans-serif; font-weight: 400; font-size: 3.6rem; line-height: 1.05; color: #f5f1eb; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<div class="board-title">Hero font mockups — all lowercase (Selina's name, 15 directions)</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-a">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">A — Manrope</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-b">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">B — Bricolage Grotesque</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-c">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">C — Lexend (dyslexia-friendly)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-d"><span class="sel">sel</span><span class="ina">ina</span><span class="dot"></span><em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">D — Syne (styled)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-e">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">E — Space Grotesk</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-f">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">F — Unbounded</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-g">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">G — Sora</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-h">selina<div class="name-h-rule"></div><em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">H — Unbounded (styled)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-i">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">I — Montserrat</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-j">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">J — Cocogoose (third-party, paid)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-k">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">K — Helvetica Neue</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-l">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">L — Avenir Next</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-o">selina<em>martin</em></h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">O — Century Gothic</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-m">selina martin</h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">M — Montserrat (name unstyled, one weight)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="hero"><div class="hero-photo"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="kicker">Singer · Songwriter</p>
+        <h1 class="name-n">selina martin</h1>
+        <p class="sub">Guitarist · Arranger · Performer</p>
+        <p class="tagline">Where sound becomes space. Luminous, restless, unexpected, stirring and provocative.</p>
+      </div>
+    </div>
+    <div class="label"><div class="name-tag">N — Avenir Next (name unstyled, one weight)</div></div>
+  </div>
+
+</div>
+
+</body>
+</html>
