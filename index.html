@@ -1027,8 +1027,38 @@ a.tss-review:hover { opacity: .72; }
   cursor: none; transition: opacity .2s;
 }
 .resume-download:hover { opacity: .65; }
-.resume-body { flex: 1; min-height: 0; background: #fff; }
-.resume-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+.resume-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 8px 32px 44px;
+  scrollbar-width: thin; scrollbar-color: rgba(138,96,64,.35) transparent;
+}
+.resume-body::-webkit-scrollbar { width: 4px; }
+.resume-body::-webkit-scrollbar-track { background: transparent; }
+.resume-body::-webkit-scrollbar-thumb { background: rgba(138,96,64,.3); border-radius: 2px; }
+.resume-section { padding: 22px 0; border-bottom: 1px solid rgba(26,21,16,.08); }
+.resume-section:first-child { padding-top: 14px; }
+.resume-section:last-child { border-bottom: none; }
+.resume-section h3 {
+  font-size: .68rem; font-weight: 400; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 12px;
+}
+.resume-section p { font-size: .88rem; line-height: 1.7; color: var(--text-sec); margin-bottom: 8px; }
+.resume-section p:last-child { margin-bottom: 0; }
+.resume-list { list-style: none; }
+.resume-list li {
+  font-size: .84rem; line-height: 1.65; color: var(--text-sec);
+  padding-left: 14px; position: relative; margin-bottom: 7px;
+}
+.resume-list li::before { content: '·'; position: absolute; left: 0; color: var(--accent); }
+.resume-list li:last-child { margin-bottom: 0; }
+.resume-list em, .resume-section em { font-style: italic; color: var(--text); }
+.resume-quotes { display: flex; flex-direction: column; gap: 12px; }
+.resume-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--text); line-height: 1.5; }
+.resume-quote cite {
+  display: block; font-family: 'Outfit', sans-serif; font-style: normal;
+  font-size: .62rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--text-muted); margin-top: 4px;
+}
 
 /* ════════════════
    LINER NOTES / LYRICS MODAL
@@ -2209,7 +2239,197 @@ a.tss-review:hover { opacity: .72; }
       <button class="tss-close" id="resume-close" aria-label="Close">×</button>
     </div>
     <div class="resume-body">
-      <iframe src="selina-martin-music-resume.pdf" title="Selina Martin — Music Resume / CV"></iframe>
+
+      <div class="resume-section">
+        <h3>Education</h3>
+        <p>Honours B.A., Drama Program, University of Toronto, 1986–1991</p>
+      </div>
+
+      <div class="resume-section">
+        <h3>Music Education</h3>
+        <p>Primarily a self-taught composer, musician, arranger and lyricist, with several exceptions:</p>
+        <ul class="resume-list">
+          <li>Recording software / studio engineering tutorials — Michael Phillip Wojewoda, 2009, 2014</li>
+          <li>"Resampled Workshop" — weekend intensive electronic music production workshop, 2012</li>
+          <li>Keyboards and analog studio techniques tutorials — Bob Wiseman, 1999</li>
+          <li>Musical saw — Gene Hardy</li>
+          <li>Vocal training — Stella Walker</li>
+          <li>Guitar finger picking — Nick Yaksich</li>
+          <li>Private piano instruction — Susan Gallagher</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Awards</h3>
+        <ul class="resume-list">
+          <li><em>Canada Council for the Arts</em> — Arts Across Canada, 2024</li>
+          <li><em>Canada Council for the Arts</em> — Explore and Create, Concept to Realization, 2021</li>
+          <li><em>FACTOR</em> — Demo Award, 2000; Songwriter Workshop Grant, 2012; Artist Development, 2021</li>
+          <li><em>Toronto Arts Council</em> — Album Recording Grant, 2013</li>
+          <li><em>Ontario Arts Council</em> — Album Recording Grant, 2009</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Instruments</h3>
+        <p>Guitar (acoustic & electric), voice, bass guitar, piano, accordion, synthesizers, Theremin, musical saw, vibraphone, various percussion, tuned wine glasses, ukulele, found objects.</p>
+      </div>
+
+      <div class="resume-section">
+        <h3>Teaching History</h3>
+        <ul class="resume-list">
+          <li>2024 — Songwriting Boot Camp, Penticton — instructor</li>
+          <li>2016 — Adult Songwriting Course, University of Toronto — instructor</li>
+          <li>2014/15 — University of Toronto Adult Songwriting Course / George Brown College Songwriting Course — guest lecturer</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Selected Music History</h3>
+        <ul class="resume-list">
+          <li>2022 — release of 5th independent solo recording, <em>Time Spent Swimming</em>. Released internationally to critical acclaim: "a master work," "fascinating," "one of the strongest albums of 2022," "five stars," "thrilling," "in the same league as Björk and PJ Harvey."</li>
+          <li>2015 — release of 4th independent solo recording, <em>i've been picking caruso's brain; i think i have the information we need to make a new world</em>. Released in Europe and Canada to acclaim on both sides of the Atlantic: "a masterful work," "provocative," "genius," "brilliant," "superb in every sense of the word," "#1 album of the year."</li>
+          <li>2012, 2011, 2010 — <em>Torn From The Pages</em> (Globe & Mail Authors' Festival) — commissioned to compose and perform songs inspired by / derived from Canadian novels.</li>
+          <li>2011 — composing/recording project with experimental electronic collective FFoB (The Faceless Forces of Bigness): Juno Award-winning producer Michael Phillip Wojewoda, guitarist and electronic composer Kurt Swinghammer, NOW's "Producer of the Year" Chris Stringer, and moving image designer Justin Stephenson.</li>
+          <li>2010 — release of 3rd independent solo recording, <em>Disaster Fantasies</em> — "smart," "vivid," "brave," "masterful," "reckless," "must hear."</li>
+          <li>2009 — co-composer of film score with Dave Bidini, Martin Tielli (Rheostatics) & Fred Frith for <em>Act Of God</em>, a documentary by Jennifer Baichwall (<em>Manufactured Landscapes</em>).</li>
+          <li>2009 — co-producer of the double album <em>The Ghost of Danny Gross</em>, by Martin Tielli.</li>
+          <li>2008–2009 — touring and recording multi-instrumentalist (guitars, musical saw, percussive sticks, voice, chains, other found sounds) with Martin Tielli.</li>
+          <li>2006 — arranger and performer on musical saw and wine glasses of songs by Claude Debussy for "The Laments," a classical quintet with Jordan O'Connor, Julia Hambleton, Annelise Noronha and Donna Linklater.</li>
+          <li>2005 — release of 2nd full-length studio album, <em>Life Drawing Without Instruction</em>.</li>
+          <li>2003 — improviser on tuned wine glasses with experimental electronic band The Faceless Forces of Bigness (FFoB).</li>
+          <li>1998 — release of 1st full-length album, <em>Space Woman</em>.</li>
+          <li>1995–1999 — multi-instrumentalist with Bob Wiseman (formerly Blue Rodeo) on tour and recordings.</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Discography</h3>
+        <ul class="resume-list">
+          <li><em>Time Spent Swimming</em> (Outside Music Distribution, 2022)</li>
+          <li><em>i've been picking caruso's brain; i think i have the information we need to make a new world</em> (Outside Music Distribution, 2015)</li>
+          <li>Compilation — <em>Have Not Been the Same</em> (Zunior, 2011)</li>
+          <li><em>Disaster Fantasies</em> (Outside Music Distribution, 2010)</li>
+          <li>The Five Hole Band, <em>Music from "Five Hole: Tales of Hockey Erotica"</em> (Zunior, 2009)</li>
+          <li><em>Life Drawing Without Instruction</em> (Outside Music Distribution, 2005)</li>
+          <li><em>Space Woman</em> (Festival Distribution, 1998)</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Selected Accompaniment / Production Discography</h3>
+        <ul class="resume-list">
+          <li>Amelia Curran, <em>Spectators</em> (Six Shooter Records, 2013)</li>
+          <li>Bidiniband, <em>In The Rock Hall</em> (Pheromone Recordings, 2011)</li>
+          <li>Martin Tielli, <em>The Ghost of Danny Gross</em>, Parts 1 & 2 (co-produced with Selina Martin) (Six Shooter Records, 2009)</li>
+          <li>Justin Rutledge, <em>The Devil on a Bench in Stanley Park</em> (Six Shooter Records, 2006)</li>
+          <li>Veda Hille, <em>Return of the Killdeer</em> (Ape Records, UK, 2005)</li>
+          <li>N.Q. Arbuckle, <em>The Last Supper in a Cheap Town</em> (Six Shooter Records, 2005)</li>
+          <li>Rheostatics, <em>2067</em> (True North Records, 2004)</li>
+          <li>Martin Tielli, <em>Operation Infinite Joy</em> (Six Shooter Records, 2003)</li>
+          <li>Martin Tielli, <em>We didn't even suspect that he was the poppy salesman</em> (Six Shooter, 2000)</li>
+          <li>Bob Wiseman, <em>More Work Songs from the Planet of the Apes</em> (Grow or Die Music, 1999)</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Composer & Performer for Theatre (selections)</h3>
+        <ul class="resume-list">
+          <li><em>A Blow in the Face</em> — Lisa Ryder / Bald Ego Theatre (composer/performer)</li>
+          <li><em>Do You Want What I Have Got? A Craigslist Cantata</em> — Veda Hille / Bill Richardson</li>
+          <li><em>Five Hole: Tales of Hockey Erotica</em> — One Yellow Rabbit (composer/performer)</li>
+          <li><em>Hedwig and the Angry Inch</em>, <em>Dali</em>, <em>Godzilla</em> — Crows Theatre (composer/performer)</li>
+          <li><em>Three Penny Epic Cabaret</em>, <em>Sleepers Awake, City / Slouch Hat</em>, <em>Panting of the Victors</em>, <em>Orpheus, And He Lost His Head</em>, <em>Café Naked</em> — Bald Ego Theatre (composer/performer)</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Composer & Performer for Film & TV</h3>
+        <ul class="resume-list">
+          <li><em>One Week</em> — Mulmer's One Week Inc., Michael McGowan</li>
+          <li><em>Act of God</em> — Mercury Films, Jennifer Baichwall & Nick de Pencier</li>
+          <li><em>Five Hole</em> (animated short) — Anlanda, Cam Christiansen</li>
+          <li><em>Twitch City</em> — CBC TV / Accent Ent., Bruce McDonald</li>
+          <li><em>S.F. Seeks</em> — El Ryder Productions / Wish Productions</li>
+          <li><em>Once a Thief</em> — John Woo</li>
+          <li><em>Twisted Sheets</em> — Chris Deacon</li>
+          <li><em>The Best Years</em> — Best Years 2 Productions Inc.</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Selected Music Tours</h3>
+        <ul class="resume-list">
+          <li>Canada duo tour, March–April 2024</li>
+          <li>Germany, Italy duo tour, May 2023</li>
+          <li>Canada duo tour, March–April 2023</li>
+          <li>Europe trio tour, July 2022 · France trio tour, fall 2022</li>
+          <li>UK and Europe solo + band tour, Oct–Dec 2019</li>
+          <li>Western Canada solo tour, July–Aug 2019</li>
+          <li>Poland tour, Selina Martin band, June 2019</li>
+          <li>Ontario tour, Selina Martin band, March 2019</li>
+          <li>Europe solo tour with Tom Holliston, Oct–Dec 2018</li>
+          <li>Western Canada solo tour and Toronto band show, June 2018</li>
+          <li>Europe solo tour, March 2018</li>
+          <li>Western Canada solo tour, Dec 2017 · France solo tour, Oct–Nov 2017</li>
+          <li>Ontario tour, Selina Martin band, Oct–Nov 2016</li>
+          <li>Canada album launch tour, Selina Martin band, March 2016</li>
+          <li>Europe album launch tour, Nov 2015</li>
+          <li>Alberta & British Columbia solo tour, 2014</li>
+          <li>Quebec/Maritimes — Selina Martin Triplets tour, 2011</li>
+          <li>Ontario/Quebec — <em>Disaster Fantasies</em> album launch tour, 2010</li>
+          <li>Ontario/Quebec — Martin Tielli tour, 2008</li>
+          <li>Italy — Selina Martin solo tour, 2007 & 2008 · Bluebird North National Tour, 2007</li>
+          <li>Eastern Canada — Selina Martin band, 2006 & 2005</li>
+          <li>Western Canada — Selina Martin band, 2006 & 1999</li>
+          <li>Canada, US & Europe — Bob Wiseman band with Selina Martin, 1995–1999</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Selected Music Festival Appearances</h3>
+        <ul class="resume-list">
+          <li>2024 — Ignite the Arts, Penticton BC</li>
+          <li>2023 — Ignite the Arts, Penticton BC · Karman Festival, Augsburg DE · Fête de la musique & Fête Saint-Julien, Biot FR</li>
+          <li>2022 — Boskovice Festival, CZ</li>
+          <li>2019 — ArtsWells, Wells BC · Islands Fest, Duncan BC</li>
+          <li>2017 — ArtsWells, Wells BC</li>
+          <li>2013 — Interstellar Rodeo, Edmonton</li>
+          <li>2012 — Hillside Festival, Guelph · ArtsWells Festival, BC · Waterfront Festival, Toronto</li>
+          <li>2011 — Halifax Urban Folk Festival · Raise the Roof Women's Music Festival</li>
+          <li>2006 — Evolve Festival, Antigonish</li>
+          <li>2005 — Tim Posgate's Festival of Autumnal Happiness, Toronto Island</li>
+          <li>2002 — Dog Day Afternoon, Guelph</li>
+          <li>2001 — Ottawa Folk Festival</li>
+          <li>2000 — Hillside Festival · New York Underground Poetry and Music Festival</li>
+          <li>1999 — Edmonton Folk Festival</li>
+          <li>1998 — New Music West · Calgary Folk Festival · North by North East</li>
+          <li>1997 — Vancouver Folk Festival</li>
+        </ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Selected Press</h3>
+        <div class="resume-quotes">
+          <p class="resume-quote">"This is a master work by an artist at the peak of her potential." <cite>Roots Music Canada</cite></p>
+          <p class="resume-quote">"Time Spent Swimming is fascinating. It is hard to categorize, and this is a compliment." <cite>Spill Magazine, CAN</cite></p>
+          <p class="resume-quote">"Sounds like a never-released collaboration between Peter Gabriel and Björk." <cite>Fidelity, DE</cite></p>
+          <p class="resume-quote">"Convention-defying fusion of pop and art rock." <cite>France 24</cite></p>
+          <p class="resume-quote">"Time Spent Swimming shoots into the stratosphere." <cite>Exclaim!, CAN</cite></p>
+          <p class="resume-quote">"Thrilling." <cite>Actua News, FR</cite></p>
+          <p class="resume-quote">"Five stars… I found time between gigs to write this review because the record is so good." <cite>West End Phoenix, CAN</cite></p>
+          <p class="resume-quote">"Martin knows how to impress." <cite>Les Oreilles Curieuses, FR</cite></p>
+          <p class="resume-quote">"Bubbling over with ideas, walking right between such 'sound world travelers' as Laurie Anderson, Anne Clark and Brian Eno, but also flirting with a Kate Bush or Amanda Palmer and Björk as well as the Talking Heads." <cite>Musikreviews.de</cite></p>
+          <p class="resume-quote">"Brilliant… We can't recommend this album to you enough. Superb in every sense of the word." <cite>Starship Overflow Radio, UK</cite></p>
+          <p class="resume-quote">"Genius… reference artists could be Talking Heads and PJ Harvey, but probably this lady is better called 'unique.'" <cite>Rootstime, BE</cite></p>
+          <p class="resume-quote">"New, exciting, provocative, uninhibited, sometimes ferocious, sometimes tranquil, never boring." <cite>Zero Magazine, SWE</cite></p>
+          <p class="resume-quote">"A masterful work that showcases Martin's magical talent for writing simultaneously from the heart, brain and gut." <cite>Exclaim!, CAN</cite></p>
+          <p class="resume-quote">"One of the 10 best albums of the year" (<em>Disaster Fantasies</em>). <cite>Ottawa Citizen, CAN</cite></p>
+          <p class="resume-quote">"Selina Martin has the voice of a thrift shop angel and the eye of an eagle circling over its prey." ★★★★ <cite>Globe & Mail</cite></p>
+          <p class="resume-quote">"Martin revels in the unexpected on her tough, tender, and frequently astounding sophomore effort." <cite>Ottawa Xpress</cite></p>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
