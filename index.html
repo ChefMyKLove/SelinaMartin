@@ -695,6 +695,24 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   height: 100%;
   object-fit: cover;
 }
+/* Per-photo photographer credit — revealed on hover (desktop only; see
+   mobile override) so every photo is individually attributed instead of
+   relying on one blanket credit line for the whole gallery. */
+.live-photo-credit {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 8px 10px 7px;
+  background: linear-gradient(to top, rgba(8,5,4,.85) 0%, transparent 100%);
+  font-family: 'Outfit', sans-serif;
+  font-size: .6rem; font-weight: 400;
+  letter-spacing: .08em;
+  color: rgba(245,241,235,.85);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+.live-photo:hover .live-photo-credit { opacity: 1; transform: translateY(0); }
 /* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard.
    Sized via explicit classes (not nth-child) so photos can be reordered/added freely. */
 .lp-1  { width: 360px; height: 66vh; margin-top: 7vh;  }
@@ -1233,6 +1251,68 @@ a.tss-review:hover { opacity: .72; }
   font-size: .8rem; color: var(--text-muted); line-height: 1.7;
 }
 
+/* Contact form */
+.contact-form {
+  margin-top: 36px;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contact-form label {
+  font-family: 'Outfit', sans-serif;
+  font-size: .68rem; font-weight: 400;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.contact-form input,
+.contact-form textarea {
+  font-family: 'Outfit', sans-serif;
+  font-size: .92rem; font-weight: 300;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26,21,16,.16);
+  padding: 8px 2px;
+  transition: border-color .2s;
+  cursor: text;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.contact-form textarea { resize: vertical; min-height: 88px; }
+.contact-form .form-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.contact-submit {
+  align-self: flex-start;
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem; font-weight: 400;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--bg);
+  background: var(--dark);
+  border: none;
+  padding: 13px 30px;
+  border-radius: 40px;
+  cursor: none;
+  transition: background .2s;
+}
+.contact-submit:hover { background: var(--accent); }
+.contact-submit:disabled { opacity: .55; cursor: not-allowed; }
+.contact-form-status {
+  font-size: .78rem;
+  color: var(--text-sec);
+  min-height: 1.2em;
+}
+.contact-form-status.is-success { color: var(--accent); }
+.contact-form-status.is-error { color: #a0453a; }
+
 
 /* ════════════════
    SHOWS MODAL
@@ -1415,9 +1495,11 @@ a.tss-review:hover { opacity: .72; }
 }
 .modal-close:hover { color: #f5f1eb; background: rgba(14,10,8,.85); }
 
-/* Gallery prev/next */
+/* Gallery prev/next — anchored to the image itself (inside .modal-inner),
+   so they stay clear of the fixed socials-cluster instead of pinning to
+   the viewport edge. */
 .modal-prev, .modal-next {
-  position: fixed;
+  position: absolute;
   top: 50%; transform: translateY(-50%);
   z-index: 2;
   background: rgba(14,10,8,.45);
@@ -1432,8 +1514,8 @@ a.tss-review:hover { opacity: .72; }
   cursor: none;
   transition: background .2s, color .2s, opacity .2s;
 }
-.modal-prev { left: 24px; }
-.modal-next { right: 24px; }
+.modal-prev { left: -68px; }
+.modal-next { right: -68px; }
 .modal-prev:hover, .modal-next:hover {
   background: rgba(14,10,8,.75);
   color: #f5f1eb;
@@ -1530,6 +1612,19 @@ a.tss-review:hover { opacity: .72; }
   .panel::after { display: none; }
 
   .home-content { padding: 80px 28px 60px; max-width: 100%; }
+  /* Desktop overlay is a left-to-right gradient sized for the letterboxed
+     portrait photo; on mobile the image fills edge-to-edge, so text that
+     wraps rightward (e.g. the tagline) can land on the near-transparent
+     end of that gradient and lose contrast. Use a top-to-bottom wash
+     instead so legibility doesn't depend on horizontal text position. */
+  .home-overlay {
+    background: linear-gradient(180deg,
+      rgba(12,8,6,.88) 0%,
+      rgba(12,8,6,.82) 48%,
+      rgba(12,8,6,.4) 70%,
+      rgba(12,8,6,.6) 100%
+    );
+  }
   .home-video-card { display: none; }
   .scroll-hint { display: none; }
   .socials-cluster {
@@ -1544,6 +1639,7 @@ a.tss-review:hover { opacity: .72; }
   .music-content { flex-direction: column; padding: 80px 28px; gap: 36px; height: auto; min-height: 100svh; }
   .music-intro { flex: unset; margin-right: 0; }
   .album-strip { flex-direction: column; align-items: flex-start; padding: 0; height: auto; gap: 24px; width: 100%; }
+  .album-item { width: 100%; }
   .album-embed iframe { width: 100% !important; }
   .album-embed { width: 100% !important; }
   .album-quote { display: none; }
@@ -1555,6 +1651,7 @@ a.tss-review:hover { opacity: .72; }
   .live-content { padding: 80px 28px 40px; height: auto; min-height: 100svh; }
   .live-gallery { flex-wrap: wrap; align-items: stretch; gap: 10px; }
   .live-photo { width: calc(50% - 5px) !important; height: 220px !important; }
+  .live-photo-credit { display: none; }
   .live-photo:nth-child(2) { width: 100% !important; height: 280px !important; }
   .live-video { width: calc(50% - 5px) !important; height: 160px !important; }
 
@@ -1563,6 +1660,10 @@ a.tss-review:hover { opacity: .72; }
   .press-section-title { display: none; }
   .press-quote { position: static; opacity: 1 !important; transform: none !important; margin-bottom: 40px; max-width: 100% !important; max-height: none !important; overflow: visible !important; }
   .press-quote blockquote { font-size: 1.2rem !important; }
+  /* NACC "#1" callout is intentionally centered in the scattered desktop
+     canvas, but in the mobile stacked layout everything else is left-
+     aligned — match that instead of standing out as misaligned. */
+  .press-nacc { text-align: left; }
   .press-mobile { position: relative; z-index: 2; padding: 80px 28px; }
   .press-header { position: static; margin-bottom: 32px; }
 
@@ -1650,7 +1751,7 @@ a.tss-review:hover { opacity: .72; }
       <button class="discog-link" id="resume-btn" style="margin-top:-8px; margin-bottom:22px; background:none; border:none; font-family:'Outfit',sans-serif; padding:0;">Music Resume / CV →</button>
       <div class="about-station" id="bio1">
         <h3>The Ottawa Valley</h3>
-        <p>Selina Martin has spent nearly three decades refusing to be one kind of artist, and it's precisely that refusal that defines her craft. Born in 1967 and raised in Pakenham, Ontario, she grew up in a childhood soundtracked by campfires and memorably, roller discos. She's told the story of a preteen epiphany hearing Rush's "The Spirit of Radio" at a roller rink in Kanata, lights flashing, and music so loud. It's a moment she would return to decades later when she recorded her own sparse, subversive cover of that song.</p>
+        <p>Selina Martin has spent nearly three decades refusing to be one kind of artist, and it's precisely that refusal that defines her craft. Raised in Pakenham, Ontario, Canada, she grew up in a childhood soundtracked by campfires and memorably, roller discos. She's told the story of a preteen epiphany hearing Rush's "The Spirit of Radio" at a roller rink in Kanata, lights flashing, and music so loud. It's a moment she would return to decades later when she recorded her own sparse, subversive cover of that song.</p>
       </div>
     </div>
 
@@ -1698,7 +1799,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="about-stations">
       <div class="about-station" id="bio6">
         <h3>Songs are sometimes psychic</h3>
-        <p>What holds this restless catalogue together is a coherent philosophy. Martin talks about songwriting almost mystically: songs, she says, will often tell her what's going on rather than the other way around; they're sometimes psychic. But that intuition is paired with rigour and patience: Her song ‘Rape During Wartime’ is a danceable, two‑chord Talking Heads homage about sexual violence in armed conflict that took eight years to write.. She's equally unguarded about the economics of the life she's chosen, describing the struggle to maintain artistic integrity while making the work financially viable without resorting to writing commercial pop.</p>
+        <p>What holds this restless catalogue together is a coherent philosophy. Martin talks about songwriting almost mystically: songs, she says, will often tell her what's going on rather than the other way around; they're sometimes psychic. But that intuition is paired with rigour and patience: Her song ‘Rape During Wartime’ is a danceable, two‑chord Talking Heads homage about sexual violence in armed conflict that took eight years to write. She's equally unguarded about the economics of the life she's chosen, describing the struggle to maintain artistic integrity while making the work financially viable without resorting to writing commercial pop.</p>
         <blockquote class="bio-pullquote">"I have absolutely no intention of repeating myself."</blockquote>
       </div>
     </div>
@@ -1709,7 +1810,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="about-stations">
       <div class="about-station" id="bio7">
         <h3>Small towns, big rooms</h3>
-        <p>She often includes small towns on her tours, finding audiences there more enthusiastic than in concert‑saturated cities; her 2023 Canadian run wound through modest BC venues as well as the usual big‑city stops. She was invited by Tom Holliston of legendary Canadian art‑punks NoMeansNo to tour the EU in 2018, leading to multiple subsequent tours together across Europe and Canada, and she continues to collaborate widely, including with John Wright’s post‑NoMeansNo project Dead Bob.</p>
+        <p>She makes a point of bringing shows to small towns as well as big cities.  Growing up in rural Ontario, seeing it at all usually meant someone driving her into Ottawa. Her 2023 Canadian run wound through modest BC venues as well as the usual big‑city stops. She was invited by Tom Holliston of legendary Canadian art‑punks NoMeansNo to tour the EU in 2018, leading to multiple subsequent tours together across Europe and Canada, and she continues to collaborate widely, including with John Wright’s post‑NoMeansNo project Dead Bob.</p>
       </div>
       <div class="about-station" id="bio8">
         <h3>Sound is potential</h3>
@@ -1795,11 +1896,13 @@ a.tss-review:hover { opacity: .72; }
       </div>
 
       <!-- Five Hole: Tales of Hockey Erotica (collab) -->
-      <div class="album-embed" style="width:280px;">
-        <iframe
-          src="https://bandcamp.com/EmbeddedPlayer/album=1940492957/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
-          width="280" height="310" title="Five Hole: Tales of Hockey Erotica"></iframe>
-        <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Five Hole: Tales of Hockey Erotica</div>
+      <div class="album-item">
+        <div class="album-embed" style="width:280px;">
+          <iframe
+            src="https://bandcamp.com/EmbeddedPlayer/album=1940492957/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=false/artwork=big/transparent=true/"
+            width="280" height="310" title="Five Hole: Tales of Hockey Erotica"></iframe>
+          <div style="padding:12px 14px 14px; font-size:.75rem; color:var(--text-muted);">Five Hole: Tales of Hockey Erotica</div>
+        </div>
       </div>
 
       <!-- Life Drawing Without Instruction (2005) -->
@@ -1854,29 +1957,29 @@ a.tss-review:hover { opacity: .72; }
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
-        <img class="video-card-poster" src="como-live-poster.jpg" alt="Selina Martin live video">
+        <img class="video-card-poster" src="como-live-poster.jpg" alt="Selina Martin live video" style="object-position: center 18%;">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
           <span class="play-circle">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
         </button>
       </div>
-      <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-3"><img src="dordrecht-2026-2.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Romeomayor"></div>
-      <div class="live-photo lp-4"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-5"><img src="valthermond-1.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
-      <div class="live-photo lp-6"><img src="_A7R3557.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-7"><img src="dordrecht-2026-4.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"></div>
-      <div class="live-photo lp-8"><img src="valthermond-2.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
-      <div class="live-photo lp-9"><img src="_A749466.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-10"><img src="szeged-hu.jpg"          alt="Selina Martin live · Szeged HU, photo by Norbert Höffler"></div>
-      <div class="live-photo lp-11"><img src="valthermond-3.jpg"      alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"></div>
-      <div class="live-photo lp-12"><img src="_A7R3711.jpg"           alt="Selina Martin live · Karman Festival, Augsburg DE"></div>
-      <div class="live-photo lp-13"><img src="dordrecht-2026-5.jpg"   alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"></div>
-      <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"></div>
-      <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"></div>
-      <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"></div>
+      <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-3"><img src="dordrecht-2026-2.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Romeomayor"><span class="live-photo-credit">Dordrecht NL · photo by Romeomayor</span></div>
+      <div class="live-photo lp-4"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-5"><img src="valthermond-1.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
+      <div class="live-photo lp-6"><img src="_A7R3557.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-7"><img src="dordrecht-2026-4.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by Yvo Van der Vat</span></div>
+      <div class="live-photo lp-8"><img src="valthermond-2.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
+      <div class="live-photo lp-9"><img src="_A749466.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-10"><img src="szeged-hu.jpg"          alt="Selina Martin live · Szeged HU, photo by Norbert Höffler"><span class="live-photo-credit">Szeged HU · photo by Norbert Höffler</span></div>
+      <div class="live-photo lp-11"><img src="valthermond-3.jpg"      alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
+      <div class="live-photo lp-12"><img src="_A7R3711.jpg"           alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-13"><img src="dordrecht-2026-5.jpg"   alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by Yvo Van der Vat</span></div>
+      <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"><span class="live-photo-credit">Tuczno PL · photo by Jacek Mójta</span></div>
+      <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"><span class="live-photo-credit">A38, Budapest HU</span></div>
+      <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"><span class="live-photo-credit">Lido Club, Vancouver CA · photo by Gordon E. McCaw</span></div>
       <div class="live-video lp-video-last" data-video-src="almonte-live-web.mp4" data-video-poster="almonte-live-poster.jpg">
         <img class="video-card-poster" src="almonte-live-poster.jpg" alt="Selina Martin live video · Almonte SWA">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
@@ -1886,7 +1989,7 @@ a.tss-review:hover { opacity: .72; }
         </button>
       </div>
     </div>
-    <p class="live-credit">@fotolocationally · Karman Festival · Augsburg DE · May 2026</p>
+    <p class="live-credit">Photos: @fotolocationally (Karman Festival, Augsburg DE) · Romeomayor &amp; Yvo Van der Vat (Dordrecht NL) · Josetta Mellies (Valthermond NL) · Norbert Höffler (Szeged HU) · Jacek Mójta (Tuczno PL) · Gordon E. McCaw (Vancouver CA) · A38 Budapest — photographer TBD</p>
   </div>
 </section>
 
@@ -2068,7 +2171,28 @@ a.tss-review:hover { opacity: .72; }
     <p class="section-label">Contact</p>
     <h2 class="section-title">Get in Touch</h2>
     <p class="section-body">For bookings, press, licensing, or just to say hello —</p>
-    <a href="mailto:info@selinamartin.com" class="contact-email">info@selinamartin.com</a>
+    <a href="#" class="contact-email js-email-link js-email-fill-text" data-user="info" data-domain="selinamartin.com" rel="nofollow"></a>
+
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-field">
+        <label for="cf-name">Name</label>
+        <input type="text" id="cf-name" name="name" required autocomplete="name">
+      </div>
+      <div class="form-field">
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="email" required autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" required></textarea>
+      </div>
+      <!-- Honeypot — hidden from humans, Formspree drops submissions where this is filled -->
+      <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="_subject" value="New message from selinamartin.com">
+      <button type="submit" class="contact-submit" id="contact-submit">Send</button>
+      <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
+    </form>
+
     <p class="contact-sub">
       <span style="font-size:.7rem; color:var(--text-muted);">© 2026 Selina Martin</span>
     </p>
@@ -2113,11 +2237,11 @@ a.tss-review:hover { opacity: .72; }
 <!-- Photo modal -->
 <div class="photo-modal" id="photo-modal" aria-modal="true" role="dialog">
   <div class="modal-backdrop" id="modal-backdrop"></div>
-  <button class="modal-prev nav-hidden" id="modal-prev" aria-label="Previous photo">&#8249;</button>
-  <button class="modal-next nav-hidden" id="modal-next" aria-label="Next photo">&#8250;</button>
   <div class="modal-counter" id="modal-counter"></div>
   <div class="modal-inner">
     <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <button class="modal-prev nav-hidden" id="modal-prev" aria-label="Previous photo">&#8249;</button>
+    <button class="modal-next nav-hidden" id="modal-next" aria-label="Next photo">&#8250;</button>
     <img id="modal-img" src="" alt="">
   </div>
 </div>
@@ -2147,8 +2271,8 @@ a.tss-review:hover { opacity: .72; }
       <p class="shows-upcoming-label">Upcoming</p>
       <div class="shows-empty">
         No upcoming dates confirmed yet —
-        <a href="mailto:info@selinamartin.com">get in touch for bookings</a>
-        or <a href="#contact" data-scroll="contact" id="shows-ml-link">drop a note to get on the list</a>.
+        <a href="#" class="js-email-link" data-user="info" data-domain="selinamartin.com" rel="nofollow">get in touch for bookings</a>
+        or <a href="#contact" data-scroll="contact" id="shows-ml-link">drop a note to get on the mailing list</a>.
       </div>
 
       <p class="shows-past-label">Past Shows</p>
@@ -3097,6 +3221,47 @@ if (!IS_MOBILE) {
   }, { threshold: 0.4 });
   allSections.forEach(s => sectionIO.observe(s));
   window.addEventListener('load', () => setActive('home'));
+}
+
+/* Email obfuscation — address is assembled at runtime instead of sitting
+   as plain text/mailto in the HTML source, so basic scrapers can't harvest it. */
+document.querySelectorAll('.js-email-link').forEach(el => {
+  const addr = el.dataset.user + '@' + el.dataset.domain;
+  el.href = 'mailto:' + addr;
+  if (el.classList.contains('js-email-fill-text')) el.textContent = addr;
+});
+
+/* Contact form — AJAX submit to Formspree so visitors never leave the page */
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  const statusEl = document.getElementById('contact-form-status');
+  const submitBtn = document.getElementById('contact-submit');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    statusEl.textContent = 'Sending…';
+    statusEl.className = 'contact-form-status';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        statusEl.textContent = 'Thanks — message sent. I’ll get back to you soon.';
+        statusEl.className = 'contact-form-status is-success';
+        contactForm.reset();
+      } else {
+        statusEl.textContent = 'Something went wrong — please email info@selinamartin.com directly.';
+        statusEl.className = 'contact-form-status is-error';
+      }
+    } catch (err) {
+      statusEl.textContent = 'Something went wrong — please email info@selinamartin.com directly.';
+      statusEl.className = 'contact-form-status is-error';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
 }
 </script>
 </body>
