@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selina Martin — Photo &amp; Video Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #f5f1eb;
+  --text:       #1a1510;
+  --text-sec:   #6a5a4a;
+  --text-muted: #9a8a7a;
+  --accent:     #8a6040;
+  --dark:       #0e0a08;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--dark);
+  color: var(--bg);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+}
+header {
+  padding: 40px 48px 24px;
+  border-bottom: 1px solid rgba(245,241,235,.1);
+}
+.back-link {
+  display: inline-block;
+  font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none;
+  margin-bottom: 18px;
+}
+.back-link:hover { opacity: .7; }
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-style: italic;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #f5f1eb;
+  margin-bottom: 10px;
+}
+header p {
+  font-size: .85rem; color: rgba(245,241,235,.55); line-height: 1.6;
+  max-width: 560px;
+}
+.section-heading {
+  padding: 32px 48px 4px;
+  font-size: .68rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  padding: 16px 48px 8px;
+}
+.tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1510;
+}
+.tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.tile:hover img { transform: scale(1.06); }
+.tile .caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 8px 10px 7px;
+  background: linear-gradient(to top, rgba(8,5,4,.88) 0%, transparent 100%);
+  font-size: .62rem; letter-spacing: .05em; color: rgba(245,241,235,.9);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+.tile:hover .caption { opacity: 1; transform: translateY(0); }
+.tile .play-badge {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.tile .play-badge svg {
+  width: 44px; height: 44px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.5));
+}
+footer { padding: 40px 48px 60px; font-size: .7rem; color: rgba(245,241,235,.35); }
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-backdrop { position: absolute; inset: 0; background: rgba(4,3,2,.94); }
+.lightbox-inner {
+  position: relative; z-index: 1;
+  max-width: 86vw; max-height: 82vh;
+  display: flex; align-items: center; justify-content: center;
+}
+.lightbox-inner img, .lightbox-inner video {
+  display: block; max-width: 86vw; max-height: 82vh;
+  width: auto; height: auto;
+  border-radius: 4px;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7);
+}
+.lightbox-meta {
+  position: absolute; left: 0; right: 0; bottom: -46px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  font-size: .74rem; color: rgba(245,241,235,.6);
+}
+.lightbox-close {
+  position: absolute; top: -52px; right: 0;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(245,241,235,.08);
+  border: 1px solid rgba(245,241,235,.2);
+  border-radius: 50%;
+  color: rgba(245,241,235,.9); font-size: 1.3rem;
+  cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(245,241,235,.16); }
+.lightbox-prev, .lightbox-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(245,241,235,.08);
+  border: 1px solid rgba(245,241,235,.2);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(245,241,235,.85);
+  font-size: 1.6rem; line-height: 1;
+  cursor: pointer;
+}
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+.lightbox-prev:hover, .lightbox-next:hover { background: rgba(245,241,235,.18); }
+.lightbox-counter {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  header, .section-heading, .grid, footer { padding-left: 20px; padding-right: 20px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .lightbox-prev { left: 6px; }
+  .lightbox-next { right: 6px; }
+  .lightbox-close { top: 10px; right: 10px; }
+  .lightbox-meta { bottom: -60px; flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">← Back to site</a>
+  <h1>Photo &amp; Video Gallery</h1>
+  <p>Every photo and video currently on the site, in one place. Click anything to view it full size, and use the arrows to browse.</p>
+</header>
+
+<div class="section-heading">Portrait &amp; Promo</div>
+<div class="grid" id="grid-promo"></div>
+
+<div class="section-heading">Live</div>
+<div class="grid" id="grid-live"></div>
+
+<div class="section-heading">Video</div>
+<div class="grid" id="grid-video"></div>
+
+<footer>Selina Martin — selinamartin.com</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  <div class="lightbox-inner" id="lightbox-inner">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
+    <img id="lightbox-img" src="" alt="" style="display:none;">
+    <video id="lightbox-video" controls style="display:none;"></video>
+    <div class="lightbox-meta">
+      <span id="lightbox-caption"></span>
+      <span class="lightbox-counter" id="lightbox-counter"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="rgba(245,241,235,.92)"><circle cx="12" cy="12" r="11" fill="rgba(8,5,4,.55)" stroke="rgba(245,241,235,.6)"/><path d="M9.5 7.5v9l8-4.5z"/></svg>`;
+
+const media = [
+  // ── Portrait & Promo ──
+  { type:'photo', full:'IMG_1374.jpeg', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Hero portrait', group:'promo' },
+  { type:'photo', full:'IMG_1375.jpeg', thumb:'gallery-thumbs/IMG_1375.jpg', caption:'Portrait', group:'promo' },
+  { type:'photo', full:'IMG_1377.jpeg', thumb:'gallery-thumbs/IMG_1377.jpg', caption:'Portrait', group:'promo' },
+  { type:'photo', full:'_A749454-Bearbeitet.jpg', thumb:'gallery-thumbs/_A749454-Bearbeitet.jpg', caption:'Portrait', group:'promo' },
+  { type:'photo', full:'promo-lisa-macintosh-1.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-1.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
+  { type:'photo', full:'promo-lisa-macintosh-2.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-2.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
+  { type:'photo', full:'promo-lisa-macintosh-3.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-3.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
+  { type:'photo', full:'promo-lisa-macintosh-4.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-4.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
+  { type:'photo', full:'promo-lisa-macintosh-5.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-5.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
+  { type:'photo', full:'promo-ivan-otis-1.jpg', thumb:'gallery-thumbs/promo-ivan-otis-1.jpg', caption:'Photo by Ivan Otis', group:'promo' },
+  { type:'photo', full:'promo-ivan-otis-2.jpg', thumb:'gallery-thumbs/promo-ivan-otis-2.jpg', caption:'Photo by Ivan Otis', group:'promo' },
+  { type:'photo', full:'promo-tom-meienburg-sea.jpg', thumb:'gallery-thumbs/promo-tom-meienburg-sea.jpg', caption:'Photo by Tom Meienburg', group:'promo' },
+  { type:'photo', full:'promo-tom-meienburg-2.jpg', thumb:'gallery-thumbs/promo-tom-meienburg-2.jpg', caption:'Photo by Tom Meienburg', group:'promo' },
+  { type:'photo', full:'promo-tom-meienburg-3.jpg', thumb:'gallery-thumbs/promo-tom-meienburg-3.jpg', caption:'Photo by Tom Meienburg', group:'promo' },
+
+  // ── Live ──
+  { type:'photo', full:'_A7R3696.jpg', thumb:'gallery-thumbs/_A7R3696.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A749387.jpg', thumb:'gallery-thumbs/_A749387.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A749402-Bearbeitet.jpg', thumb:'gallery-thumbs/_A749402-Bearbeitet.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A749466.jpg', thumb:'gallery-thumbs/_A749466.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A7R3557.jpg', thumb:'gallery-thumbs/_A7R3557.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A7R3711.jpg', thumb:'gallery-thumbs/_A7R3711.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'_A7R3700.jpg', thumb:'gallery-thumbs/_A7R3700.jpg', caption:'Karman Festival, Augsburg DE · @fotolocationally', group:'live' },
+  { type:'photo', full:'dordrecht-2026-2.jpg', thumb:'gallery-thumbs/dordrecht-2026-2.jpg', caption:'Dordrecht NL · photo by Romeomayor', group:'live' },
+  { type:'photo', full:'dordrecht-2026-4.jpg', thumb:'gallery-thumbs/dordrecht-2026-4.jpg', caption:'Dordrecht NL · photo by Yvo Van der Vat', group:'live' },
+  { type:'photo', full:'dordrecht-2026-5.jpg', thumb:'gallery-thumbs/dordrecht-2026-5.jpg', caption:'Dordrecht NL · photo by Yvo Van der Vat', group:'live' },
+  { type:'photo', full:'valthermond-1.jpg', thumb:'gallery-thumbs/valthermond-1.jpg', caption:'Valthermond NL · photo by Josetta Mellies', group:'live' },
+  { type:'photo', full:'valthermond-2.jpg', thumb:'gallery-thumbs/valthermond-2.jpg', caption:'Valthermond NL · photo by Josetta Mellies', group:'live' },
+  { type:'photo', full:'valthermond-3.jpg', thumb:'gallery-thumbs/valthermond-3.jpg', caption:'Valthermond NL · photo by Josetta Mellies', group:'live' },
+  { type:'photo', full:'szeged-hu.jpg', thumb:'gallery-thumbs/szeged-hu.jpg', caption:'Szeged HU · photo by Norbert Höffler', group:'live' },
+  { type:'photo', full:'tuczno-pl.jpg', thumb:'gallery-thumbs/tuczno-pl.jpg', caption:'Tuczno PL · photo by Jacek Mójta', group:'live' },
+  { type:'photo', full:'budapest-a38.jpg', thumb:'gallery-thumbs/budapest-a38.jpg', caption:'A38, Budapest HU', group:'live' },
+  { type:'photo', full:'vancouver-lido.jpg', thumb:'gallery-thumbs/vancouver-lido.jpg', caption:'Lido Club, Vancouver CA · photo by Gordon E. McCaw', group:'live' },
+  { type:'photo', full:'como-live-poster.jpg', thumb:'gallery-thumbs/como-live-poster.jpg', caption:'Live in Como, IT', group:'live' },
+
+  // ── Video ──
+  { type:'video', full:'como-live-web.mp4', thumb:'gallery-thumbs/como-live-poster.jpg', caption:'Live in Como, IT', group:'video' },
+  { type:'video', full:'almonte-live-web.mp4', thumb:'gallery-thumbs/almonte-live-poster.jpg', caption:'Live in Almonte', group:'video' },
+  { type:'video', full:'fabrica-live-web.mp4', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Live performance', group:'video' },
+];
+
+function renderGrid(groupId, containerId) {
+  const container = document.getElementById(containerId);
+  media.forEach((m, i) => {
+    if (m.group !== groupId) return;
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `
+      <img src="${m.thumb}" alt="${m.caption}" loading="lazy">
+      ${m.type === 'video' ? `<div class="play-badge">${PLAY_ICON}</div>` : ''}
+      <div class="caption">${m.caption}</div>
+    `;
+    tile.addEventListener('click', () => openLightbox(i));
+    container.appendChild(tile);
+  });
+}
+renderGrid('promo', 'grid-promo');
+renderGrid('live', 'grid-live');
+renderGrid('video', 'grid-video');
+
+const lightbox   = document.getElementById('lightbox');
+const lbImg      = document.getElementById('lightbox-img');
+const lbVideo    = document.getElementById('lightbox-video');
+const lbCaption  = document.getElementById('lightbox-caption');
+const lbCounter  = document.getElementById('lightbox-counter');
+let currentIdx = -1;
+
+function openLightbox(i) {
+  currentIdx = i;
+  showCurrent();
+  lightbox.classList.add('open');
+}
+function showCurrent() {
+  const m = media[currentIdx];
+  lbVideo.pause();
+  if (m.type === 'photo') {
+    lbImg.src = m.full; lbImg.style.display = 'block';
+    lbVideo.style.display = 'none'; lbVideo.removeAttribute('src');
+  } else {
+    lbVideo.src = m.full; lbVideo.style.display = 'block';
+    lbImg.style.display = 'none'; lbImg.removeAttribute('src');
+  }
+  lbCaption.textContent = m.caption;
+  lbCounter.textContent = `${currentIdx + 1} / ${media.length}`;
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lbVideo.pause();
+}
+function nextMedia() { currentIdx = (currentIdx + 1) % media.length; showCurrent(); }
+function prevMedia() { currentIdx = (currentIdx - 1 + media.length) % media.length; showCurrent(); }
+
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-backdrop').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-next').addEventListener('click', nextMedia);
+document.getElementById('lightbox-prev').addEventListener('click', prevMedia);
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') nextMedia();
+  if (e.key === 'ArrowLeft') prevMedia();
+});
+</script>
+
+</body>
+</html>
