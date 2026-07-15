@@ -134,6 +134,26 @@ nav.light-bg .nav-logo { color: var(--text); }
   list-style: none;
   pointer-events: all;
 }
+/* Hamburger toggle — hidden on desktop, shown only at the mobile breakpoint below */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px; height: 40px;
+  background: none;
+  border: none;
+  padding: 0;
+  pointer-events: all;
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  width: 20px; height: 1.5px;
+  background: var(--text);
+  transition: transform .3s ease, opacity .3s ease;
+}
 .nav-pill {
   position: absolute;
   top: 50%;
@@ -729,8 +749,13 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   font-size: .78rem; color: rgba(245,241,235,.62); letter-spacing: .06em; margin-top: 4px;
 }
 
-/* Flowing gallery — staggered vertical positions, top-aligned base so margin-top offsets work */
+/* Flowing gallery — staggered vertical positions, top-aligned base so margin-top offsets work.
+   --gh is the space actually left over after the header/paddings above it, so photo
+   sizing below (all calc(var(--gh) * ratio)) scales to what's really available instead
+   of raw viewport height — otherwise on shorter laptop screens the tallest photos ran
+   past the bottom of the (overflow:hidden) panel and only their tops were visible. */
 .live-gallery {
+  --gh: calc(100vh - 380px);
   flex: 1;
   display: flex;
   align-items: flex-start;
@@ -780,24 +805,32 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   pointer-events: none;
 }
 .live-photo:hover .live-photo-credit { opacity: 1; transform: translateY(0); }
+.home-video-card:hover .live-photo-credit { opacity: 1; transform: translateY(0); }
+.home-video-card .live-photo-credit { z-index: 3; }
+.live-photo-credit a, .about-photo-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  pointer-events: auto;
+}
 /* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard.
    Sized via explicit classes (not nth-child) so photos can be reordered/added freely. */
-.lp-1  { width: 360px; height: 66vh; margin-top: 7vh;  }
-.lp-2  { width: 560px; height: 54vh; margin-top: 0;    }
-.lp-3  { width: 280px; height: 60vh; margin-top: 10vh; }
-.lp-4  { width: 300px; height: 70vh; margin-top: 14vh; }
-.lp-5  { width: 480px; height: 42vh; margin-top: 2vh;  }
-.lp-6  { width: 490px; height: 52vh; margin-top: 4vh;  }
-.lp-7  { width: 260px; height: 66vh; margin-top: 17vh; }
-.lp-8  { width: 300px; height: 62vh; margin-top: 6vh;  }
-.lp-9  { width: 340px; height: 63vh; margin-top: 19vh; }
-.lp-10 { width: 440px; height: 46vh; margin-top: 1vh;  }
-.lp-11 { width: 280px; height: 68vh; margin-top: 12vh; }
-.lp-12 { width: 520px; height: 57vh; margin-top: 9vh;  }
-.lp-13 { width: 460px; height: 44vh; margin-top: 15vh; }
-.lp-14 { width: 420px; height: 48vh; margin-top: 3vh;  }
-.lp-15 { width: 260px; height: 58vh; margin-top: 13vh; }
-.lp-16 { width: 300px; height: 64vh; margin-top: 5vh;  }
+.lp-1  { width: 360px; height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .07); }
+.lp-2  { width: 560px; height: calc(var(--gh) * .54); margin-top: 0;                      }
+.lp-3  { width: 280px; height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .10); }
+.lp-4  { width: 300px; height: calc(var(--gh) * .70); margin-top: calc(var(--gh) * .14); }
+.lp-5  { width: 480px; height: calc(var(--gh) * .42); margin-top: calc(var(--gh) * .02); }
+.lp-6  { width: 490px; height: calc(var(--gh) * .52); margin-top: calc(var(--gh) * .04); }
+.lp-7  { width: 260px; height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .17); }
+.lp-8  { width: 300px; height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .06); }
+.lp-9  { width: 340px; height: calc(var(--gh) * .63); margin-top: calc(var(--gh) * .19); }
+.lp-10 { width: 440px; height: calc(var(--gh) * .46); margin-top: calc(var(--gh) * .01); }
+.lp-11 { width: 280px; height: calc(var(--gh) * .68); margin-top: calc(var(--gh) * .12); }
+.lp-12 { width: 520px; height: calc(var(--gh) * .57); margin-top: calc(var(--gh) * .09); }
+.lp-13 { width: 460px; height: calc(var(--gh) * .44); margin-top: calc(var(--gh) * .15); }
+.lp-14 { width: 420px; height: calc(var(--gh) * .48); margin-top: calc(var(--gh) * .03); }
+.lp-15 { width: 260px; height: calc(var(--gh) * .58); margin-top: calc(var(--gh) * .13); }
+.lp-16 { width: 300px; height: calc(var(--gh) * .64); margin-top: calc(var(--gh) * .05); }
 
 /* Live video players — click-to-open thumbnails; real playback in the video modal */
 .live-video {
@@ -817,8 +850,8 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 18px 28px 56px rgba(0,0,0,.65);
   z-index: 2;
 }
-.lp-video-first { width: 430px; height: 55vh; margin-top: 14vh; }
-.lp-video-last  { width: 480px; height: 62vh; margin-top: 3vh;  }
+.lp-video-first { width: 430px; height: calc(var(--gh) * .55); margin-top: calc(var(--gh) * .14); }
+.lp-video-last  { width: 480px; height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .03); }
 
 .live-credit {
   width: 320px;
@@ -827,6 +860,8 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   line-height: 1.7;
   color: rgba(245,241,235,.6); text-align: left;
 }
+.live-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.live-credit a:hover { color: rgba(245,241,235,.9); }
 
 
 /* ════════════════
@@ -1715,7 +1750,32 @@ a.tss-review:hover { opacity: .72; }
   #cursor { display: none; }
   nav { padding: 0 24px; background: rgba(245,241,235,.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(26,21,16,.06); }
   .nav-logo { color: var(--text) !important; }
-  .nav-links { display: none; }
+
+  .nav-toggle { display: flex; }
+  nav.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  nav.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .nav-pill { display: none; }
+  .nav-links {
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba(245,241,235,.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(26,21,16,.06);
+    padding: 6px 24px 14px;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  nav.nav-open .nav-links { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .nav-links li { width: 100%; }
+  .nav-links a { display: block; padding: 15px 4px; font-size: .82rem; border-bottom: 1px solid rgba(26,21,16,.06); }
+  .nav-links li.active a { color: var(--accent); }
 
   .pin-container { height: auto; overflow: visible; }
   .h-track { flex-direction: column; width: 100%; height: auto; }
@@ -1807,6 +1867,9 @@ a.tss-review:hover { opacity: .72; }
 ════════════════ -->
 <nav id="nav">
   <a href="#home" class="nav-logo" data-scroll="home">Sel<span class="i-invert">&#161;</span>na Martin</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
   <ul class="nav-links" id="nav-links">
     <div class="nav-pill" id="nav-pill"></div>
     <li data-section="home"><a href="#home" data-scroll="home">Home</a></li>
@@ -1834,6 +1897,7 @@ a.tss-review:hover { opacity: .72; }
       <img src="IMG_1374.jpeg" class="home-photo-inner" id="home-photo-inner" alt="Selina Martin">
       <div class="home-video-card" data-video-src="fabrica-live-web.mp4" data-video-poster="IMG_1374.jpeg">
         <img class="video-card-poster" src="IMG_1374.jpeg" alt="Selina Martin live video">
+        <span class="live-photo-credit">Photo by <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a></span>
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
           <span class="play-circle">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -1882,7 +1946,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="IMG_1375.jpeg" alt="Selina Martin" style="object-position:center 15%;"></div>
+    <div class="about-photo-sm"><img src="IMG_1375.jpeg" alt="Selina Martin" style="object-position:center 15%;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/tommeienburg" target="_blank" rel="noopener">Tom Meienburg</a></span></div>
 
     <!-- Beat 2 · Theatre -->
     <div class="about-stations">
@@ -1892,7 +1956,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="IMG_1377.jpeg" alt="Selina Martin" style="object-position:center 20%;"></div>
+    <div class="about-photo-sm"><img src="IMG_1377.jpeg" alt="Selina Martin" style="object-position:center 20%;"><span class="about-photo-credit">Photo by Matthias Scheele</span></div>
 
     <!-- Beat 3 · Toronto Scene -->
     <div class="about-stations">
@@ -1902,7 +1966,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="promo-lisa-macintosh-1.jpg" alt="Selina Martin" style="object-position:center 20%;"><span class="about-photo-credit">Photo by Lisa MacIntosh</span></div>
+    <div class="about-photo-sm"><img src="promo-lisa-macintosh-1.jpg" alt="Selina Martin" style="object-position:center 20%;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/lisamacintosh_photography" target="_blank" rel="noopener">Lisa MacIntosh</a></span></div>
 
     <!-- Beat 4 · The Albums -->
     <div class="about-stations">
@@ -1912,7 +1976,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="promo-ivan-otis-1.jpg" alt="Selina Martin" style="object-position:center top;"><span class="about-photo-credit">Photo by Ivan Otis</span></div>
+    <div class="about-photo-sm"><img src="promo-ivan-otis-1.jpg" alt="Selina Martin" style="object-position:center top;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/ivan.otis" target="_blank" rel="noopener">Ivan Otis</a></span></div>
 
     <!-- Beat 5 · Europe / Time Spent Swimming -->
     <div class="about-stations">
@@ -1922,7 +1986,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="promo-lisa-macintosh-4.jpg" alt="Selina Martin" style="object-position:center 15%;"><span class="about-photo-credit">Photo by Lisa MacIntosh</span></div>
+    <div class="about-photo-sm"><img src="promo-lisa-macintosh-4.jpg" alt="Selina Martin" style="object-position:center 15%;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/lisamacintosh_photography" target="_blank" rel="noopener">Lisa MacIntosh</a></span></div>
 
     <!-- Beat 6 · Philosophy (no photo after per notes) -->
     <div class="about-stations">
@@ -1933,7 +1997,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
     </div>
 
-    <div class="about-photo-sm"><img src="promo-tom-meienburg-sea.jpg" alt="Selina Martin" style="object-position:center 30%;"><span class="about-photo-credit">Photo by Tom Meienburg</span></div>
+    <div class="about-photo-sm"><img src="promo-tom-meienburg-sea.jpg" alt="Selina Martin" style="object-position:center 30%;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/tommeienburg" target="_blank" rel="noopener">Tom Meienburg</a></span></div>
 
     <!-- Beat 7 + Beat 8 · Touring / Essence -->
     <div class="about-stations">
@@ -1950,8 +2014,8 @@ a.tss-review:hover { opacity: .72; }
     <div class="about-photo-sm" style="width:380px; height:520px;"><img src="_A749454-Bearbeitet.jpg" alt="Selina Martin" style="object-position:center top;"></div>
 
     <div class="about-photos-extra">
-      <div class="about-photo-sm"><img src="promo-lisa-macintosh-5.jpg" alt="Selina Martin" style="object-position:center top;"><span class="about-photo-credit">Photo by Lisa MacIntosh</span></div>
-      <div class="about-photo-sm"><img src="promo-ivan-otis-2.jpg" alt="Selina Martin" style="object-position:center 20%;"><span class="about-photo-credit">Photo by Ivan Otis</span></div>
+      <div class="about-photo-sm"><img src="promo-lisa-macintosh-5.jpg" alt="Selina Martin" style="object-position:center top;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/lisamacintosh_photography" target="_blank" rel="noopener">Lisa MacIntosh</a></span></div>
+      <div class="about-photo-sm"><img src="promo-ivan-otis-2.jpg" alt="Selina Martin" style="object-position:center 20%;"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/ivan.otis" target="_blank" rel="noopener">Ivan Otis</a></span></div>
     </div>
 
   </div>
@@ -2087,7 +2151,7 @@ a.tss-review:hover { opacity: .72; }
       <p class="section-label">Live</p>
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
-      <p class="live-credit">Photos: @fotolocationally (Karman Festival, Augsburg DE) · Romeomayor &amp; Yvo Van der Vat (Dordrecht NL) · Josetta Mellies (Valthermond NL) · Norbert Höffler (Szeged HU) · Jacek Mójta (Tuczno PL) · Gordon E. McCaw (Vancouver CA) · A38 Budapest — photographer TBD</p>
+      <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU)</p>
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
@@ -2098,22 +2162,22 @@ a.tss-review:hover { opacity: .72; }
           </span>
         </button>
       </div>
-      <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
-      <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
-      <div class="live-photo lp-3"><img src="dordrecht-2026-2.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Romeomayor"><span class="live-photo-credit">Dordrecht NL · photo by Romeomayor</span></div>
-      <div class="live-photo lp-4"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
-      <div class="live-photo lp-5"><img src="valthermond-1.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
-      <div class="live-photo lp-6"><img src="_A7R3557.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
-      <div class="live-photo lp-7"><img src="dordrecht-2026-4.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by Yvo Van der Vat</span></div>
-      <div class="live-photo lp-8"><img src="valthermond-2.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
-      <div class="live-photo lp-9"><img src="_A749466.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
+      <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
+      <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
+      <div class="live-photo lp-3"><img src="dordrecht-2026-2.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Romeomayor"><span class="live-photo-credit">Dordrecht NL · photo by <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a></span></div>
+      <div class="live-photo lp-4"><img src="_A749402-Bearbeitet.jpg" alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
+      <div class="live-photo lp-5"><img src="valthermond-1.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a></span></div>
+      <div class="live-photo lp-6"><img src="_A7R3557.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
+      <div class="live-photo lp-7"><img src="dordrecht-2026-4.jpg"    alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a></span></div>
+      <div class="live-photo lp-8"><img src="valthermond-2.jpg"       alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a></span></div>
+      <div class="live-photo lp-9"><img src="_A749466.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
       <div class="live-photo lp-10"><img src="szeged-hu.jpg"          alt="Selina Martin live · Szeged HU, photo by Norbert Höffler"><span class="live-photo-credit">Szeged HU · photo by Norbert Höffler</span></div>
-      <div class="live-photo lp-11"><img src="valthermond-3.jpg"      alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by Josetta Mellies</span></div>
-      <div class="live-photo lp-12"><img src="_A7R3711.jpg"           alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · @fotolocationally</span></div>
-      <div class="live-photo lp-13"><img src="dordrecht-2026-5.jpg"   alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by Yvo Van der Vat</span></div>
-      <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"><span class="live-photo-credit">Tuczno PL · photo by Jacek Mójta</span></div>
-      <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"><span class="live-photo-credit">A38, Budapest HU</span></div>
-      <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"><span class="live-photo-credit">Lido Club, Vancouver CA · photo by Gordon E. McCaw</span></div>
+      <div class="live-photo lp-11"><img src="valthermond-3.jpg"      alt="Selina Martin live · Valthermond NL, photo by Josetta Mellies"><span class="live-photo-credit">Valthermond NL · photo by <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a></span></div>
+      <div class="live-photo lp-12"><img src="_A7R3711.jpg"           alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
+      <div class="live-photo lp-13"><img src="dordrecht-2026-5.jpg"   alt="Selina Martin live · Dordrecht NL, photo by Yvo Van der Vat"><span class="live-photo-credit">Dordrecht NL · photo by <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a></span></div>
+      <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"><span class="live-photo-credit">Tuczno PL · photo by <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a></span></div>
+      <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"><span class="live-photo-credit">A38, Budapest HU · photo by <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a></span></div>
+      <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"><span class="live-photo-credit">Lido Club, Vancouver CA · photo by <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a></span></div>
       <div class="live-video lp-video-last" data-video-src="almonte-live-web.mp4" data-video-poster="almonte-live-poster.jpg">
         <img class="video-card-poster" src="almonte-live-poster.jpg" alt="Selina Martin live video · Almonte SWA">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
@@ -2292,10 +2356,10 @@ a.tss-review:hover { opacity: .72; }
     <img src="selina article 3.png" alt="Press clipping">
   </div>
   <div class="press-img" id="press-img-4">
-    <img src="promo-tom-meienburg-2.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by Tom Meienburg</span>
+    <img src="promo-tom-meienburg-2.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/tommeienburg" target="_blank" rel="noopener">Tom Meienburg</a></span>
   </div>
   <div class="press-img" id="press-img-5">
-    <img src="promo-tom-meienburg-3.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by Tom Meienburg</span>
+    <img src="promo-tom-meienburg-3.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/tommeienburg" target="_blank" rel="noopener">Tom Meienburg</a></span>
   </div>
   <div class="press-img" id="press-img-6">
     <img src="dordrecht-2026-3.jpg" alt="Selina Martin live, Dordrecht NL"><span class="about-photo-credit">Dordrecht NL</span>
@@ -2311,8 +2375,8 @@ a.tss-review:hover { opacity: .72; }
   <div class="contact-photo-bg"></div>
   <div class="contact-tint"></div>
   <div class="contact-photos">
-    <div class="contact-photo"><img src="promo-lisa-macintosh-2.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by Lisa MacIntosh</span></div>
-    <div class="contact-photo"><img src="promo-lisa-macintosh-3.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by Lisa MacIntosh</span></div>
+    <div class="contact-photo"><img src="promo-lisa-macintosh-2.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/lisamacintosh_photography" target="_blank" rel="noopener">Lisa MacIntosh</a></span></div>
+    <div class="contact-photo"><img src="promo-lisa-macintosh-3.jpg" alt="Selina Martin"><span class="about-photo-credit">Photo by <a href="https://www.instagram.com/lisamacintosh_photography" target="_blank" rel="noopener">Lisa MacIntosh</a></span></div>
   </div>
   <div class="contact-content">
     <p class="section-label">Contact</p>
@@ -2959,8 +3023,19 @@ document.querySelectorAll('[data-scroll]').forEach(a => {
          So scrolling to panel.offsetLeft brings that section into view. */
       window.scrollTo({ top: panel.offsetLeft, behavior: 'smooth' });
     }
+    nav.classList.remove('nav-open');
+    navToggle?.setAttribute('aria-expanded', 'false');
   });
 });
+
+/* ─── Mobile hamburger menu ─── */
+const navToggle = document.getElementById('nav-toggle');
+if (navToggle) {
+  navToggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+}
 
 /* ─── Photo modal with gallery navigation ─── */
 const photoModal   = document.getElementById('photo-modal');
