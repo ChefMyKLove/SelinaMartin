@@ -739,7 +739,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 64px;
+  padding: 0 var(--lp-pad, 64px);
   padding-top: calc(var(--nav-h) + 28px);
 }
 .live-header { margin-bottom: 28px; flex-shrink: 0; }
@@ -755,11 +755,11 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
    of raw viewport height — otherwise on shorter laptop screens the tallest photos ran
    past the bottom of the (overflow:hidden) panel and only their tops were visible. */
 .live-gallery {
-  --gh: calc(100vh - 460px);
+  --gh: calc(100vh - 380px);
   flex: 1;
   display: flex;
   align-items: flex-start;
-  gap: 42px;
+  gap: var(--lp-gap, 42px);
   padding-bottom: 32px;
   min-height: 0;
   overflow: visible;
@@ -815,23 +815,23 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 }
 /* Varied heights AND vertical offsets — staggered like photos pinned to a corkboard.
    Sized via explicit classes (not nth-child) so photos can be reordered/added freely. */
-.lp-1  { width: 360px; height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .07); }
-.lp-2  { width: 560px; height: calc(var(--gh) * .54); margin-top: 0;                      }
-.lp-3  { width: 280px; height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .10); }
-.lp-4  { width: 300px; height: calc(var(--gh) * .70); margin-top: calc(var(--gh) * .14); }
-.lp-5  { width: 480px; height: calc(var(--gh) * .42); margin-top: calc(var(--gh) * .02); }
-.lp-6  { width: 490px; height: calc(var(--gh) * .52); margin-top: calc(var(--gh) * .04); }
-.lp-7  { width: 260px; height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .17); }
-.lp-8  { width: 300px; height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .06); }
-.lp-9  { width: 340px; height: calc(var(--gh) * .63); margin-top: calc(var(--gh) * .19); }
-.lp-10 { width: 440px; height: calc(var(--gh) * .46); margin-top: calc(var(--gh) * .01); }
-.lp-11 { width: 280px; height: calc(var(--gh) * .68); margin-top: calc(var(--gh) * .12); }
-.lp-12 { width: 520px; height: calc(var(--gh) * .57); margin-top: calc(var(--gh) * .09); }
-.lp-13 { width: 460px; height: calc(var(--gh) * .44); margin-top: calc(var(--gh) * .15); }
-.lp-14 { width: 420px; height: calc(var(--gh) * .48); margin-top: calc(var(--gh) * .03); }
-.lp-15 { width: 260px; height: calc(var(--gh) * .58); margin-top: calc(var(--gh) * .13); }
-.lp-16 { width: 300px; height: calc(var(--gh) * .64); margin-top: calc(var(--gh) * .05); }
-.lp-17 { width: 340px; height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .08); }
+.lp-1  { width: calc(360px * var(--lp-scale, 1)); height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .07); }
+.lp-2  { width: calc(560px * var(--lp-scale, 1)); height: calc(var(--gh) * .54); margin-top: 0;                      }
+.lp-3  { width: calc(280px * var(--lp-scale, 1)); height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .10); }
+.lp-4  { width: calc(300px * var(--lp-scale, 1)); height: calc(var(--gh) * .70); margin-top: calc(var(--gh) * .14); }
+.lp-5  { width: calc(480px * var(--lp-scale, 1)); height: calc(var(--gh) * .42); margin-top: calc(var(--gh) * .02); }
+.lp-6  { width: calc(490px * var(--lp-scale, 1)); height: calc(var(--gh) * .52); margin-top: calc(var(--gh) * .04); }
+.lp-7  { width: calc(260px * var(--lp-scale, 1)); height: calc(var(--gh) * .66); margin-top: calc(var(--gh) * .17); }
+.lp-8  { width: calc(300px * var(--lp-scale, 1)); height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .06); }
+.lp-9  { width: calc(340px * var(--lp-scale, 1)); height: calc(var(--gh) * .63); margin-top: calc(var(--gh) * .19); }
+.lp-10 { width: calc(440px * var(--lp-scale, 1)); height: calc(var(--gh) * .46); margin-top: calc(var(--gh) * .01); }
+.lp-11 { width: calc(280px * var(--lp-scale, 1)); height: calc(var(--gh) * .68); margin-top: calc(var(--gh) * .12); }
+.lp-12 { width: calc(520px * var(--lp-scale, 1)); height: calc(var(--gh) * .57); margin-top: calc(var(--gh) * .09); }
+.lp-13 { width: calc(460px * var(--lp-scale, 1)); height: calc(var(--gh) * .44); margin-top: calc(var(--gh) * .15); }
+.lp-14 { width: calc(420px * var(--lp-scale, 1)); height: calc(var(--gh) * .48); margin-top: calc(var(--gh) * .03); }
+.lp-15 { width: calc(260px * var(--lp-scale, 1)); height: calc(var(--gh) * .58); margin-top: calc(var(--gh) * .13); }
+.lp-16 { width: calc(300px * var(--lp-scale, 1)); height: calc(var(--gh) * .64); margin-top: calc(var(--gh) * .05); }
+.lp-17 { width: calc(340px * var(--lp-scale, 1)); height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .08); }
 
 /* Live video players — click-to-open thumbnails; real playback in the video modal */
 .live-video {
@@ -851,12 +851,17 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 18px 28px 56px rgba(0,0,0,.65);
   z-index: 2;
 }
-.lp-video-first { width: 430px; height: calc(var(--gh) * .55); margin-top: calc(var(--gh) * .14); }
-.lp-video-last  { width: 480px; height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .03); }
+.lp-video-first { width: calc(430px * var(--lp-scale, 1)); height: calc(var(--gh) * .55); margin-top: calc(var(--gh) * .14); }
+.lp-video-last  { width: calc(480px * var(--lp-scale, 1)); height: calc(var(--gh) * .62); margin-top: calc(var(--gh) * .03); }
 
 .live-credit {
-  width: 320px;
-  margin-top: 18px;
+  flex-shrink: 0;
+  /* live-content's own width matches #live's multi-vw scroll-panel width (many
+     screens wide), so an unconstrained credit line would run off past the
+     right edge of whatever's currently in view instead of wrapping — cap it
+     to the actual viewport so it always wraps to a readable block on screen. */
+  max-width: min(860px, calc(100vw - var(--lp-pad, 64px) * 2));
+  margin-top: 22px;
   font-size: .68rem; letter-spacing: .08em; text-transform: none;
   line-height: 1.7;
   color: rgba(245,241,235,.6); text-align: left;
@@ -1844,6 +1849,27 @@ a.tss-review:hover { opacity: .72; }
   .contact-content { padding: 80px 28px; height: auto; min-height: 60svh; }
   .contact-photos { display: none; }
 }
+
+/* ════════════════
+   LAPTOP — the "On Stage" gallery is sized in fixed px and was only ever
+   tuned against a wide desktop monitor (#live's 440vw only holds the full
+   row at ~1860px+ viewports). On real laptop widths the row overflowed the
+   panel and got clipped by .panel's overflow:hidden, so the only way to
+   see every photo was to zoom the browser out. --lp-scale/--lp-gap/--lp-pad
+   shrink the row (and #live is widened to match) at two laptop tiers so
+   it fits natively — desktop is untouched since the vars fall back to
+   the original values above this breakpoint.
+════════════════ */
+@media (min-width: 861px) and (max-width: 1365px) {
+  .live-gallery { --lp-scale: 0.46; --lp-gap: 20px; }
+  .live-content { --lp-pad: 32px; }
+  #live { width: 460vw; }
+}
+@media (min-width: 1366px) and (max-width: 1699px) {
+  .live-gallery { --lp-scale: 0.64; --lp-gap: 28px; }
+  .live-content { --lp-pad: 48px; }
+  #live { width: 410vw; }
+}
 </style>
 </head>
 <body>
@@ -2152,7 +2178,6 @@ a.tss-review:hover { opacity: .72; }
       <p class="section-label">Live</p>
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
-      <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU) · <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a> (Fabrica de Hielo, Valencia ES)<br>Videos: Jack Burton (Fabrica de Hielo, Valencia ES) · Paola Seregni (Joshua Blues Club, Como IT) · Bernard Fraser (Almonte Town Hall, Almonte CAN)</p>
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
@@ -2191,6 +2216,7 @@ a.tss-review:hover { opacity: .72; }
         <span class="live-photo-credit">Almonte Town Hall, Almonte CAN · video by Bernard Fraser</span>
       </div>
     </div>
+    <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU) · <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a> (Fabrica de Hielo, Valencia ES)<br>Videos: Jack Burton (Fabrica de Hielo, Valencia ES) · Paola Seregni (Joshua Blues Club, Como IT) · Bernard Fraser (Almonte Town Hall, Almonte CAN)</p>
   </div>
 </section>
 
