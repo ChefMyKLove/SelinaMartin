@@ -755,7 +755,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
    of raw viewport height — otherwise on shorter laptop screens the tallest photos ran
    past the bottom of the (overflow:hidden) panel and only their tops were visible. */
 .live-gallery {
-  --gh: calc(100vh - 380px);
+  --gh: calc(100vh - 460px);
   flex: 1;
   display: flex;
   align-items: flex-start;
@@ -831,6 +831,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 .lp-14 { width: 420px; height: calc(var(--gh) * .48); margin-top: calc(var(--gh) * .03); }
 .lp-15 { width: 260px; height: calc(var(--gh) * .58); margin-top: calc(var(--gh) * .13); }
 .lp-16 { width: 300px; height: calc(var(--gh) * .64); margin-top: calc(var(--gh) * .05); }
+.lp-17 { width: 340px; height: calc(var(--gh) * .60); margin-top: calc(var(--gh) * .08); }
 
 /* Live video players — click-to-open thumbnails; real playback in the video modal */
 .live-video {
@@ -1897,7 +1898,7 @@ a.tss-review:hover { opacity: .72; }
       <img src="IMG_1374.jpeg" class="home-photo-inner" id="home-photo-inner" alt="Selina Martin">
       <div class="home-video-card" data-video-src="fabrica-live-web.mp4" data-video-poster="IMG_1374.jpeg">
         <img class="video-card-poster" src="IMG_1374.jpeg" alt="Selina Martin live video">
-        <span class="live-photo-credit">Photo by <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a></span>
+        <span class="live-photo-credit">Photo by <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a><br>Video by Jack Burton</span>
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
           <span class="play-circle">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -2151,7 +2152,7 @@ a.tss-review:hover { opacity: .72; }
       <p class="section-label">Live</p>
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
-      <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU)</p>
+      <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU) · <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a> (Fabrica de Hielo, Valencia ES)<br>Videos: Jack Burton (Fabrica de Hielo, Valencia ES) · Paola Seregni (Joshua Blues Club, Como IT) · Bernard Fraser (Almonte Town Hall, Almonte CAN)</p>
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
@@ -2161,6 +2162,7 @@ a.tss-review:hover { opacity: .72; }
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
         </button>
+        <span class="live-photo-credit">Joshua Blues Club, Como IT · video by Paola Seregni</span>
       </div>
       <div class="live-photo lp-1"><img src="_A7R3696.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
       <div class="live-photo lp-2"><img src="_A749387.jpg"            alt="Selina Martin live · Karman Festival, Augsburg DE"><span class="live-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span></div>
@@ -2178,6 +2180,7 @@ a.tss-review:hover { opacity: .72; }
       <div class="live-photo lp-14"><img src="tuczno-pl.jpg"          alt="Selina Martin live · Tuczno PL, photo by Jacek Mójta"><span class="live-photo-credit">Tuczno PL · photo by <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a></span></div>
       <div class="live-photo lp-15"><img src="budapest-a38.jpg"       alt="Selina Martin live · A38, Budapest HU"><span class="live-photo-credit">A38, Budapest HU · photo by <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a></span></div>
       <div class="live-photo lp-16"><img src="vancouver-lido.jpg"     alt="Selina Martin live · Lido Club, Vancouver CA, photo by Gordon E. McCaw"><span class="live-photo-credit">Lido Club, Vancouver CA · photo by <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a></span></div>
+      <div class="live-photo lp-17"><img src="IMG_1374.jpeg" alt="Selina Martin live · Fabrica de Hielo, Valencia ES"><span class="live-photo-credit">Fabrica de Hielo, Valencia ES · photo by <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a></span></div>
       <div class="live-video lp-video-last" data-video-src="almonte-live-web.mp4" data-video-poster="almonte-live-poster.jpg">
         <img class="video-card-poster" src="almonte-live-poster.jpg" alt="Selina Martin live video · Almonte SWA">
         <button class="video-play-btn" aria-label="Play video" tabindex="-1">
@@ -2185,6 +2188,7 @@ a.tss-review:hover { opacity: .72; }
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
         </button>
+        <span class="live-photo-credit">Almonte Town Hall, Almonte CAN · video by Bernard Fraser</span>
       </div>
     </div>
   </div>
