@@ -1880,7 +1880,7 @@ a.tss-review:hover { opacity: .72; }
      scroll track so it stays put regardless of the horizontal transform.
      Visible at Home and again at Live; invisible (but still playing) in
      between. See the "Hero: ambient background video" JS block. -->
-<video id="ambient-video" class="ambient-video" playsinline muted loop></video>
+<video id="ambient-video" class="ambient-video" playsinline muted></video>
 <button id="ambient-sound-toggle" class="ambient-sound-toggle" aria-label="Unmute video" style="display:none;">
   <svg id="ambient-sound-icon" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -3149,7 +3149,10 @@ document.querySelectorAll('.live-video').forEach(card => {
    Home, goes invisible-but-still-playing through About/Music/Press/
    Contact, and becomes visible again over the Live section. The little
    video card is NOT hidden — a second click on it opens the normal
-   popup modal (with sound/controls), same as any other video card. */
+   popup modal (with sound/controls), same as any other video card.
+
+   Rather than looping the same clip, it cycles through all three live
+   videos (fabrica → como → almonte) and then wraps back to fabrica. */
 const homeVideoCard   = document.querySelector('.home-video-card');
 const homePhotoInner  = document.getElementById('home-photo-inner');
 const homePhotoWrapEl = document.getElementById('home-photo-wrap');
@@ -3159,14 +3162,32 @@ const ambientSoundIcon = document.getElementById('ambient-sound-icon');
 const liveSectionEl    = document.getElementById('live');
 let ambientActive = false;
 
+const ambientPlaylist = [
+  homeVideoCard ? homeVideoCard.dataset.videoSrc : 'fabrica-live-web.mp4',
+  'como-live-web.mp4',
+  'almonte-live-web.mp4',
+];
+let ambientIndex = 0;
+
+function playAmbientClip(index, skipIntro) {
+  ambientIndex = index;
+  ambientVideo.src = ambientPlaylist[ambientIndex];
+  if (skipIntro) {
+    ambientVideo.addEventListener('loadedmetadata', () => {
+      try { ambientVideo.currentTime = Math.min(10, (ambientVideo.duration || 20) * 0.3); } catch (e) {}
+    }, { once: true });
+  }
+  ambientVideo.play().catch(() => {});
+}
+
+ambientVideo.addEventListener('ended', () => {
+  playAmbientClip((ambientIndex + 1) % ambientPlaylist.length, false);
+});
+
 function activateAmbientVideo() {
   ambientActive = true;
-  ambientVideo.src = homeVideoCard.dataset.videoSrc;
   ambientVideo.muted = true;
-  ambientVideo.addEventListener('loadedmetadata', () => {
-    try { ambientVideo.currentTime = Math.min(10, (ambientVideo.duration || 20) * 0.3); } catch (e) {}
-  }, { once: true });
-  ambientVideo.play().catch(() => {});
+  playAmbientClip(0, true);
   ambientVideo.classList.add('is-on');
   homePhotoInner.classList.add('is-faded');
   homePhotoWrapEl.classList.add('bg-transparent');
