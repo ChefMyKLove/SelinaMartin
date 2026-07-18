@@ -676,7 +676,15 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 0 40px 80px rgba(26,21,16,.15);
 }
 .about-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
-.about-stations { flex: 0 0 auto; width: 520px; }
+.about-stations {
+  flex: 0 0 auto; width: 520px;
+  max-height: 100%; overflow-y: auto;
+  padding-right: 14px; margin-right: -14px;
+  scrollbar-width: thin; scrollbar-color: rgba(138,96,64,.35) transparent;
+}
+.about-stations::-webkit-scrollbar { width: 4px; }
+.about-stations::-webkit-scrollbar-track { background: transparent; }
+.about-stations::-webkit-scrollbar-thumb { background: rgba(138,96,64,.3); border-radius: 2px; }
 .about-station { margin-bottom: 38px; }
 .about-station:last-child { margin-bottom: 0; }
 .about-station h3 {
@@ -1822,7 +1830,7 @@ a.tss-review:hover { opacity: .72; }
   .album-quote { display: none; }
 
   .about-content { flex-direction: column; padding: 80px 28px; gap: 32px; height: auto; min-height: 100svh; }
-  .about-stations { width: 100%; }
+  .about-stations { width: 100%; max-height: none; overflow-y: visible; padding-right: 0; margin-right: 0; }
   .about-content > .about-photo-sm { width: 100%; height: 280px; flex-shrink: 0; }
   .about-photos-extra { flex-direction: column; width: 100%; gap: 16px; }
   .about-photos-extra .about-photo-sm { width: 100%; height: 280px; }
@@ -3315,9 +3323,6 @@ if (!IS_MOBILE) {
   ];
   pressImgs.forEach(img => gsap.set(img, { opacity: 0 }));
 
-  /* Subtle per-quote rotations — set once, preserved through lifecycle updates */
-  const quoteRots = [0, 0.5, -0.8, 0, 0.6, -0.5, 0, 0.9, -0.4, 0, 0.7, -0.6, 0, 0.5, -0.3, 0, 0.6, -0.8, 0.4, -0.5];
-
   /* Per-quote drift: [xIn, yIn, xOut, yOut]
      Generous amounts so the motion is clearly visible from different directions. */
   const quoteDrifts = [
@@ -3343,7 +3348,7 @@ if (!IS_MOBILE) {
     [  0,  80,   0, -28],  // 20 from below
   ];
 
-  pressQuotes.forEach((q, i) => gsap.set(q, { opacity: 0, rotation: quoteRots[i] || 0 }));
+  pressQuotes.forEach((q, i) => gsap.set(q, { opacity: 0 }));
 
   gsap.set(livePhotos,    { opacity: 0, y: 14 });
   gsap.set(aboutStations, { opacity: 0, y: 24 });
@@ -3503,7 +3508,7 @@ if (!IS_MOBILE) {
             opacity = 0; scale = 0.96; xOff = xOut; yOff = yOut;
           }
 
-          gsap.set(q, { opacity, scale, x: xOff, y: yOff, rotation: quoteRots[i] || 0 });
+          gsap.set(q, { opacity, scale, x: xOff, y: yOff });
         });
 
         /* Press images — same lifecycle as quotes, no rotation */
@@ -3578,7 +3583,7 @@ if (!IS_MOBILE) {
 
   /* Press quotes need reveal on mobile too (CSS sets opacity: 0) */
   document.querySelectorAll('.press-quote').forEach(q => {
-    gsap.set(q, { opacity: 0, y: 14, x: 0, scale: 1, rotation: 0 });
+    gsap.set(q, { opacity: 0, y: 14, x: 0, scale: 1 });
     io.observe(q);
   });
 
