@@ -676,15 +676,7 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 0 40px 80px rgba(26,21,16,.15);
 }
 .about-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
-.about-stations {
-  flex: 0 0 auto; width: 520px;
-  max-height: 100%; overflow-y: auto;
-  padding-right: 14px; margin-right: -14px;
-  scrollbar-width: thin; scrollbar-color: rgba(138,96,64,.35) transparent;
-}
-.about-stations::-webkit-scrollbar { width: 4px; }
-.about-stations::-webkit-scrollbar-track { background: transparent; }
-.about-stations::-webkit-scrollbar-thumb { background: rgba(138,96,64,.3); border-radius: 2px; }
+.about-stations { flex: 0 0 auto; width: 520px; }
 .about-station { margin-bottom: 38px; }
 .about-station:last-child { margin-bottom: 0; }
 .about-station h3 {
@@ -1830,7 +1822,7 @@ a.tss-review:hover { opacity: .72; }
   .album-quote { display: none; }
 
   .about-content { flex-direction: column; padding: 80px 28px; gap: 32px; height: auto; min-height: 100svh; }
-  .about-stations { width: 100%; max-height: none; overflow-y: visible; padding-right: 0; margin-right: 0; }
+  .about-stations { width: 100%; }
   .about-content > .about-photo-sm { width: 100%; height: 280px; flex-shrink: 0; }
   .about-photos-extra { flex-direction: column; width: 100%; gap: 16px; }
   .about-photos-extra .about-photo-sm { width: 100%; height: 280px; }
@@ -3315,6 +3307,83 @@ if (!IS_MOBILE) {
   const livePhotos     = [...document.querySelectorAll('.live-photo')];
   const aboutStations  = [...document.querySelectorAll('.about-station')];
 
+  /* ── About: stretch scroll for any bio column taller than the viewport
+     (larger OS/browser font-size settings inflate the text but not the
+     fixed-width column around it). Measures the real overflow, inserts
+     matching spacing after that column so the track's own scroll length
+     grows to cover it, then — while the track holds still through that
+     spacing — reveals the column top-to-bottom instead of letting it get
+     clipped or cutting straight to Music. */
+  const aboutEl        = document.getElementById('about');
+  const aboutContentEl = document.querySelector('#about .about-content');
+  let aboutZones = [];
+
+  /* offsetLeft is relative to an element's nearest positioned ancestor
+     (here, #about), not to #h-track — walk the offsetParent chain to get
+     a position that's actually comparable to raw scroll / track x. */
+  function xWithinTrack(el) {
+    let x = 0, node = el;
+    while (node && node !== track) {
+      x += node.offsetLeft;
+      node = node.offsetParent;
+    }
+    return x;
+  }
+
+  function tuneAboutOverflow() {
+    const cols = [...document.querySelectorAll('.about-stations')];
+    cols.forEach(col => {
+      col.style.marginRight = '';
+      col.style.alignSelf   = '';
+      gsap.set(col, { y: 0 });
+    });
+    aboutEl.style.width = '';
+    const availableH = aboutContentEl.clientHeight;
+    cols.forEach(col => {
+      const overflow = Math.max(0, Math.ceil(col.scrollHeight - availableH));
+      if (overflow > 0) {
+        col.style.alignSelf   = 'flex-start';
+        col.style.marginRight = overflow + 'px';
+      }
+    });
+    /* Snapshot the content's true natural width as a fixed px value —
+       measured via max-content, then frozen, rather than left as a live
+       max-content rule (which destabilized GSAP's pin-spacer on refresh). */
+    aboutEl.style.width = 'max-content';
+    aboutEl.style.width = Math.ceil(aboutEl.getBoundingClientRect().width) + 'px';
+    aboutZones = cols
+      .filter(col => parseFloat(col.style.marginRight) > 0)
+      .map(col => ({ el: col, start: xWithinTrack(col) + col.offsetWidth, overflow: parseFloat(col.style.marginRight) }));
+  }
+  /* Runs before the pin's own ScrollTrigger exists — measure only, no
+     refresh() here (calling it this early has been observed to suppress
+     GSAP's own pin-spacer setup for the trigger created just below). Calling
+     ScrollTrigger.refresh() again later from an async callback (fonts.ready)
+     was also observed to corrupt the pin-spacer, even deferred via
+     setTimeout — so this runs once, synchronously, before pin setup, and
+     again only on resize (see the resize listener further down), which has
+     tested safely. */
+  tuneAboutOverflow();
+
+  /* Remaps raw scroll position to the track's visual x, holding it still
+     while an oversized bio column reveals the rest of its text. */
+  function remapAboutScroll(rawX) {
+    let consumed = 0;
+    aboutZones.forEach(zone => {
+      if (rawX <= zone.start) {
+        gsap.set(zone.el, { y: 0 });
+      } else if (rawX >= zone.start + zone.overflow) {
+        consumed += zone.overflow;
+        gsap.set(zone.el, { y: -zone.overflow });
+      } else {
+        const local = rawX - zone.start;
+        consumed += local;
+        gsap.set(zone.el, { y: -local });
+      }
+    });
+    return rawX - consumed;
+  }
+
   /* Press images drift directions */
   const imgDrifts = [
     [ 50, -30, -20,  15],
@@ -3367,9 +3436,14 @@ if (!IS_MOBILE) {
     { scale: 1.07, duration: 20, ease: 'sine.inOut', yoyo: true, repeat: -1 }
   );
 
-  /* ── Main horizontal scroll tween ── */
-  const hTween = gsap.to(track, {
-    x: () => -(track.scrollWidth - vw()),
+  /* ── Main horizontal scroll tween ──
+     Tweens a dummy proxy, not track's own x — track's transform is set
+     exclusively inside onUpdate (via remapAboutScroll), so nothing else
+     re-renders and clobbers that value on the same tick. Scrub smoothing
+     and pin behavior are unaffected; only the tweened property changed. */
+  const scrubProxy = { p: 0 };
+  const hTween = gsap.to(scrubProxy, {
+    p: 1,
     ease: 'none',
     scrollTrigger: {
       trigger: '#pin-container',
@@ -3381,7 +3455,9 @@ if (!IS_MOBILE) {
 
       onUpdate(self) {
         const totalTravel = track.scrollWidth - vw();
-        const currentX    = self.progress * totalTravel;
+        const rawX        = self.progress * totalTravel;
+        const currentX    = remapAboutScroll(rawX);
+        gsap.set(track, { x: -currentX });
 
         /* ── Active section (nav) ── */
         const panels = track.querySelectorAll('.panel');
@@ -3543,9 +3619,11 @@ if (!IS_MOBILE) {
 
   window.addEventListener('load', () => {
     setActive('home');
+    tuneAboutOverflow();
     ScrollTrigger.refresh();
   });
   window.addEventListener('resize', () => {
+    tuneAboutOverflow();
     ScrollTrigger.refresh();
     const act = document.querySelector('#nav-links li.active');
     if (act) positionPill(act);
