@@ -554,12 +554,27 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 
 /* The featured card is taller than the others (extra button rows), so on a
    shorter browser window it's the first to run out of headroom and jam up
-   against the nav with no room left for the hover lift. Scale it down from
-   the bottom (matching .album-strip's bottom-aligned layout) so it always
-   keeps clearance at the top, regardless of window height. */
+   against the nav with no room left for the hover lift. Scale the whole
+   item — card and pull-quote together, not just the card — down from the
+   bottom (matching .album-strip's bottom-aligned layout), so the quote
+   stays correctly attached to the card instead of floating at the old,
+   unscaled position. The card's own hover-lift (.album-embed:hover) still
+   composes on top of this normally since it's a different element. */
 @media (min-width: 861px) and (max-height: 760px) {
-  .album-embed.featured { transform: scale(.82); transform-origin: bottom center; }
-  .album-embed.featured:hover { transform: scale(.82) translateY(-10px) scale(1.018); }
+  .album-item.featured-item { transform: scale(.82); transform-origin: bottom center; }
+  /* The quote normally floats above the card, but at this height there's
+     no longer room above it for an 87px tooltip. Overlay it on the card's
+     top edge instead — it already has a near-opaque dark background, so
+     it reads fine sitting over the artwork. */
+  .featured-item .album-quote {
+    bottom: auto;
+    top: 16px;
+    transform: translateX(-50%);
+  }
+  .featured-item .album-quote::after { display: none; }
+  .featured-item:hover .album-quote {
+    transform: translateX(-50%);
+  }
 }
 
 /* Subvert.fm promo card — closing item in the album strip */
@@ -2087,7 +2102,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="album-strip">
 
       <!-- Featured: Time Spent Swimming (2022) -->
-      <div class="album-item">
+      <div class="album-item featured-item">
         <div class="album-embed featured" style="width:360px;">
           <iframe
             src="https://bandcamp.com/EmbeddedPlayer/album=2261355084/size=large/bgcol=f5f1eb/linkcol=8a6040/tracklist=true/artwork=big/transparent=true/"
@@ -3317,6 +3332,21 @@ if (!IS_MOBILE) {
   const livePhotos     = [...document.querySelectorAll('.live-photo')];
   const aboutStations  = [...document.querySelectorAll('.about-station')];
 
+  /* #music's width is hard-coded (178vw) but the album strip's actual
+     content can need more room than that — same class of bug as #about's
+     360vw, just smaller. Silently clips the tail of the strip (later
+     albums, the Subvert card) regardless of font size, and gets worse
+     with a larger browser/OS text setting since the button rows in the
+     featured card grow too. Same fix: measure the true content width at
+     runtime instead of trusting the hard-coded guess. */
+  const musicEl = document.getElementById('music');
+  function tuneMusicWidth() {
+    musicEl.style.width = '';
+    musicEl.style.width = 'max-content';
+    musicEl.style.width = Math.ceil(musicEl.getBoundingClientRect().width) + 'px';
+  }
+  tuneMusicWidth();
+
   /* ── About: stretch scroll for any bio column taller than the viewport
      (larger OS/browser font-size settings inflate the text but not the
      fixed-width column around it). Measures the real overflow, inserts
@@ -3652,10 +3682,12 @@ if (!IS_MOBILE) {
 
   window.addEventListener('load', () => {
     setActive('home');
+    tuneMusicWidth();
     tuneAboutOverflow();
     ScrollTrigger.refresh();
   });
   window.addEventListener('resize', () => {
+    tuneMusicWidth();
     tuneAboutOverflow();
     ScrollTrigger.refresh();
     const act = document.querySelector('#nav-links li.active');
