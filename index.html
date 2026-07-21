@@ -560,8 +560,13 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
    stays correctly attached to the card instead of floating at the old,
    unscaled position. The card's own hover-lift (.album-embed:hover) still
    composes on top of this normally since it's a different element. */
-@media (min-width: 861px) and (max-height: 760px) {
+@media (min-width: 861px) and (max-height: 820px) {
   .album-item.featured-item { transform: scale(.82); transform-origin: bottom center; }
+  /* A common laptop panel height (1366×768 and similar) sits at 768px —
+     just under the old 760px threshold, so the featured card's Bandcamp
+     embed + button rows + hover-quote never got the scale-down they
+     needed and jammed against the nav. Raised to 820px to actually
+     catch that hardware. */
   /* The quote normally floats above the card, but at this height there's
      no longer room above it for an 87px tooltip. Overlay it on the card's
      top edge instead — it already has a near-opaque dark background, so
@@ -1905,6 +1910,13 @@ a.tss-review:hover { opacity: .72; }
   .live-gallery { --lp-scale: 0.64; --lp-gap: 28px; }
   .live-content { --lp-pad: 48px; }
   #live { width: 410vw; }
+}
+/* --gh (gallery row height) subtracts a flat 380px for the header/label/
+   padding above it — fine on a tall monitor, but on a short laptop panel
+   (~768px) that leaves only ~388px for photos already scaled down by
+   --lp-scale, cramming the row. Give it back some room on short screens. */
+@media (min-width: 861px) and (max-height: 820px) {
+  .live-gallery { --gh: calc(100vh - 280px); }
 }
 </style>
 </head>
