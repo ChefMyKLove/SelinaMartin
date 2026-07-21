@@ -6,7 +6,17 @@
 <title>Selina Martin — Singer · Songwriter · Guitarist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<!-- display=block (not swap) is intentional: the horizontal-scroll track's
+     width is measured from rendered text (tuneMusicWidth/tuneAboutOverflow)
+     right after load. With `swap`, text first paints in a fallback font and
+     silently reflows when the real font swaps in moments later — after the
+     one-time measurement already ran — leaving the scroll track calibrated
+     to the wrong (fallback-font) width, which shows up as later panels
+     (e.g. Contact) never quite reaching the end of the scroll. `block`
+     holds text invisible for a beat until the real font is ready, so the
+     first-ever measurement is already correct and no fragile second
+     refresh is needed. -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400&family=Outfit:wght@200;300;400;500&display=block" rel="stylesheet">
 <style>
 
 /* ── Variables ── */
@@ -98,12 +108,10 @@ nav {
   pointer-events: none;
   transition: background .35s, border-color .35s;
 }
-nav.light-bg {
-  background: rgba(245,241,235,0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(26,21,16,0.06);
-}
+/* nav.light-bg now only swaps text/pill color for legibility over the
+   lighter sections (About/Music/Press/Contact) — the opaque background
+   band was removed site-wide so the nav stays fully transparent
+   everywhere, same as it always was on Home. */
 .nav-logo {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.88rem;
@@ -115,8 +123,16 @@ nav.light-bg {
   pointer-events: all;
   transition: color .3s;
   cursor: none;
+  /* Nav is fully transparent now and sits over photos whose brightness
+     varies within a single section (dark smoke vs. bright stage light,
+     say) — a flat color swap per-section isn't enough on its own. A
+     soft opposite-toned halo keeps it readable against either. */
+  text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.4);
 }
-nav.light-bg .nav-logo { color: var(--text); }
+nav.light-bg .nav-logo {
+  color: var(--text);
+  text-shadow: 0 1px 3px rgba(245,241,235,.7), 0 0 12px rgba(245,241,235,.55);
+}
 /* Inverted-i wordmark accent — replaces the "i" in "Selina" with an
    upside-down exclamation mark, echoing her earlier site's logotype. */
 .i-invert {
@@ -170,16 +186,30 @@ nav.light-bg .nav-pill { background: var(--text); }
   display: block;
   font-size: 0.72rem; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: rgba(245,241,235,.7);
+  color: rgba(245,241,235,.92);
   text-decoration: none;
   padding: 7px 13px;
   border-radius: 40px;
-  transition: color .2s;
+  transition: color .2s, background .3s;
   white-space: nowrap;
   cursor: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.4);
 }
-nav.light-bg .nav-links a { color: var(--text-sec); }
-.nav-links li.active a { color: #0e0a08; }
+/* Dark translucent chip behind inactive labels only — same idea as the
+   solid CONTACT button and the active-item's .nav-pill below, both of
+   which already read fine over any photo. Text-shadow alone can't hold
+   up against photos that are themselves bright/hazy (e.g. Live), since
+   the shadow's contrast depends on the exact pixels underneath; a chip
+   darkens whatever's behind it consistently instead. Scoped to
+   :not(.active) so it doesn't layer on top of (and muddy) the pill. */
+.nav-links li:not(.active) a {
+  background: rgba(18,14,11,.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+/* Active item sits on the solid .nav-pill background, so it always has
+   guaranteed contrast — no shadow needed there. */
+.nav-links li.active a { color: #0e0a08; text-shadow: none; }
 nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 
 
@@ -196,7 +226,11 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
 #about   { width: 360vw; }
 #live    { width: 440vw; }
 #press   { width: 500vw; }
-#contact { width: 88vw;  }
+/* Must be >= 100vw like every other panel — this is the LAST panel in
+   the track, so at full scroll the viewport shows exactly its width.
+   At 88vw, the remaining 12vw sliver at full scroll still showed the
+   tail end of Press bleeding in on the left edge. */
+#contact { width: 100vw; }
 
 /* Hard cuts between sections — no blend gradients */
 .panel::before { display: none; }
@@ -711,7 +745,25 @@ nav.light-bg .nav-links li.active a { color: #f5f1eb; }
   box-shadow: 0 40px 80px rgba(26,21,16,.15);
 }
 .about-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
-.about-stations { flex: 0 0 auto; width: 520px; }
+.about-stations { flex: 0 0 auto; width: 520px; position: relative; }
+/* Read-progress indicator — only ever inserted (by JS) on a column whose
+   bio text is taller than the viewport, so it's absent at normal desktop
+   sizes and appears on its own on a shorter laptop screen or at higher
+   zoom, exactly where the column actually needs scrolling to finish. */
+.about-scroll-track {
+  position: absolute;
+  right: -18px;
+  width: 3px;
+  border-radius: 3px;
+  background: rgba(26,21,16,.14);
+  pointer-events: none;
+}
+.about-scroll-thumb {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  border-radius: 3px;
+  background: var(--accent);
+}
 .about-station { margin-bottom: 38px; }
 .about-station:last-child { margin-bottom: 0; }
 /* Tighten the gap before "Sound is potential" — this column runs long
@@ -1393,12 +1445,16 @@ a.tss-review:hover { opacity: .72; }
 }
 .contact-tint {
   position: absolute; inset: 0;
+  /* Kept to just enough coverage to protect the form's legibility (which
+     ends around 35-40% of the width) — the rest of the frame is left
+     clear so the photo actually reads as a full-viewport background
+     instead of being washed out under a cream scrim. */
   background: linear-gradient(100deg,
-    rgba(245,241,235,.97) 0%,
-    rgba(245,241,235,.93) 28%,
-    rgba(245,241,235,.66) 46%,
-    rgba(245,241,235,.28) 66%,
-    rgba(245,241,235,.08) 100%
+    rgba(245,241,235,.95) 0%,
+    rgba(245,241,235,.82) 18%,
+    rgba(245,241,235,.4) 32%,
+    rgba(245,241,235,.1) 48%,
+    rgba(245,241,235,0) 60%
   );
 }
 .contact-photo-credit {
@@ -3064,6 +3120,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const IS_MOBILE = window.innerWidth <= 860;
 
+/* Extra scroll distance reserved by the About section's overflow-text reveal
+   (see tuneAboutOverflow/remapAboutScroll below). Read by the nav-click
+   handler so jumping straight to a section past About lands flush instead
+   of stopping short by this amount. */
+let totalAboutOverflow = 0;
+
 /* ─── Cursor ─── */
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
@@ -3108,8 +3170,10 @@ document.querySelectorAll('[data-scroll]').forEach(a => {
       panel.scrollIntoView({ behavior: 'smooth' });
     } else {
       /* In the GSAP pin setup, 1px of vertical scroll = 1px of horizontal track travel.
-         So scrolling to panel.offsetLeft brings that section into view. */
-      window.scrollTo({ top: panel.offsetLeft, behavior: 'smooth' });
+         So scrolling to panel.offsetLeft brings that section into view — except for
+         panels after About, which need totalAboutOverflow added back (see above). */
+      const extra = (id === 'home' || id === 'about') ? 0 : totalAboutOverflow;
+      window.scrollTo({ top: panel.offsetLeft + extra, behavior: 'smooth' });
     }
     nav.classList.remove('nav-open');
     navToggle?.setAttribute('aria-expanded', 'false');
@@ -3421,10 +3485,24 @@ if (!IS_MOBILE) {
     const availableH = aboutContentEl.clientHeight - EDGE_PAD * 2;
     cols.forEach(col => {
       const overflow = Math.max(0, Math.ceil(col.scrollHeight - availableH));
+      let track = col.querySelector(':scope > .about-scroll-track');
       if (overflow > 0) {
         col.style.alignSelf   = 'flex-start';
         col.style.marginTop   = EDGE_PAD + 'px';
         col.style.marginRight = overflow + 'px';
+        if (!track) {
+          track = document.createElement('div');
+          track.className = 'about-scroll-track';
+          track.innerHTML = '<div class="about-scroll-thumb"></div>';
+          col.appendChild(track);
+        }
+        const thumbH = Math.max(24, (availableH / col.scrollHeight) * availableH);
+        track.style.top    = EDGE_PAD + 'px';
+        track.style.height = availableH + 'px';
+        track.querySelector('.about-scroll-thumb').style.height = thumbH + 'px';
+        track.dataset.thumbRange = availableH - thumbH;
+      } else if (track) {
+        track.remove();
       }
     });
     /* Snapshot the content's true natural width as a fixed px value —
@@ -3446,10 +3524,16 @@ if (!IS_MOBILE) {
       const overflow = parseFloat(col.style.marginRight) || 0;
       if (overflow > 0) {
         const start = xWithinTrack(col) - READ_INSET + consumedSoFar;
-        aboutZones.push({ el: col, start, overflow });
+        const track = col.querySelector(':scope > .about-scroll-track');
+        aboutZones.push({
+          el: col, start, overflow,
+          thumb: track && track.querySelector('.about-scroll-thumb'),
+          thumbRange: track ? parseFloat(track.dataset.thumbRange) || 0 : 0,
+        });
         consumedSoFar += overflow;
       }
     });
+    totalAboutOverflow = consumedSoFar;
   }
   /* Runs before the pin's own ScrollTrigger exists — measure only, no
      refresh() here (calling it this early has been observed to suppress
@@ -3466,16 +3550,21 @@ if (!IS_MOBILE) {
   function remapAboutScroll(rawX) {
     let consumed = 0;
     aboutZones.forEach(zone => {
+      let progress;
       if (rawX <= zone.start) {
+        progress = 0;
         gsap.set(zone.el, { y: 0 });
       } else if (rawX >= zone.start + zone.overflow) {
+        progress = 1;
         consumed += zone.overflow;
         gsap.set(zone.el, { y: -zone.overflow });
       } else {
         const local = rawX - zone.start;
+        progress = local / zone.overflow;
         consumed += local;
         gsap.set(zone.el, { y: -local });
       }
+      if (zone.thumb) gsap.set(zone.thumb, { y: progress * zone.thumbRange });
     });
     return rawX - consumed;
   }
@@ -3546,11 +3635,16 @@ if (!IS_MOBILE) {
       pin: true,
       scrub: 1,
       start: 'top top',
-      end: () => '+=' + (track.scrollWidth - vw()),
+      /* + totalAboutOverflow: remapAboutScroll() below freezes the track for that
+         many pixels of scroll to reveal the About column, then subtracts the same
+         amount back out of currentX. Without adding it here too, the track would
+         permanently fall short of full travel by that amount — visible as Press
+         content bleeding into Contact at the very end of the track. */
+      end: () => '+=' + (track.scrollWidth - vw() + totalAboutOverflow),
       invalidateOnRefresh: true,
 
       onUpdate(self) {
-        const totalTravel = track.scrollWidth - vw();
+        const totalTravel = track.scrollWidth - vw() + totalAboutOverflow;
         const rawX        = self.progress * totalTravel;
         const currentX    = remapAboutScroll(rawX);
         gsap.set(track, { x: -currentX });
