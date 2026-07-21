@@ -1918,6 +1918,19 @@ a.tss-review:hover { opacity: .72; }
 @media (min-width: 861px) and (max-height: 820px) {
   .live-gallery { --gh: calc(100vh - 280px); }
 }
+/* Contact was fixed to anchor its heading to the top (so it can't get cut
+   off above the fold on a short window) — but that means the full stack
+   (heading + form + footer line) can now run past the BOTTOM instead on
+   the same short laptop screens. Tighten the vertical rhythm so the whole
+   thing fits without clipping either edge. */
+@media (min-width: 861px) and (max-height: 820px) {
+  .contact-content { padding-top: calc(var(--nav-h) + 14px); }
+  .contact-content .section-title { margin-bottom: 8px; }
+  .contact-content .section-body { margin-bottom: 0; }
+  .contact-email { margin-top: 6px; }
+  .contact-form { margin-top: 20px; gap: 12px; }
+  .contact-sub { margin-top: 16px; }
+}
 </style>
 </head>
 <body>
@@ -2264,7 +2277,7 @@ a.tss-review:hover { opacity: .72; }
         <span class="live-photo-credit">Almonte Town Hall, Almonte CAN · video by Bernard Fraser</span>
       </div>
     </div>
-    <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU) · <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a> (Fabrica de Hielo, Valencia ES)<br>Videos: Jack Burton (Fabrica de Hielo, Valencia ES) · Paola Seregni (Joshua Blues Club, Como IT) · Bernard Fraser (Almonte Town Hall, Almonte CAN)</p>
+    <p class="live-credit">Photos: <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a> (Karman Festival, Augsburg DE) · <a href="https://www.instagram.com/romeomayorphotography" target="_blank" rel="noopener">Romeomayor</a> &amp; <a href="https://www.instagram.com/theyoumanyvo/" target="_blank" rel="noopener">Yvo Van der Vat</a> (Dordrecht NL) · <a href="https://www.instagram.com/josetta_mellies/" target="_blank" rel="noopener">Josetta Mellies</a> (Valthermond NL) · Norbert Höffler (Szeged HU) · <a href="https://www.instagram.com/jacek_mojta_fotografie/" target="_blank" rel="noopener">Jacek Mójta</a> (Tuczno PL) · <a href="https://www.instagram.com/gordmccaw/" target="_blank" rel="noopener">Gordon E. McCaw</a> (Vancouver CA) · <a href="https://www.instagram.com/claudiabuzzetti/" target="_blank" rel="noopener">Claudia Buzzetti</a> (A38, Budapest HU) · <a href="https://www.instagram.com/maria_carbonell_photographer" target="_blank" rel="noopener">María Carbonell</a> (CEX, Valencia ES)<br>Videos: Jack Burton (CEX, Valencia ES) · Paola Seregni (Joshua Blues Club, Como IT) · Bernard Fraser (Almonte Town Hall, Almonte CAN)</p>
   </div>
 </section>
 
