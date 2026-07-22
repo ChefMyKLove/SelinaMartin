@@ -86,6 +86,7 @@ header p {
   filter: drop-shadow(0 4px 12px rgba(0,0,0,.5));
 }
 footer { padding: 40px 48px 60px; font-size: .7rem; color: rgba(245,241,235,.35); }
+footer a { color: inherit; text-decoration: underline; }
 
 /* ── Lightbox ── */
 .lightbox {
@@ -170,7 +171,7 @@ footer { padding: 40px 48px 60px; font-size: .7rem; color: rgba(245,241,235,.35)
 <div class="section-heading">Video</div>
 <div class="grid" id="grid-video"></div>
 
-<footer>Selina Martin — selinamartin.com</footer>
+<footer>Selina Martin — selinamartin.com<br>Site created by:<br><a href="https://solutions.chefmyklove.com" target="_blank" rel="noopener">ChefMyKLove Custom Software Solutions<br>+ digital management services</a></footer>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
@@ -193,10 +194,10 @@ const PLAY_ICON = `<svg viewBox="0 0 24 24" fill="rgba(245,241,235,.92)"><circle
 
 const media = [
   // ── Portrait & Promo ──
-  { type:'photo', full:'IMG_1374.jpeg', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Hero portrait', group:'promo' },
-  { type:'photo', full:'IMG_1375.jpeg', thumb:'gallery-thumbs/IMG_1375.jpg', caption:'Portrait', group:'promo' },
-  { type:'photo', full:'IMG_1377.jpeg', thumb:'gallery-thumbs/IMG_1377.jpg', caption:'Portrait', group:'promo' },
-  { type:'photo', full:'_A749454-Bearbeitet.jpg', thumb:'gallery-thumbs/_A749454-Bearbeitet.jpg', caption:'Portrait', group:'promo' },
+  { type:'photo', full:'IMG_1374.jpeg', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Hero portrait by María Carbonell', group:'promo' },
+  { type:'photo', full:'IMG_1375.jpeg', thumb:'gallery-thumbs/IMG_1375.jpg', caption:'Portrait by Tom Meienburg', group:'promo' },
+  { type:'photo', full:'IMG_1377.jpeg', thumb:'gallery-thumbs/IMG_1377.jpg', caption:'Photo by Matthias Scheele', group:'promo' },
+  { type:'photo', full:'_A749454-Bearbeitet.jpg', thumb:'gallery-thumbs/_A749454-Bearbeitet.jpg', caption:'Photo by @fotolocationally', group:'promo' },
   { type:'photo', full:'promo-lisa-macintosh-1.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-1.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
   { type:'photo', full:'promo-lisa-macintosh-2.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-2.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
   { type:'photo', full:'promo-lisa-macintosh-3.jpg', thumb:'gallery-thumbs/promo-lisa-macintosh-3.jpg', caption:'Photo by Lisa MacIntosh', group:'promo' },
@@ -224,14 +225,14 @@ const media = [
   { type:'photo', full:'valthermond-3.jpg', thumb:'gallery-thumbs/valthermond-3.jpg', caption:'Valthermond NL · photo by Josetta Mellies', group:'live' },
   { type:'photo', full:'szeged-hu.jpg', thumb:'gallery-thumbs/szeged-hu.jpg', caption:'Szeged HU · photo by Norbert Höffler', group:'live' },
   { type:'photo', full:'tuczno-pl.jpg', thumb:'gallery-thumbs/tuczno-pl.jpg', caption:'Tuczno PL · photo by Jacek Mójta', group:'live' },
-  { type:'photo', full:'budapest-a38.jpg', thumb:'gallery-thumbs/budapest-a38.jpg', caption:'A38, Budapest HU', group:'live' },
+  { type:'photo', full:'budapest-a38.jpg', thumb:'gallery-thumbs/budapest-a38.jpg', caption:'A38, Budapest HU · photo by Claudia Buzzetti', group:'live' },
   { type:'photo', full:'vancouver-lido.jpg', thumb:'gallery-thumbs/vancouver-lido.jpg', caption:'Lido Club, Vancouver CA · photo by Gordon E. McCaw', group:'live' },
-  { type:'photo', full:'como-live-poster.jpg', thumb:'gallery-thumbs/como-live-poster.jpg', caption:'Live in Como, IT', group:'live' },
+  { type:'photo', full:'como-live-poster.jpg', thumb:'gallery-thumbs/como-live-poster.jpg', caption:'La Fabrica de Hielo, Valencia ES · photo by Jack Burton', group:'live' },
 
   // ── Video ──
   { type:'video', full:'como-live-web.mp4', thumb:'gallery-thumbs/como-live-poster.jpg', caption:'Live in Como, IT', group:'video' },
-  { type:'video', full:'almonte-live-web.mp4', thumb:'gallery-thumbs/almonte-live-poster.jpg', caption:'Live in Almonte', group:'video' },
-  { type:'video', full:'fabrica-live-web.mp4', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Live performance', group:'video' },
+  { type:'video', full:'almonte-live-web.mp4', thumb:'gallery-thumbs/almonte-live-poster.jpg', caption:'Live in Almonte, CA', group:'video' },
+  { type:'video', full:'fabrica-live-web.mp4', thumb:'gallery-thumbs/IMG_1374.jpg', caption:'Live in Valencia, ES', group:'video' },
 ];
 
 function renderGrid(groupId, containerId) {
