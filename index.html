@@ -1493,6 +1493,14 @@ a.tss-review:hover { opacity: .72; }
   font-size: .8rem; color: var(--text-muted); line-height: 1.7;
 }
 
+.contact-form-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.05rem,1.6vw,1.3rem);
+  font-weight: 300;
+  color: var(--text);
+  margin-top: 40px;
+}
+
 /* Contact form */
 .contact-form {
   margin-top: 36px;
@@ -1984,7 +1992,8 @@ a.tss-review:hover { opacity: .72; }
   .contact-content .section-title { margin-bottom: 8px; }
   .contact-content .section-body { margin-bottom: 0; }
   .contact-email { margin-top: 6px; }
-  .contact-form { margin-top: 20px; gap: 12px; }
+  .contact-form-heading { margin-top: 34px; }
+  .contact-form { margin-top: 16px; gap: 12px; }
   .contact-sub { margin-top: 16px; }
 }
 </style>
@@ -2528,6 +2537,7 @@ a.tss-review:hover { opacity: .72; }
     <p class="section-body">For bookings, press, licensing, or just to say hello —</p>
     <a href="#" class="contact-email js-email-link js-email-fill-text" data-user="info" data-domain="selinamartin.com" rel="nofollow"></a>
 
+    <p class="contact-form-heading">Stay in touch with all things Selina&hellip;</p>
     <form class="contact-form" id="contact-form" action="https://formspree.io/f/xqerbpqr" method="POST">
       <div class="form-field">
         <label for="cf-name">Name</label>
@@ -2539,7 +2549,7 @@ a.tss-review:hover { opacity: .72; }
       </div>
       <div class="form-field">
         <label for="cf-message">Message</label>
-        <textarea id="cf-message" name="message" required></textarea>
+        <textarea id="cf-message" name="message" required>Yes please! Add me to the Selina Martin mailing list!</textarea>
       </div>
       <!-- Honeypot — hidden from humans, Formspree drops submissions where this is filled -->
       <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off">
