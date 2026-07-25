@@ -1459,10 +1459,16 @@ a.tss-review:hover { opacity: .72; }
 }
 .contact-photo-credit {
   position: absolute; right: 24px; bottom: 22px; z-index: 2;
-  font-size: .68rem; letter-spacing: .03em;
-  color: rgba(26,21,16,.5);
+  font-size: .884rem; letter-spacing: .03em;
+  color: rgba(26,21,16,.85);
 }
 .contact-photo-credit a { color: inherit; text-decoration: underline; }
+.contact-dev-credit {
+  position: absolute; right: 24px; bottom: 58px; z-index: 2;
+  font-size: .845rem; line-height: 1.5; text-align: right;
+  color: rgba(26,21,16,.85);
+}
+.contact-dev-credit a { color: inherit; text-decoration: underline; }
 .contact-content {
   position: relative; z-index: 2;
   height: 100%;
@@ -1492,6 +1498,13 @@ a.tss-review:hover { opacity: .72; }
   margin-top: 32px;
   font-size: .8rem; color: var(--text-muted); line-height: 1.7;
 }
+
+.contact-support { margin-top: 36px; }
+.contact-support-label {
+  font-size: .96rem; color: var(--text-muted); line-height: 1.7;
+  margin-bottom: 14px;
+}
+.contact-support-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
 
 .contact-form-heading {
   font-family: 'Montserrat', sans-serif;
@@ -1953,6 +1966,7 @@ a.tss-review:hover { opacity: .72; }
 
   .contact-content { padding: 80px 28px; height: auto; min-height: 60svh; }
   .contact-photo-credit { right: 16px; bottom: 12px; font-size: .6rem; }
+  .contact-dev-credit { right: 16px; bottom: 44px; font-size: .58rem; }
 }
 
 /* ════════════════
@@ -2135,7 +2149,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="about-stations">
       <div class="about-station" id="bio5">
         <h3>Loneliness as raw material</h3>
-        <p>The boldest chapter began when she left Canada for France. The move was itself a kind of artistic experiment: '...to explore loneliness as one of the cornerstones of the human condition'. Then the pandemic delivered more solitude than anyone bargained for. The result was <em>Time Spent Swimming</em> (2022), an album whose title she has explained as being about being between states or places... floating, limbo, waiting; but also about the meditative reprieve of floating in the sea. Sonically it's her most expansive work, fusing organic instrumentation, samples, field recordings, physical synths, plug-ins and vocal improvisation into something she resists naming and critics can't quite pin down. Words like electro-post-rock, art-pop, experimental pop float around. The reception was emphatic: the album debuted at #1 on the NACC college radio charts in the US, Spill Magazine called it fascinating and hard to categorize, and European press placed her in the lineage of Laurie Anderson, Kate Bush, PJ Harvey and Talking Heads. She now lives and works in Spain.</p>
+        <p>The boldest chapter began when she left Canada for France. The move was itself a kind of artistic experiment: '...to explore loneliness as one of the cornerstones of the human condition'. Then the pandemic delivered more solitude than anyone bargained for. The result was <em>Time Spent Swimming</em> (2022), an album whose title she has explained as being about being between states or places... floating, limbo, waiting; but also about the meditative reprieve of floating in the sea. Sonically it's her most expansive work, fusing organic instrumentation, samples, field recordings, physical synths, plug-ins and vocal improvisation into something she resists naming and critics can't quite pin down. Words like electro-post-rock, art-pop, experimental pop float around. The reception was emphatic: the album debuted at #1 on the NACC college radio charts in the US, Spill Magazine called it fascinating and hard to categorize, and European press placed her in the lineage of Laurie Anderson, Kate Bush, PJ Harvey and Talking Heads. She now lives in Spain.</p>
       </div>
     </div>
 
@@ -2531,6 +2545,7 @@ a.tss-review:hover { opacity: .72; }
   <div class="contact-photo-bg"></div>
   <div class="contact-tint"></div>
   <span class="contact-photo-credit">Karman Festival, Augsburg DE · <a href="https://www.instagram.com/fotolocationally/" target="_blank" rel="noopener">@fotolocationally</a></span>
+  <div class="contact-dev-credit">Site created by: <a href="https://solutions.chefmyklove.com" target="_blank" rel="noopener">ChefMyKLove Custom Software Solutions + digital management services</a></div>
   <div class="contact-content">
     <p class="section-label">Contact</p>
     <h2 class="section-title">Get in Touch</h2>
@@ -2558,9 +2573,16 @@ a.tss-review:hover { opacity: .72; }
       <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
     </form>
 
+    <div class="contact-support">
+      <p class="contact-support-label">Enjoying the music? You can support directly:</p>
+      <div class="contact-support-buttons">
+        <a href="https://www.paypal.com/paypalme/selinamartin" target="_blank" rel="noopener" class="btn btn-solid">PayPal</a>
+        <a href="https://buymeacoffee.com/selinamartin" target="_blank" rel="noopener" class="btn btn-solid">Buy Me a Coffee</a>
+      </div>
+    </div>
+
     <p class="contact-sub">
-      <span style="font-size:.7rem; color:var(--text-muted);">© 2026 Selina Martin</span><br>
-      <span style="font-size:.65rem; color:var(--text-muted); line-height:1.5;">Site created by:<br><a href="https://solutions.chefmyklove.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline;">ChefMyKLove Custom Software Solutions<br>+ digital management services</a></span>
+      <span style="font-size:.7rem; color:var(--text-muted);">© 2026 Selina Martin</span>
     </p>
   </div>
 </section>
