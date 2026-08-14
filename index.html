@@ -2371,7 +2371,9 @@ a.tss-review:hover { opacity: .72; }
     <div class="live-header">
       <p class="section-label">Live</p>
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
+      <!-- Tour dates temporarily hidden — re-enable by uncommenting this button and the Shows modal below
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
+      -->
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
@@ -2698,7 +2700,7 @@ a.tss-review:hover { opacity: .72; }
   </div>
 </div>
 
-<!-- Shows / Tour Dates Modal -->
+<!-- Shows / Tour Dates Modal — temporarily disabled, kept for later reintroduction
 <div id="shows-modal" aria-modal="true" role="dialog">
   <div class="shows-backdrop" id="shows-backdrop"></div>
   <div class="shows-inner">
@@ -2800,6 +2802,7 @@ a.tss-review:hover { opacity: .72; }
     </div>
   </div>
 </div>
+-->
 
 <!-- TSS Press Reviews Modal -->
 <div id="tss-modal" aria-modal="true" role="dialog">
@@ -3470,14 +3473,16 @@ if (linerBtn) linerBtn.addEventListener('click', openLinerModal);
 document.getElementById('liner-close').addEventListener('click', closeLinerModal);
 document.getElementById('liner-backdrop').addEventListener('click', closeLinerModal);
 
-/* ─── Shows Modal ─── */
+/* ─── Shows Modal ─── (temporarily disabled — markup commented out above) */
 const showsModal = document.getElementById('shows-modal');
-function openShowsModal()  { showsModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
-function closeShowsModal() { showsModal.classList.remove('open'); document.body.style.overflow = ''; }
+function openShowsModal()  { if (showsModal) { showsModal.classList.add('open');  document.body.style.overflow = 'hidden'; } }
+function closeShowsModal() { if (showsModal) { showsModal.classList.remove('open'); document.body.style.overflow = ''; } }
 const showsBtn = document.getElementById('shows-btn');
 if (showsBtn) showsBtn.addEventListener('click', openShowsModal);
-document.getElementById('shows-close').addEventListener('click', closeShowsModal);
-document.getElementById('shows-backdrop').addEventListener('click', closeShowsModal);
+const showsCloseBtn = document.getElementById('shows-close');
+if (showsCloseBtn) showsCloseBtn.addEventListener('click', closeShowsModal);
+const showsBackdrop = document.getElementById('shows-backdrop');
+if (showsBackdrop) showsBackdrop.addEventListener('click', closeShowsModal);
 const showsMlLink = document.getElementById('shows-ml-link');
 if (showsMlLink) showsMlLink.addEventListener('click', closeShowsModal);
 
