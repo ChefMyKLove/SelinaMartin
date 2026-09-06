@@ -6,6 +6,7 @@
 <title>Selina Martin — Singer · Songwriter · Guitarist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <!-- display=block (not swap) is intentional: the horizontal-scroll track's
      width is measured from rendered text (tuneMusicWidth/tuneAboutOverflow)
      right after load. With `swap`, text first paints in a fallback font and
@@ -2623,6 +2624,7 @@ a.tss-review:hover { opacity: .72; }
       <!-- Honeypot — hidden from humans, Formspree drops submissions where this is filled -->
       <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off">
       <input type="hidden" name="_subject" value="New message from selinamartin.com">
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAEpxpSd4cy4P4lLQ"></div>
       <button type="submit" class="contact-submit" id="contact-submit">Send</button>
       <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
     </form>
@@ -3984,8 +3986,16 @@ const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   const statusEl = document.getElementById('contact-form-status');
   const submitBtn = document.getElementById('contact-submit');
+  const formRenderedAt = Date.now();
+  const honeypotEl = contactForm.querySelector('.form-honeypot');
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    // Timing trap — real visitors take at least a couple seconds to fill
+    // the form; bots that submit near-instantly get routed into the
+    // existing honeypot filter so Formspree silently drops the message.
+    if (Date.now() - formRenderedAt < 2500 && honeypotEl) {
+      honeypotEl.value = 'submitted too fast';
+    }
     submitBtn.disabled = true;
     statusEl.textContent = 'Sending…';
     statusEl.className = 'contact-form-status';
