@@ -1642,13 +1642,15 @@ a.tss-review:hover { opacity: .72; }
 }
 .shows-trigger-btn:hover { opacity: 1; background: rgba(138,96,64,.1); }
 
-#shows-modal {
+.shows-trigger-btn + .shows-trigger-btn { margin-left: 12px; }
+
+#shows-modal, #upcoming-modal, #jtlt-modal {
   position: fixed; inset: 0; z-index: 910;
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
   transition: opacity .3s ease;
 }
-#shows-modal.open { opacity: 1; pointer-events: all; }
+#shows-modal.open, #upcoming-modal.open, #jtlt-modal.open { opacity: 1; pointer-events: all; }
 .shows-backdrop {
   position: absolute; inset: 0;
   background: rgba(8,5,4,.88);
@@ -1669,7 +1671,33 @@ a.tss-review:hover { opacity: .72; }
   transition: transform .3s ease;
   box-shadow: 0 40px 100px rgba(0,0,0,.5);
 }
-#shows-modal.open .shows-inner { transform: scale(1); }
+#shows-modal.open .shows-inner, #upcoming-modal.open .shows-inner, #jtlt-modal.open .shows-inner { transform: scale(1); }
+#upcoming-modal .shows-inner { width: min(720px, 94vw); }
+
+/* Just to Look Tall single — cover left, text right; stacks on narrow screens */
+.jtlt-body { display: flex; gap: 40px; align-items: flex-start; padding-top: 34px; }
+.jtlt-cover { flex: 0 0 min(340px, 40%); }
+.jtlt-cover img { width: 100%; display: block; border-radius: 4px; }
+.jtlt-cover figcaption { margin-top: 8px; font-size: .8rem; color: rgba(245,241,235,.4); }
+.jtlt-text { flex: 1; font-size: 1.05rem; line-height: 1.75; color: rgba(245,241,235,.72); }
+.jtlt-text p + p { margin-top: 14px; }
+.jtlt-text a { color: var(--accent); }
+.jtlt-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-style: italic; color: #d4a878;
+  border-left: 2px solid rgba(138,96,64,.5); padding-left: 16px;
+}
+.jtlt-listen { text-decoration: none; }
+@media (max-width: 700px) {
+  .jtlt-body { flex-direction: column; gap: 24px; }
+  .jtlt-cover { flex-basis: auto; width: 100%; }
+}
+.show-venue a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid rgba(138,96,64,.4);
+  cursor: none; transition: color .2s;
+}
+.show-venue a:hover { color: var(--accent); }
 .shows-header {
   padding: 38px 52px 26px;
   border-bottom: 1px solid rgba(245,241,235,.06);
@@ -1706,23 +1734,13 @@ a.tss-review:hover { opacity: .72; }
 .shows-body::-webkit-scrollbar-track { background: transparent; }
 .shows-body::-webkit-scrollbar-thumb { background: rgba(138,96,64,.35); border-radius: 2px; }
 
-.shows-upcoming-label, .shows-past-label {
+.shows-past-label {
   font-size: .88rem; letter-spacing: .26em; text-transform: uppercase;
   color: var(--accent);
   margin: 38px 0 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(138,96,64,.18);
 }
-.shows-empty {
-  padding: 14px 0 8px;
-  font-size: 1.3rem; color: rgba(245,241,235,.38); line-height: 1.9;
-}
-.shows-empty a {
-  color: var(--accent); text-decoration: none;
-  border-bottom: 1px solid rgba(138,96,64,.28);
-  cursor: none; transition: opacity .2s;
-}
-.shows-empty a:hover { opacity: .65; }
 
 .shows-tour-name {
   font-family: 'Outfit', sans-serif;
@@ -2372,6 +2390,7 @@ a.tss-review:hover { opacity: .72; }
     <div class="live-header">
       <p class="section-label">Live</p>
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
+      <button class="shows-trigger-btn" id="upcoming-btn">Upcoming Shows ↓</button>
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
     </div>
     <div class="live-gallery" id="live-gallery">
@@ -2606,6 +2625,7 @@ a.tss-review:hover { opacity: .72; }
     <h2 class="section-title">Get in Touch</h2>
     <p class="section-body">For bookings, press, licensing, or just to say hello —</p>
     <a href="#" class="contact-email js-email-link js-email-fill-text" data-user="info" data-domain="selinamartin.com" rel="nofollow"></a>
+    <br><button class="shows-trigger-btn" id="jtlt-btn">New single: Just to Look Tall ↗</button>
 
     <p class="contact-form-heading">Stay in touch with all things Selina&hellip;</p>
     <form class="contact-form" id="contact-form" action="https://formspree.io/f/xqerbpqr" method="POST">
@@ -2700,6 +2720,47 @@ a.tss-review:hover { opacity: .72; }
   </div>
 </div>
 
+<!-- Just to Look Tall single — opens on page load after Upcoming Shows is closed; reopened from the Contact section -->
+<div id="jtlt-modal" aria-modal="true" role="dialog">
+  <div class="shows-backdrop" id="jtlt-backdrop"></div>
+  <div class="shows-inner">
+    <div class="shows-header">
+      <h2>Just to Look Tall</h2>
+      <p>New single · Selina Martin &amp; Torrance</p>
+      <button class="shows-close" id="jtlt-close" aria-label="Close">×</button>
+    </div>
+    <div class="shows-body jtlt-body">
+      <figure class="jtlt-cover">
+        <img src="just-to-look-tall-cover.jpg" alt="Just to Look Tall cover art — hand-drawn lettering with a small figure standing on tiptoe">
+        <figcaption>Cover art by Tamara Williamson</figcaption>
+      </figure>
+      <div class="jtlt-text">
+        <p>A trans-Atlantic collaboration born from a songwriting contest: <a href="https://www.tamarawilliamson.ca/about-4" target="_blank" rel="noopener">Torrance</a>, fronted by Tamara Williamson, supplied the music, and entrants wrote their own lyrics and melody. From Spain, Selina sent in hers &mdash; and won.</p>
+        <p>Inspired by the non-stop deluge from the current US President, and by her own experience with narcissistic personality disorder, it&rsquo;s two minutes and thirty-seven seconds of driving indie-rock release.</p>
+        <p class="jtlt-quote">&ldquo;I know Trump is physically tall. But I also know he is driven by an underlying monumental insecurity; an inner smallness. The song title is a metaphor.&rdquo;</p>
+        <a class="shows-trigger-btn jtlt-listen" href="https://selinamartin.bandcamp.com/track/just-to-look-tall" target="_blank" rel="noopener">Listen on Bandcamp →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upcoming Shows Modal — first on page load, reopened from the Live section.
+     Each row's data-date (YYYY-MM-DD) hides it once that day has passed. -->
+<div id="upcoming-modal" aria-modal="true" role="dialog">
+  <div class="shows-backdrop" id="upcoming-backdrop"></div>
+  <div class="shows-inner">
+    <div class="shows-header">
+      <h2>Upcoming Shows</h2>
+      <p>Selina Martin Live</p>
+      <button class="shows-close" id="upcoming-close" aria-label="Close">×</button>
+    </div>
+    <div class="shows-body">
+      <div class="show-row" data-date="2026-10-11"><span class="show-date">11 Oct</span><span class="show-venue"><a href="https://www.lafabricadehielo.net/evento/musica-en-viu/diumenges/diumenges-turia-205/" target="_blank" rel="noopener">Fabrica de Hielo</a> <span class="show-note">8pm</span></span><span class="show-city">Valencia, ES</span></div>
+      <div class="show-row" data-date="2026-10-18"><span class="show-date">18 Oct</span><span class="show-venue"><a href="https://www.instagram.com/zero11.vlc/" target="_blank" rel="noopener">Zero11 Cabanyal</a> <span class="show-note">1pm</span></span><span class="show-city">Valencia, ES</span></div>
+    </div>
+  </div>
+</div>
+
 <!-- Shows / Tour Dates Modal -->
 <div id="shows-modal" aria-modal="true" role="dialog">
   <div class="shows-backdrop" id="shows-backdrop"></div>
@@ -2710,13 +2771,6 @@ a.tss-review:hover { opacity: .72; }
       <button class="shows-close" id="shows-close" aria-label="Close">×</button>
     </div>
     <div class="shows-body">
-
-      <p class="shows-upcoming-label">Upcoming</p>
-      <div class="shows-empty">
-        No upcoming dates confirmed yet —
-        <a href="#" class="js-email-link" data-user="info" data-domain="selinamartin.com" rel="nofollow">get in touch for bookings</a>
-        or <a href="#contact" data-scroll="contact" id="shows-ml-link">drop a note to get on the mailing list</a>.
-      </div>
 
       <p class="shows-past-label">Past Shows</p>
 
@@ -3335,7 +3389,7 @@ document.getElementById('modal-backdrop').addEventListener('click', closeModal);
 modalPrev.addEventListener('click', () => { if (galleryIdx > 0) showModalAt(galleryIdx - 1); });
 modalNext.addEventListener('click', () => { if (galleryIdx < gallery.length - 1) showModalAt(galleryIdx + 1); });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeTssModal(); closeShowsModal(); closeVideoModal(); closeResumeModal(); closeLinerModal(); }
+  if (e.key === 'Escape') { closeModal(); closeTssModal(); closeShowsModal(); closeJtltModal(); closeUpcomingModal(); closeVideoModal(); closeResumeModal(); closeLinerModal(); }
   if (e.key === 'ArrowLeft'  && gallery.length > 1) showModalAt(Math.max(0, galleryIdx - 1));
   if (e.key === 'ArrowRight' && gallery.length > 1) showModalAt(Math.min(gallery.length - 1, galleryIdx + 1));
 });
@@ -3482,8 +3536,39 @@ const showsCloseBtn = document.getElementById('shows-close');
 if (showsCloseBtn) showsCloseBtn.addEventListener('click', closeShowsModal);
 const showsBackdrop = document.getElementById('shows-backdrop');
 if (showsBackdrop) showsBackdrop.addEventListener('click', closeShowsModal);
-const showsMlLink = document.getElementById('shows-ml-link');
-if (showsMlLink) showsMlLink.addEventListener('click', closeShowsModal);
+
+/* ─── Upcoming Shows Modal ─── */
+const upcomingModal = document.getElementById('upcoming-modal');
+function openUpcomingModal()  { upcomingModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+let chainJtlt = false; // on page load, closing Upcoming hands off to the single
+function closeUpcomingModal() {
+  upcomingModal.classList.remove('open'); document.body.style.overflow = '';
+  if (chainJtlt) { chainJtlt = false; openJtltModal(); }
+}
+// Drop shows once their day is over (visitor's local time)
+upcomingModal.querySelectorAll('.show-row[data-date]').forEach(row => {
+  if (new Date(row.dataset.date + 'T23:59:59') < new Date()) row.remove();
+});
+const upcomingBtn = document.getElementById('upcoming-btn');
+if (upcomingModal.querySelector('.show-row')) {
+  upcomingBtn.addEventListener('click', openUpcomingModal);
+} else {
+  upcomingBtn.remove();
+}
+document.getElementById('upcoming-close').addEventListener('click', closeUpcomingModal);
+document.getElementById('upcoming-backdrop').addEventListener('click', closeUpcomingModal);
+
+/* ─── Just to Look Tall Modal ─── */
+const jtltModal = document.getElementById('jtlt-modal');
+function openJtltModal()  { jtltModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeJtltModal() { jtltModal.classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('jtlt-btn').addEventListener('click', openJtltModal);
+document.getElementById('jtlt-close').addEventListener('click', closeJtltModal);
+document.getElementById('jtlt-backdrop').addEventListener('click', closeJtltModal);
+
+/* Page-load sequence: Upcoming Shows (if any left) → Just to Look Tall */
+if (upcomingModal.querySelector('.show-row')) { chainJtlt = true; openUpcomingModal(); }
+else openJtltModal();
 
 /* Live photos: click → gallery modal, hover → cursor enlarge */
 const livePhotoGallery = [...document.querySelectorAll('.live-photo img')]
