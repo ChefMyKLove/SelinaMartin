@@ -1674,6 +1674,60 @@ a.tss-review:hover { opacity: .72; }
 #shows-modal.open .shows-inner, #upcoming-modal.open .shows-inner, #jtlt-modal.open .shows-inner { transform: scale(1); }
 #upcoming-modal .shows-inner { width: min(720px, 94vw); }
 
+/* Announcements — small floating pill instead of auto-opening modals.
+   Opened from here, each modal shows a countdown bar and fades itself out;
+   any interaction inside the box (hover, tap, scroll) cancels the fade. */
+.announce-btn {
+  position: fixed;
+  top: calc(var(--nav-h) + 14px); right: 28px;
+  z-index: 600;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px;
+  background: rgba(14,10,8,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245,241,235,.2);
+  border-radius: 999px;
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(245,241,235,.9);
+  cursor: none;
+  opacity: 0; transform: translateY(-6px);
+  transition: opacity .8s ease, transform .8s ease, background .2s;
+}
+.announce-btn.shown { opacity: 1; transform: none; }
+/* Hero copy under the Listen row — same pill, in the page flow */
+.announce-btn.announce-inline {
+  position: static; margin-top: 22px; width: fit-content;
+  opacity: 1; transform: none;
+}
+.announce-btn:hover { background: rgba(14,10,8,.8); }
+.announce-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  animation: announce-pulse 2.4s ease-in-out infinite;
+}
+@keyframes announce-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(138,96,64,.7); }
+  50%      { box-shadow: 0 0 0 6px rgba(138,96,64,0); }
+}
+#upcoming-modal.timed .shows-inner::after, #jtlt-modal.timed .shows-inner::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--accent); transform-origin: left;
+  animation: announce-countdown 7s linear forwards; /* how long each announcement stays up */
+}
+@keyframes announce-countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+#upcoming-modal.fade-out, #jtlt-modal.fade-out { transition-duration: 1.2s; }
+@media (max-width: 700px) {
+  /* sits just above the bottom socials bar, clear of the hero text */
+  .announce-btn {
+    top: auto; bottom: 76px; right: auto; left: 50%;
+    padding: 9px 14px; font-size: .64rem; white-space: nowrap;
+    transform: translate(-50%, 6px);
+  }
+  .announce-btn.shown { transform: translate(-50%, 0); }
+}
+
 /* Just to Look Tall single — cover left, text right; stacks on narrow screens */
 .jtlt-body { display: flex; gap: 40px; align-items: flex-start; padding-top: 34px; }
 .jtlt-cover { flex: 0 0 min(340px, 40%); }
@@ -2159,6 +2213,7 @@ a.tss-review:hover { opacity: .72; }
       <a href="#music" class="btn btn-solid" data-scroll="music">Listen</a>
       <a href="#contact" class="btn btn-ghost-light" data-scroll="contact">Get in touch →</a>
     </div>
+    <button class="announce-btn announce-inline js-announce"><span class="announce-dot" aria-hidden="true"></span>New shows &amp; releases</button>
   </div>
 
   <div class="scroll-hint" id="scroll-hint">
@@ -2720,7 +2775,10 @@ a.tss-review:hover { opacity: .72; }
   </div>
 </div>
 
-<!-- Just to Look Tall single — opens on page load after Upcoming Shows is closed; reopened from the Contact section -->
+<!-- Floating announcements pill — opens Upcoming Shows (if any) → Just to Look Tall -->
+<button class="announce-btn js-announce" id="announce-btn"><span class="announce-dot" aria-hidden="true"></span>New shows &amp; releases</button>
+
+<!-- Just to Look Tall single — follows Upcoming Shows from the announcements pill; reopened from the Contact section -->
 <div id="jtlt-modal" aria-modal="true" role="dialog">
   <div class="shows-backdrop" id="jtlt-backdrop"></div>
   <div class="shows-inner">
@@ -3539,11 +3597,20 @@ if (showsBackdrop) showsBackdrop.addEventListener('click', closeShowsModal);
 
 /* ─── Upcoming Shows Modal ─── */
 const upcomingModal = document.getElementById('upcoming-modal');
-function openUpcomingModal()  { upcomingModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
-let chainJtlt = false; // on page load, closing Upcoming hands off to the single
+let announcing = false; // opened from the announcements pill: Upcoming hands off to the single, both auto-fade
+function showAnnouncement(modal) {
+  modal.classList.remove('fade-out');
+  modal.classList.add('open'); document.body.style.overflow = 'hidden';
+  if (announcing) modal.classList.add('timed');
+}
+function hideAnnouncement(modal) {
+  modal.classList.remove('open', 'timed'); document.body.style.overflow = '';
+}
+function openUpcomingModal() { showAnnouncement(upcomingModal); }
 function closeUpcomingModal() {
-  upcomingModal.classList.remove('open'); document.body.style.overflow = '';
-  if (chainJtlt) { chainJtlt = false; openJtltModal(); }
+  if (!upcomingModal.classList.contains('open')) return;
+  hideAnnouncement(upcomingModal);
+  if (announcing) openJtltModal();
 }
 // Drop shows once their day is over (visitor's local time)
 upcomingModal.querySelectorAll('.show-row[data-date]').forEach(row => {
@@ -3560,15 +3627,30 @@ document.getElementById('upcoming-backdrop').addEventListener('click', closeUpco
 
 /* ─── Just to Look Tall Modal ─── */
 const jtltModal = document.getElementById('jtlt-modal');
-function openJtltModal()  { jtltModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
-function closeJtltModal() { jtltModal.classList.remove('open'); document.body.style.overflow = ''; }
+function openJtltModal()  { showAnnouncement(jtltModal); }
+function closeJtltModal() { hideAnnouncement(jtltModal); announcing = false; }
 document.getElementById('jtlt-btn').addEventListener('click', openJtltModal);
 document.getElementById('jtlt-close').addEventListener('click', closeJtltModal);
 document.getElementById('jtlt-backdrop').addEventListener('click', closeJtltModal);
 
-/* Page-load sequence: Upcoming Shows (if any left) → Just to Look Tall */
-if (upcomingModal.querySelector('.show-row')) { chainJtlt = true; openUpcomingModal(); }
-else openJtltModal();
+/* Announcements pill: Upcoming Shows (if any left) → Just to Look Tall.
+   The CSS countdown bar drives the auto-fade; touching the box cancels it. */
+[[upcomingModal, closeUpcomingModal], [jtltModal, closeJtltModal]].forEach(([modal, close]) => {
+  modal.addEventListener('animationend', e => {
+    if (e.animationName !== 'announce-countdown') return;
+    modal.classList.add('fade-out');
+    close();
+  });
+  const inner = modal.querySelector('.shows-inner');
+  ['mouseenter', 'pointerdown', 'wheel', 'touchstart'].forEach(type =>
+    inner.addEventListener(type, () => modal.classList.remove('timed'), { passive: true }));
+});
+document.querySelectorAll('.js-announce').forEach(btn => btn.addEventListener('click', () => {
+  announcing = true;
+  if (upcomingModal.querySelector('.show-row')) openUpcomingModal();
+  else openJtltModal();
+}));
+setTimeout(() => document.getElementById('announce-btn').classList.add('shown'), 1200);
 
 /* Live photos: click → gallery modal, hover → cursor enlarge */
 const livePhotoGallery = [...document.querySelectorAll('.live-photo img')]
