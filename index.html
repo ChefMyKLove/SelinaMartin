@@ -1645,13 +1645,13 @@ a.tss-review:hover { opacity: .72; }
 
 .shows-trigger-btn + .shows-trigger-btn { margin-left: 12px; }
 
-#shows-modal, #upcoming-modal, #jtlt-modal {
+#shows-modal, #upcoming-modal, #jtlt-modal, #tour-modal {
   position: fixed; inset: 0; z-index: 910;
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
   transition: opacity .3s ease;
 }
-#shows-modal.open, #upcoming-modal.open, #jtlt-modal.open { opacity: 1; pointer-events: all; }
+#shows-modal.open, #upcoming-modal.open, #jtlt-modal.open, #tour-modal.open { opacity: 1; pointer-events: all; }
 .shows-backdrop {
   position: absolute; inset: 0;
   background: rgba(8,5,4,.88);
@@ -1672,7 +1672,7 @@ a.tss-review:hover { opacity: .72; }
   transition: transform .3s ease;
   box-shadow: 0 40px 100px rgba(0,0,0,.5);
 }
-#shows-modal.open .shows-inner, #upcoming-modal.open .shows-inner, #jtlt-modal.open .shows-inner { transform: scale(1); }
+#shows-modal.open .shows-inner, #upcoming-modal.open .shows-inner, #jtlt-modal.open .shows-inner, #tour-modal.open .shows-inner { transform: scale(1); }
 #upcoming-modal .shows-inner { width: min(720px, 94vw); }
 
 /* Announcements — small floating pill instead of auto-opening modals.
@@ -2448,6 +2448,7 @@ a.tss-review:hover { opacity: .72; }
       <h2 class="section-title" style="color:var(--bg);">On Stage</h2>
       <button class="shows-trigger-btn" id="upcoming-btn">Upcoming Shows ↓</button>
       <button class="shows-trigger-btn" id="shows-btn">Tour Dates &amp; Shows ↓</button>
+      <button class="shows-trigger-btn" id="tour-btn" data-last-date="2026-12-19">Winter/Canada Tour 2026 ↗</button>
     </div>
     <div class="live-gallery" id="live-gallery">
       <div class="live-video lp-video-first" data-video-src="como-live-web.mp4" data-video-poster="como-live-poster.jpg">
@@ -2816,6 +2817,39 @@ a.tss-review:hover { opacity: .72; }
     <div class="shows-body">
       <div class="show-row" data-date="2026-10-11"><span class="show-date">11 Oct</span><span class="show-venue"><a href="https://www.lafabricadehielo.net/evento/musica-en-viu/diumenges/diumenges-turia-205/" target="_blank" rel="noopener">Fabrica de Hielo</a> <span class="show-note">8pm</span></span><span class="show-city">Valencia, ES</span></div>
       <div class="show-row" data-date="2026-10-25"><span class="show-date">25 Oct</span><span class="show-venue"><a href="https://www.instagram.com/zero11.vlc/" target="_blank" rel="noopener">Zero11 Cabanyal</a> <span class="show-note">1pm · postponed from 18 Oct</span></span><span class="show-city">Valencia, ES</span></div>
+      <div class="show-row" data-date="2026-11-06"><span class="show-date">6 Nov</span><span class="show-venue">House concert</span><span class="show-city">Dunrobin Shores, ON</span></div>
+      <div class="show-row" data-date="2026-11-14"><span class="show-date">14 Nov</span><span class="show-venue"><a href="https://hotelwolfeisland.com/events/selina-martin-sam-polley/" target="_blank" rel="noopener">Hotel Wolfe Island</a> <span class="show-note">w/ Sam Polley</span></span><span class="show-city">Wolfe Island, ON</span></div>
+      <div class="show-row" data-date="2026-11-15"><span class="show-date">15 Nov</span><span class="show-venue">The Bell &amp; Beacon <span class="show-note">early show · 7pm</span></span><span class="show-city">Toronto, ON</span></div>
+      <div class="show-row" data-date="2026-11-22"><span class="show-date">22 Nov</span><span class="show-venue"><a href="https://app.ticketowl.io/o/aadR3mxCSr4_6gQR/event/aqICmUYlcT97yYVi" target="_blank" rel="noopener">The Andrew</a> <span class="show-note">opening for Ryan Dahle · w/ Alex J Currie</span></span><span class="show-city">Picton, ON</span></div>
+      <div class="show-row" data-date="2026-12-04"><span class="show-date">4 Dec</span><span class="show-venue">Gumboot <span class="show-note">w/ Joe de Leo</span></span><span class="show-city">Roberts Creek, BC</span></div>
+      <div class="show-row" data-date="2026-12-05"><span class="show-date">5 Dec</span><span class="show-venue">Tidal Arts <span class="show-note">w/ Tom Holliston</span></span><span class="show-city">Lund, BC</span></div>
+      <!-- Powell River: promoter hasn't announced the headliner yet — note withheld, date/venue only -->
+      <div class="show-row" data-date="2026-12-06"><span class="show-date">6 Dec</span><span class="show-venue">The Alley</span><span class="show-city">Powell River, BC</span></div>
+      <div class="show-row" data-date="2026-12-09"><span class="show-date">9 Dec</span><span class="show-venue">The Wise downstairs <span class="show-note">w/ Oxpital</span></span><span class="show-city">Vancouver, BC</span></div>
+      <div class="show-row" data-date="2026-12-11"><span class="show-date">11 Dec</span><span class="show-venue">Jacs on Queens <span class="show-note">w/ Nancy Pittet</span></span><span class="show-city">Duncan, BC</span></div>
+      <div class="show-row" data-date="2026-12-12"><span class="show-date">12 Dec</span><span class="show-venue">The Vault <span class="show-note">w/ Nancy Pittet</span></span><span class="show-city">Nanaimo, BC</span></div>
+      <div class="show-row" data-date="2026-12-19"><span class="show-date">19 Dec</span><span class="show-venue">Byrons Basement</span><span class="show-city">Campbell River, BC</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Winter/Canada Tour 2026 Poster Modal -->
+<div id="tour-modal" aria-modal="true" role="dialog">
+  <div class="shows-backdrop" id="tour-backdrop"></div>
+  <div class="shows-inner">
+    <div class="shows-header">
+      <h2>Winter / Canada Tour 2026</h2>
+      <p>Selina Martin Live</p>
+      <button class="shows-close" id="tour-close" aria-label="Close">×</button>
+    </div>
+    <div class="shows-body jtlt-body">
+      <figure class="jtlt-cover">
+        <img src="winter-canada-tour-2026-poster.png" alt="Winter/Canada Tour 2026 poster — illustrated portrait of Selina Martin singing into a mic, red hair flying, in a blue striped sweater">
+      </figure>
+      <div class="jtlt-text">
+        <p>Selina hits the road this November and December, from Ontario house shows and a Toronto stop to a run through the BC coast and islands.</p>
+        <button class="shows-trigger-btn" id="tour-see-dates">See Tour Dates ↓</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3625,6 +3659,24 @@ if (upcomingModal.querySelector('.show-row')) {
 }
 document.getElementById('upcoming-close').addEventListener('click', closeUpcomingModal);
 document.getElementById('upcoming-backdrop').addEventListener('click', closeUpcomingModal);
+
+/* ─── Winter/Canada Tour 2026 Poster Modal ─── */
+const tourModal = document.getElementById('tour-modal');
+function openTourModal()  { tourModal.classList.add('open');  document.body.style.overflow = 'hidden'; }
+function closeTourModal() { tourModal.classList.remove('open'); document.body.style.overflow = ''; }
+const tourBtn = document.getElementById('tour-btn');
+// Drop the poster button once every date on the tour has passed
+if (new Date(tourBtn.dataset.lastDate + 'T23:59:59') < new Date()) {
+  tourBtn.remove();
+} else {
+  tourBtn.addEventListener('click', openTourModal);
+}
+document.getElementById('tour-close').addEventListener('click', closeTourModal);
+document.getElementById('tour-backdrop').addEventListener('click', closeTourModal);
+document.getElementById('tour-see-dates').addEventListener('click', () => {
+  closeTourModal();
+  openUpcomingModal();
+});
 
 /* ─── Just to Look Tall Modal ─── */
 const jtltModal = document.getElementById('jtlt-modal');
