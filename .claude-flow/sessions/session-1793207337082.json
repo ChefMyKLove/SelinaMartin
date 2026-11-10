@@ -1,0 +1,16 @@
+{
+  "id": "session-1793207337082",
+  "startedAt": "2026-10-28T17:08:57.135Z",
+  "platform": "win32",
+  "cwd": "d:\\Downloads\\Selina",
+  "context": {},
+  "metrics": {
+    "edits": 7,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  },
+  "restoredAt": "2026-11-06T15:09:42.394Z",
+  "endedAt": "2026-11-06T15:41:15.971Z",
+  "duration": 772338902
+}

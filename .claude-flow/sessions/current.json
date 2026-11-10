@@ -1,14 +1,13 @@
 {
-  "id": "session-1793207337082",
-  "startedAt": "2026-10-28T17:08:57.135Z",
+  "id": "session-1794285364055",
+  "startedAt": "2026-11-10T04:36:04.056Z",
   "platform": "win32",
   "cwd": "d:\\Downloads\\Selina",
   "context": {},
   "metrics": {
-    "edits": 7,
+    "edits": 1,
     "commands": 0,
     "tasks": 0,
     "errors": 0
-  },
-  "restoredAt": "2026-11-06T15:09:42.394Z"
+  }
 }
