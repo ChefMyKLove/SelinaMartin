@@ -2831,7 +2831,6 @@ a.tss-review:hover { opacity: .72; }
       <div class="show-row" data-date="2026-11-06"><span class="show-date">6 Nov</span><span class="show-venue">House concert</span><span class="show-city">Dunrobin Shores, ON</span></div>
       <div class="show-row" data-date="2026-11-14"><span class="show-date">14 Nov</span><span class="show-venue"><a href="https://hotelwolfeisland.com/events/selina-martin-sam-polley/" target="_blank" rel="noopener">Hotel Wolfe Island</a> <span class="show-note">w/ Sam Polley</span></span><span class="show-city">Wolfe Island, ON</span></div>
       <div class="show-row" data-date="2026-11-15"><span class="show-date">15 Nov</span><span class="show-venue">The Bell &amp; Beacon <span class="show-note">early show · 7pm</span></span><span class="show-city">Toronto, ON</span></div>
-      <div class="show-row" data-date="2026-11-22"><span class="show-date">22 Nov</span><span class="show-venue"><a href="https://app.ticketowl.io/o/aadR3mxCSr4_6gQR/event/aqICmUYlcT97yYVi" target="_blank" rel="noopener">The Andrew</a> <span class="show-note">opening for Ryan Dahle · w/ Alex J Currie</span></span><span class="show-city">Picton, ON</span></div>
       <div class="show-row" data-date="2026-12-03"><span class="show-date">3 Dec</span><span class="show-venue"><a href="https://thehubonmartin.ca/tc-events/selina-martin/" target="_blank" rel="noopener">The Hub on Martin</a></span><span class="show-city">Penticton, BC</span></div>
       <div class="show-row" data-date="2026-12-04"><span class="show-date">4 Dec</span><span class="show-venue">Gumboot <span class="show-note">w/ Joe de Leo</span></span><span class="show-city">Roberts Creek, BC</span></div>
       <div class="show-row" data-date="2026-12-05"><span class="show-date">5 Dec</span><span class="show-venue">Tidal Arts <span class="show-note">w/ Don MacKay and Patrolman Angelo Mancuso</span></span><span class="show-city">Lund, BC</span></div>
@@ -2878,6 +2877,8 @@ a.tss-review:hover { opacity: .72; }
     <div class="shows-body">
 
       <p class="shows-past-label">Past Shows</p>
+
+      <p class="shows-tour-name" id="recent-past-tour-name" style="display:none">Winter / Canada Tour 2026</p>
 
       <p class="shows-tour-name">OutsiderInside Tour · EU 2026</p>
       <div class="show-row"><span class="show-date">29 Apr</span><span class="show-venue">La Trésorerie</span><span class="show-city">Nice, FR</span></div>
@@ -3659,10 +3660,19 @@ function closeUpcomingModal() {
   hideAnnouncement(upcomingModal);
   if (announcing) openJtltModal();
 }
-// Drop shows once their day is over (visitor's local time)
-upcomingModal.querySelectorAll('.show-row[data-date]').forEach(row => {
-  if (new Date(row.dataset.date + 'T23:59:59') < new Date()) row.remove();
-});
+// Once a show's day is over (visitor's local time), move it from Upcoming into Past Shows
+const recentPastTourName = document.getElementById('recent-past-tour-name');
+let recentPastInsertionPoint = recentPastTourName;
+[...upcomingModal.querySelectorAll('.show-row[data-date]')]
+  .sort((a, b) => a.dataset.date.localeCompare(b.dataset.date))
+  .forEach(row => {
+    if (new Date(row.dataset.date + 'T23:59:59') < new Date()) {
+      row.removeAttribute('data-date');
+      recentPastInsertionPoint.insertAdjacentElement('afterend', row);
+      recentPastInsertionPoint = row;
+      recentPastTourName.style.display = '';
+    }
+  });
 const upcomingBtn = document.getElementById('upcoming-btn');
 if (upcomingModal.querySelector('.show-row')) {
   upcomingBtn.addEventListener('click', openUpcomingModal);
